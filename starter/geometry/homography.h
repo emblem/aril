@@ -1,22 +1,22 @@
 /*
-Copyright 2005, 2006 Computer Vision Lab, 
-Ecole Polytechnique Federale de Lausanne (EPFL), Switzerland. 
-All rights reserved.
+  Copyright 2005, 2006 Computer Vision Lab, 
+  Ecole Polytechnique Federale de Lausanne (EPFL), Switzerland. 
+  All rights reserved.
 
-This file is part of BazAR.
+  This file is part of BazAR.
 
-BazAR is free software; you can redistribute it and/or modify it under the
-terms of the GNU General Public License as published by the Free Software
-Foundation; either version 2 of the License, or (at your option) any later
-version.
+  BazAR is free software; you can redistribute it and/or modify it under the
+  terms of the GNU General Public License as published by the Free Software
+  Foundation; either version 2 of the License, or (at your option) any later
+  version.
 
-BazAR is distributed in the hope that it will be useful, but WITHOUT ANY
-WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A
-PARTICULAR PURPOSE. See the GNU General Public License for more details.
+  BazAR is distributed in the hope that it will be useful, but WITHOUT ANY
+  WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A
+  PARTICULAR PURPOSE. See the GNU General Public License for more details.
 
-You should have received a copy of the GNU General Public License along with
-BazAR; if not, write to the Free Software Foundation, Inc., 51 Franklin
-Street, Fifth Floor, Boston, MA 02110-1301, USA 
+  You should have received a copy of the GNU General Public License along with
+  BazAR; if not, write to the Free Software Foundation, Inc., 51 Franklin
+  Street, Fifth Floor, Boston, MA 02110-1301, USA 
 */
 #ifndef HOMOGRAPHY_H
 #define HOMOGRAPHY_H
@@ -37,24 +37,24 @@ using namespace std;
   
   - From 4 point correspondences:
   Use one of the estimate() functions:
-\code
-homography::estimate(H, u1, v1, up1, vp1, u2, v2, up2, vp2, ...)
-\endcode
-or
-\code
-CvMat * H = homography::estimate(H, u1, v1, up1, vp1, u2, v2, up2, vp2, ...)
-\endcode
+  \code
+  homography::estimate(H, u1, v1, up1, vp1, u2, v2, up2, vp2, ...)
+  \endcode
+  or
+  \code
+  CvMat * H = homography::estimate(H, u1, v1, up1, vp1, u2, v2, up2, vp2, ...)
+  \endcode
 
-Estimates H using a linear method.
+  Estimates H using a linear method.
 
-- From n correspondences
+  - From n correspondences
   if \c H0 \c != \c NULL, it is used to initialize H. H0 can be an affinity matrix.
   \c c is the parameter of the Tukey robust estimator.
 */
 
 class homography : public CvMat
 {
-public:
+ public:
   homography();
 
   homography(float u1, float v1, float up1, float vp1,
@@ -92,7 +92,7 @@ public:
   friend void  cvmSet(const homography * H, const int i, const int j, const float val);
   friend void  cvmSet(const homography * H, const int i, const int j, const double val);
 
-private:
+ private:
   void initialize(void);
 
   void add_match(CvMat * AA, CvMat * B, int point_index, 

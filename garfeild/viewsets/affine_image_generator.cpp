@@ -1,22 +1,22 @@
 /*
-Copyright 2005, 2006 Computer Vision Lab, 
-Ecole Polytechnique Federale de Lausanne (EPFL), Switzerland. 
-All rights reserved.
+  Copyright 2005, 2006 Computer Vision Lab, 
+  Ecole Polytechnique Federale de Lausanne (EPFL), Switzerland. 
+  All rights reserved.
 
-This file is part of BazAR.
+  This file is part of BazAR.
 
-BazAR is free software; you can redistribute it and/or modify it under the
-terms of the GNU General Public License as published by the Free Software
-Foundation; either version 2 of the License, or (at your option) any later
-version.
+  BazAR is free software; you can redistribute it and/or modify it under the
+  terms of the GNU General Public License as published by the Free Software
+  Foundation; either version 2 of the License, or (at your option) any later
+  version.
 
-BazAR is distributed in the hope that it will be useful, but WITHOUT ANY
-WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A
-PARTICULAR PURPOSE. See the GNU General Public License for more details.
+  BazAR is distributed in the hope that it will be useful, but WITHOUT ANY
+  WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A
+  PARTICULAR PURPOSE. See the GNU General Public License for more details.
 
-You should have received a copy of the GNU General Public License along with
-BazAR; if not, write to the Free Software Foundation, Inc., 51 Franklin
-Street, Fifth Floor, Boston, MA 02110-1301, USA 
+  You should have received a copy of the GNU General Public License along with
+  BazAR; if not, write to the Free Software Foundation, Inc., 51 Franklin
+  Street, Fifth Floor, Boston, MA 02110-1301, USA 
 */
 #include <stdlib.h>
 #include <math.h>
@@ -93,10 +93,10 @@ void affine_image_generator::set_noise_level(int noise_level)
 
   index_white_noise = 0;
   for(int i = 0; i < prime; i++)
-  {
-    limited_white_noise[i] = char(rand() % (2 * noise_level) - noise_level);
-    white_noise[i] = char(rand() % 256);
-  }
+    {
+      limited_white_noise[i] = char(rand() % (2 * noise_level) - noise_level);
+      white_noise[i] = char(rand() % 256);
+    }
 }
 
 void affine_image_generator::set_original_image(IplImage * p_original_image,
@@ -156,7 +156,7 @@ void affine_image_generator::set_preprocessed_image(IplImage *preprocessed)
   if (orientation_corrector != 0)
     delete orientation_corrector;
   orientation_corrector = new keypoint_orientation_corrector(preprocessed->width, preprocessed->height,
-    patch_size, level_number);
+							     patch_size, level_number);
 
   u_corner1 = 0;                        v_corner1 = 0;
   u_corner2 = preprocessed->width - 1;  v_corner2 = 0;
@@ -192,16 +192,16 @@ void affine_image_generator::set_level_number(int p_level_number)
   level_number = p_level_number; 
 
   if (affine_image != 0)
-  {
-    if (orientation_corrector != 0)
-      delete orientation_corrector;
-    orientation_corrector = new keypoint_orientation_corrector(affine_image->width, affine_image->height,
-      patch_size, level_number);
+    {
+      if (orientation_corrector != 0)
+	delete orientation_corrector;
+      orientation_corrector = new keypoint_orientation_corrector(affine_image->width, affine_image->height,
+								 patch_size, level_number);
 
-    if (smoothed_generated_object_view != 0)
-      delete smoothed_generated_object_view;
-    smoothed_generated_object_view = new object_view(affine_image->width, affine_image->height, level_number);
-  }
+      if (smoothed_generated_object_view != 0)
+	delete smoothed_generated_object_view;
+      smoothed_generated_object_view = new object_view(affine_image->width, affine_image->height, level_number);
+    }
 }
 
 void affine_image_generator::set_patch_size(int p_patch_size)
@@ -209,13 +209,13 @@ void affine_image_generator::set_patch_size(int p_patch_size)
   patch_size = p_patch_size; 
 
   if (original_image != 0)
-  {
-    if (orientation_corrector != 0)
-      delete orientation_corrector;
+    {
+      if (orientation_corrector != 0)
+	delete orientation_corrector;
 
-    orientation_corrector = new keypoint_orientation_corrector(affine_image->width, affine_image->height,
-                                                               patch_size, level_number);
-  }
+      orientation_corrector = new keypoint_orientation_corrector(affine_image->width, affine_image->height,
+								 patch_size, level_number);
+    }
 }
 
 void affine_image_generator::set_roi(int _u_corner1, int _v_corner1, 
@@ -224,31 +224,31 @@ void affine_image_generator::set_roi(int _u_corner1, int _v_corner1,
                                      int _u_corner4, int _v_corner4)
 {
   if (_u_corner1 >= 0)
-  {
-    u_corner1 = _u_corner1;  v_corner1 = _v_corner1;
-    u_corner2 = _u_corner2;  v_corner2 = _v_corner2;
-    u_corner3 = _u_corner3;  v_corner3 = _v_corner3;
-    u_corner4 = _u_corner4;  v_corner4 = _v_corner4;
-  }
+    {
+      u_corner1 = _u_corner1;  v_corner1 = _v_corner1;
+      u_corner2 = _u_corner2;  v_corner2 = _v_corner2;
+      u_corner3 = _u_corner3;  v_corner3 = _v_corner3;
+      u_corner4 = _u_corner4;  v_corner4 = _v_corner4;
+    }
   else
-  {
-    u_corner1 = 0;                          v_corner1 = 0;
-    u_corner2 = original_image->width - 1;  v_corner2 = 0;
-    u_corner3 = original_image->width - 1;  v_corner3 = original_image->height - 1;
-    u_corner4 = 0;                          v_corner4 = original_image->height - 1;
-  }
+    {
+      u_corner1 = 0;                          v_corner1 = 0;
+      u_corner2 = original_image->width - 1;  v_corner2 = 0;
+      u_corner3 = original_image->width - 1;  v_corner3 = original_image->height - 1;
+      u_corner4 = 0;                          v_corner4 = original_image->height - 1;
+    }
 
   cvSmooth(original_image, processed_original_image, CV_MEDIAN, 3, 3);
   for(int j = 0; j < processed_original_image->height; j++)
-  {
-    unsigned char * row = mcvRow(processed_original_image, j, unsigned char);
-    for(int i = 0; i < processed_original_image->width; i++)
-      if (i <= u_corner1 || i <= u_corner4 || i >= u_corner2 || i >= u_corner3 ||
-          j <= v_corner1 || j <= v_corner2 || j >= v_corner3 || j >= v_corner4)
-        row[i] = 128;
-      else
-        if (row[i] == 128) row[i] = 127;
-  }
+    {
+      unsigned char * row = mcvRow(processed_original_image, j, unsigned char);
+      for(int i = 0; i < processed_original_image->width; i++)
+	if (i <= u_corner1 || i <= u_corner4 || i >= u_corner2 || i >= u_corner3 ||
+	    j <= v_corner1 || j <= v_corner2 || j >= v_corner3 || j >= v_corner4)
+	  row[i] = 128;
+	else
+	  if (row[i] == 128) row[i] = 127;
+    }
 }
 
 static int min4(int a, int b, int c, int d) 
@@ -338,18 +338,18 @@ void affine_image_generator::generate_random_affine_transformation(void)
   int image_height = affine_image->height;
 
   if (scaling_method == 0)
-  {
-    lambda1 = min_lambda1 + rand_01() * (max_lambda1 - min_lambda1);
-    lambda2 = min_lambda2 + rand_01() * (max_lambda2 - min_lambda2);
-  }
-  else
-  {
-    do
     {
       lambda1 = min_lambda1 + rand_01() * (max_lambda1 - min_lambda1);
       lambda2 = min_lambda2 + rand_01() * (max_lambda2 - min_lambda2);
-    } while (lambda1 * lambda2 < min_l1_l2 || lambda1 * lambda2 > max_l1_l2);
-  }
+    }
+  else
+    {
+      do
+	{
+	  lambda1 = min_lambda1 + rand_01() * (max_lambda1 - min_lambda1);
+	  lambda2 = min_lambda2 + rand_01() * (max_lambda2 - min_lambda2);
+	} while (lambda1 * lambda2 < min_l1_l2 || lambda1 * lambda2 > max_l1_l2);
+    }
 
   mcvComputeAffineTransfo(a, 
                           image_width / 2, image_height / 2,
@@ -418,69 +418,69 @@ void affine_image_generator::inverse_affine_transformation(float u, float v, flo
 void affine_image_generator::preprocess_point_view(image_class_example * pv, object_view * ov)
 {
   if (use_orientation_correction)
-  {
-    // Lowe orientation:
-    int s = (int)pv->point2d->scale;
+    {
+      // Lowe orientation:
+      int s = (int)pv->point2d->scale;
 
-    pv->point2d->orientation_in_radians = 
-      orientation_corrector->estimate_orientation_in_radians(ov->image[s],
-      int(pv->point2d->u), int(pv->point2d->v), 
-      ov->gradX[s], ov->gradY[s]);
+      pv->point2d->orientation_in_radians = 
+	orientation_corrector->estimate_orientation_in_radians(ov->image[s],
+							       int(pv->point2d->u), int(pv->point2d->v), 
+							       ov->gradX[s], ov->gradY[s]);
 
-    assert(pv->preprocessed);
+      assert(pv->preprocessed);
 
-    orientation_corrector->correct_orientationf(ov->image[s],
-      pv->point2d->u, pv->point2d->v, 
-      pv->preprocessed, 
-      pv->point2d->orientation_in_radians, s);
-  }
+      orientation_corrector->correct_orientationf(ov->image[s],
+						  pv->point2d->u, pv->point2d->v, 
+						  pv->preprocessed, 
+						  pv->point2d->orientation_in_radians, s);
+    }
   else
-  {
-    int s = (int)pv->point2d->scale;
-    assert(pv->preprocessed);
-    mcvGetPatch(ov->image[s], pv->preprocessed, int(pv->point2d->u), int(pv->point2d->v));
-  }
+    {
+      int s = (int)pv->point2d->scale;
+      assert(pv->preprocessed);
+      mcvGetPatch(ov->image[s], pv->preprocessed, int(pv->point2d->u), int(pv->point2d->v));
+    }
 }
 
 void affine_image_generator::add_white_noise(IplImage * image)
 {
   for(int y = 0; y < image->height; y++)
-  {
-    unsigned char * line = (unsigned char *)(image->imageData + y * image->widthStep);
-
-    for(int x = 0; x < image->width; x++)
     {
-      int p = line[x];
+      unsigned char * line = (unsigned char *)(image->imageData + y * image->widthStep);
 
-      p += limited_white_noise[index_white_noise];
+      for(int x = 0; x < image->width; x++)
+	{
+	  int p = line[x];
 
-      if (p > 255) 
-        p = 255;
-      else if (p < 0)
-        p = 0;
+	  p += limited_white_noise[index_white_noise];
 
-      line[x] = (unsigned char)p;
+	  if (p > 255) 
+	    p = 255;
+	  else if (p < 0)
+	    p = 0;
 
-      index_white_noise++;
-      if (index_white_noise >= prime) index_white_noise = 1 + rand() % 6;
+	  line[x] = (unsigned char)p;
+
+	  index_white_noise++;
+	  if (index_white_noise >= prime) index_white_noise = 1 + rand() % 6;
+	}
     }
-  }
 }
 
 void affine_image_generator::replace_by_noise(IplImage * image, int value)
 {
   for(int y = 0; y < image->height; y++)
-  {
-    unsigned char * row = mcvRow(image, y, unsigned char);
+    {
+      unsigned char * row = mcvRow(image, y, unsigned char);
 
-    for(int x = 0; x < image->width; x++)
-      if (int(row[x]) == value)
-      {
-        row[x] = white_noise[index_white_noise];
-        index_white_noise++;
-        if (index_white_noise >= prime) index_white_noise = 1 + rand() % 6;
-      }
-  }
+      for(int x = 0; x < image->width; x++)
+	if (int(row[x]) == value)
+	  {
+	    row[x] = white_noise[index_white_noise];
+	    index_white_noise++;
+	    if (index_white_noise >= prime) index_white_noise = 1 + rand() % 6;
+	  }
+    }
 }
 
 void affine_image_generator::generate_affine_image(void)
@@ -508,19 +508,19 @@ void affine_image_generator::generate_affine_image(void)
     mcvReplace(affine_image, 128, (int)128);
 
   if (add_gaussian_smoothing)
-  {
-    if (rand() % 3 == 0)
     {
-      int aperture = 3 + 2 * (rand() % 3);
-      cvSmooth(affine_image, affine_image, CV_GAUSSIAN, aperture, aperture);
+      if (rand() % 3 == 0)
+	{
+	  int aperture = 3 + 2 * (rand() % 3);
+	  cvSmooth(affine_image, affine_image, CV_GAUSSIAN, aperture, aperture);
+	}
+
+      if (change_intensities)
+	cvCvtScale(affine_image, affine_image, rand(0.8f, 1.2f), rand(-10.f, 10.f));
+
+      if (noise_level > 0)
+	add_white_noise(affine_image);
     }
-
-    if (change_intensities)
-      cvCvtScale(affine_image, affine_image, rand(0.8f, 1.2f), rand(-10.f, 10.f));
-
-    if (noise_level > 0)
-      add_white_noise(affine_image);
-  }
 
   if (0) {
     static int n = 0;
@@ -544,35 +544,35 @@ vector<image_class_example *> * affine_image_generator::generate_random_examples
   vector<image_class_example *> * result = new vector<image_class_example *>;
 
   for(int i = 0; i < point_number; i++)
-  {
-    object_keypoint * kp = &(used_keypoint_array[i]);
-    int scale = int(kp->scale);
-    IplImage * im = smoothed_generated_object_view->image[scale];
-    float nu, nv;
-
-    affine_transformation(PyrImage::convCoordf(float(kp->M[0]), scale, 0), 
-                          PyrImage::convCoordf(float(kp->M[1]), scale, 0),
-                          nu, nv);
-
-    nu = PyrImage::convCoordf(nu, 0, scale) + localization_noise * rand_m1p1();
-    nv = PyrImage::convCoordf(nv, 0, scale) + localization_noise * rand_m1p1();
-
-    if ((int)nu > patch_size && (int)nu < im->width  - patch_size &&
-        (int)nv > patch_size && (int)nv < im->height - patch_size)
     {
-      image_class_example * pv = new image_class_example(kp->class_index, 
-                                                         nu, nv, (float)scale, 
-                                                         smoothed_generated_object_view, 
-                                                         patch_size);
-      pv->orig_u = float(kp->M[0]);
-      pv->orig_v = float(kp->M[1]);
+      object_keypoint * kp = &(used_keypoint_array[i]);
+      int scale = int(kp->scale);
+      IplImage * im = smoothed_generated_object_view->image[scale];
+      float nu, nv;
 
-      preprocess_point_view(pv, smoothed_generated_object_view);
+      affine_transformation(PyrImage::convCoordf(float(kp->M[0]), scale, 0), 
+			    PyrImage::convCoordf(float(kp->M[1]), scale, 0),
+			    nu, nv);
 
-      result->push_back(pv);
-      point_views.push_back(pv);
+      nu = PyrImage::convCoordf(nu, 0, scale) + localization_noise * rand_m1p1();
+      nv = PyrImage::convCoordf(nv, 0, scale) + localization_noise * rand_m1p1();
+
+      if ((int)nu > patch_size && (int)nu < im->width  - patch_size &&
+	  (int)nv > patch_size && (int)nv < im->height - patch_size)
+	{
+	  image_class_example * pv = new image_class_example(kp->class_index, 
+							     nu, nv, (float)scale, 
+							     smoothed_generated_object_view, 
+							     patch_size);
+	  pv->orig_u = float(kp->M[0]);
+	  pv->orig_v = float(kp->M[1]);
+
+	  preprocess_point_view(pv, smoothed_generated_object_view);
+
+	  result->push_back(pv);
+	  point_views.push_back(pv);
+	}
     }
-  }
 
   return result;
 }
@@ -582,18 +582,18 @@ void affine_image_generator::release_examples(void)
   for(vector<object_view *>::iterator ov_it = generated_object_views_for_learning.begin();
       ov_it < generated_object_views_for_learning.end();
       ov_it++)
-  {
-    delete *ov_it;
-  }
+    {
+      delete *ov_it;
+    }
 
   generated_object_views_for_learning.clear();
 
   for(vector<image_class_example *>::iterator pv_it = point_views.begin();
       pv_it < point_views.end();
       pv_it++)
-  {
-    delete *pv_it;
-  }
+    {
+      delete *pv_it;
+    }
 
   point_views.clear();
 }

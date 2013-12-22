@@ -1,22 +1,22 @@
 /*
-Copyright 2005, 2006 Computer Vision Lab, 
-Ecole Polytechnique Federale de Lausanne (EPFL), Switzerland. 
-All rights reserved.
+  Copyright 2005, 2006 Computer Vision Lab, 
+  Ecole Polytechnique Federale de Lausanne (EPFL), Switzerland. 
+  All rights reserved.
 
-This file is part of BazAR.
+  This file is part of BazAR.
 
-BazAR is free software; you can redistribute it and/or modify it under the
-terms of the GNU General Public License as published by the Free Software
-Foundation; either version 2 of the License, or (at your option) any later
-version.
+  BazAR is free software; you can redistribute it and/or modify it under the
+  terms of the GNU General Public License as published by the Free Software
+  Foundation; either version 2 of the License, or (at your option) any later
+  version.
 
-BazAR is distributed in the hope that it will be useful, but WITHOUT ANY
-WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A
-PARTICULAR PURPOSE. See the GNU General Public License for more details.
+  BazAR is distributed in the hope that it will be useful, but WITHOUT ANY
+  WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A
+  PARTICULAR PURPOSE. See the GNU General Public License for more details.
 
-You should have received a copy of the GNU General Public License along with
-BazAR; if not, write to the Free Software Foundation, Inc., 51 Franklin
-Street, Fifth Floor, Boston, MA 02110-1301, USA 
+  You should have received a copy of the GNU General Public License along with
+  BazAR; if not, write to the Free Software Foundation, Inc., 51 Franklin
+  Street, Fifth Floor, Boston, MA 02110-1301, USA 
 */
 #include <iostream>
 #include <math.h>
@@ -40,33 +40,33 @@ CvSize mcvSize(IplImage * image)
 void mcvSmooth(IplImage * image, IplImage * smoothed_image, int smooth_type, int aperture)
 {
   if (smooth_type != CV_GAUSSIAN)
-  {
-    cerr << "mcvSmooth: only for CV_GAUSSIAN" << endl;
-    return;
-  }
+    {
+      cerr << "mcvSmooth: only for CV_GAUSSIAN" << endl;
+      return;
+    }
 
   IplImage * image_to_smooth = image;
   while(aperture > 0)
-  {
-    if (aperture >= 7)
     {
-      cvSmooth(image_to_smooth, smoothed_image, CV_GAUSSIAN, 7);
-      image_to_smooth = smoothed_image;
-      aperture -= 7;
+      if (aperture >= 7)
+	{
+	  cvSmooth(image_to_smooth, smoothed_image, CV_GAUSSIAN, 7);
+	  image_to_smooth = smoothed_image;
+	  aperture -= 7;
+	}
+      else if (aperture >= 5)
+	{
+	  cvSmooth(image_to_smooth, smoothed_image, CV_GAUSSIAN, 5);
+	  image_to_smooth = smoothed_image;
+	  aperture -= 5;
+	}
+      else // if (aperture >= 3)
+	{
+	  cvSmooth(image_to_smooth, smoothed_image, CV_GAUSSIAN, 3);
+	  image_to_smooth = smoothed_image;
+	  aperture -= 3;
+	}
     }
-    else if (aperture >= 5)
-    {
-      cvSmooth(image_to_smooth, smoothed_image, CV_GAUSSIAN, 5);
-      image_to_smooth = smoothed_image;
-      aperture -= 5;
-    }
-    else // if (aperture >= 3)
-    {
-      cvSmooth(image_to_smooth, smoothed_image, CV_GAUSSIAN, 3);
-      image_to_smooth = smoothed_image;
-      aperture -= 3;
-    }
-  }
 }
 
 float mcvGaussianDerivative(IplImage * image, int x, int y, int order_x, int order_y, float sigma)
@@ -77,37 +77,37 @@ float mcvGaussianDerivative(IplImage * image, int x, int y, int order_x, int ord
 
   for(int i = -half_size; i <= +half_size; i++)
     for(int j = -half_size; j <= +half_size; j++)
-    {
-      float c = 0.;
-      float e = exp(-(i*i+j*j) / (2 * sigma * sigma));
-
-      if (order_x == 2 && order_y == 0)
-        c = (i * i / (sigma * sigma * sigma * sigma) - 1 / (sigma * sigma)) * e;
-      else if (order_x == 0 && order_y == 2)
-        c = (j * j / (sigma * sigma * sigma * sigma) - 1 / (sigma * sigma)) * e;
-      else if (order_x == 1 && order_y == 1)
-        c = i * j / (sigma * sigma * sigma * sigma) * e;
-      else
       {
-        c = -1;
-        cerr << "error when calling mcvGaussianDerivative" << endl;
-      }
+	float c = 0.;
+	float e = exp(-(i*i+j*j) / (2 * sigma * sigma));
 
-      int nx = x + i, ny = y + j;
-      if (nx < 0 || nx >= image->width || ny < 0 || ny >= image->height)
-        result += c * 128;
-      else
-      {
-        if (image->depth == int(IPL_DEPTH_8U))
-          result += c * mcvGet2D(image, nx, ny, unsigned char);
-        else if (image->depth == int(IPL_DEPTH_16S))
-          result += c * mcvGet2D(image, nx, ny, short);
-        else if (image->depth == int(IPL_DEPTH_32F))
-          result += c * mcvGet2D(image, nx, ny, float);
-        else
-          cerr << "mcvGaussianDerivative: wrong image format." << endl;
+	if (order_x == 2 && order_y == 0)
+	  c = (i * i / (sigma * sigma * sigma * sigma) - 1 / (sigma * sigma)) * e;
+	else if (order_x == 0 && order_y == 2)
+	  c = (j * j / (sigma * sigma * sigma * sigma) - 1 / (sigma * sigma)) * e;
+	else if (order_x == 1 && order_y == 1)
+	  c = i * j / (sigma * sigma * sigma * sigma) * e;
+	else
+	  {
+	    c = -1;
+	    cerr << "error when calling mcvGaussianDerivative" << endl;
+	  }
+
+	int nx = x + i, ny = y + j;
+	if (nx < 0 || nx >= image->width || ny < 0 || ny >= image->height)
+	  result += c * 128;
+	else
+	  {
+	    if (image->depth == int(IPL_DEPTH_8U))
+	      result += c * mcvGet2D(image, nx, ny, unsigned char);
+	    else if (image->depth == int(IPL_DEPTH_16S))
+	      result += c * mcvGet2D(image, nx, ny, short);
+	    else if (image->depth == int(IPL_DEPTH_32F))
+	      result += c * mcvGet2D(image, nx, ny, float);
+	    else
+	      cerr << "mcvGaussianDerivative: wrong image format." << endl;
+	  }
       }
-    }
 
   return result;
 }
@@ -143,19 +143,19 @@ IplImage * mcvGradientNorm2(IplImage * image, int aperture)
 void mcvSetBorder(IplImage * image, int border, int value)
 {
   if (image->depth == int(IPL_DEPTH_16S))
-  {
-    for(int y = 0; y < image->height; y++)
-      for(int x = 0; x < image->width; x++)
-        if (x < border || y < border || x >= image->width - border || y >= image->height - border)
-          mcvGet2D(image, x, y, short) = short(value);
-  }
+    {
+      for(int y = 0; y < image->height; y++)
+	for(int x = 0; x < image->width; x++)
+	  if (x < border || y < border || x >= image->width - border || y >= image->height - border)
+	    mcvGet2D(image, x, y, short) = short(value);
+    }
   else if (image->depth == int(IPL_DEPTH_32F))
-  {
-    for(int y = 0; y < image->height; y++)
-      for(int x = 0; x < image->width; x++)
-        if (x < border || y < border || x >= image->width - border || y >= image->height - border)
-          mcvGet2D(image, x, y, float) = float(value);
-  }
+    {
+      for(int y = 0; y < image->height; y++)
+	for(int x = 0; x < image->width; x++)
+	  if (x < border || y < border || x >= image->width - border || y >= image->height - border)
+	    mcvGet2D(image, x, y, float) = float(value);
+    }
   else
     cerr << "mcvSetBorder: wrong image format." << endl;
 }
@@ -163,33 +163,33 @@ void mcvSetBorder(IplImage * image, int border, int value)
 void mcvSetBorder(IplImage * image, int border_size)
 {
   if (image->depth != IPL_DEPTH_32F)
-  {
-    cerr << "Error when calling mcvAddBorder: image should be 32F" << endl;
-    return;
-  }
+    {
+      cerr << "Error when calling mcvAddBorder: image should be 32F" << endl;
+      return;
+    }
 
   double sum = 0;
   unsigned int N = 0;
   for(int j = border_size + 1; j < image->height - border_size - 1; j++)
-  {
-    float * row = mcvRow(image, j, float);
-    for(int i = border_size + 1; i < image->width - border_size - 1; i++)
     {
-      sum += double(row[i]);
-      N++;
+      float * row = mcvRow(image, j, float);
+      for(int i = border_size + 1; i < image->width - border_size - 1; i++)
+	{
+	  sum += double(row[i]);
+	  N++;
+	}
     }
-  }
   float mean = float(sum / double(N));
   for(int j = 0; j < image->height; j++)
-  {
-    float * row = mcvRow(image, j, float);
-    for(int i = 0; i < image->width; i++)
     {
-      if (i <= border_size || i >= image->width  - border_size - 1 ||
-          j <= border_size || j >= image->height - border_size - 1)
-        row[i] = mean;
+      float * row = mcvRow(image, j, float);
+      for(int i = 0; i < image->width; i++)
+	{
+	  if (i <= border_size || i >= image->width  - border_size - 1 ||
+	      j <= border_size || j >= image->height - border_size - 1)
+	    row[i] = mean;
+	}
     }
-  }
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////////////
@@ -228,32 +228,32 @@ IplImage * mcvGrayToColor(IplImage * grayImage)
 void mcvHSV2RGB(float H, float S, float V, int & R, int & G, int & B)
 {
   if (S == 0) //HSV values = 0..1
-  {
-    R = int( V * 255.f );
-    G = int( V * 255.f );
-    B = int( V * 255.f );
-  }
+    {
+      R = int( V * 255.f );
+      G = int( V * 255.f );
+      B = int( V * 255.f );
+    }
   else
-  {
-    float var_h = H * 6;
-    if ( var_h >= 6 ) var_h -= 6; // H must be < 1
-    int var_i = int( var_h );
-    float var_1 = V * ( 1 - S );
-    float var_2 = V * ( 1 - S * ( var_h - var_i ) );
-    float var_3 = V * ( 1 - S * ( 1 - ( var_h - var_i ) ) );
+    {
+      float var_h = H * 6;
+      if ( var_h >= 6 ) var_h -= 6; // H must be < 1
+      int var_i = int( var_h );
+      float var_1 = V * ( 1 - S );
+      float var_2 = V * ( 1 - S * ( var_h - var_i ) );
+      float var_3 = V * ( 1 - S * ( 1 - ( var_h - var_i ) ) );
 
-    float var_r, var_g, var_b;
-    if      ( var_i == 0 ) { var_r = V     ; var_g = var_3 ; var_b = var_1; }
-    else if ( var_i == 1 ) { var_r = var_2 ; var_g = V     ; var_b = var_1; }
-    else if ( var_i == 2 ) { var_r = var_1 ; var_g = V     ; var_b = var_3; }
-    else if ( var_i == 3 ) { var_r = var_1 ; var_g = var_2 ; var_b = V;     }
-    else if ( var_i == 4 ) { var_r = var_3 ; var_g = var_1 ; var_b = V;     }
-    else                   { var_r = V     ; var_g = var_1 ; var_b = var_2; }
+      float var_r, var_g, var_b;
+      if      ( var_i == 0 ) { var_r = V     ; var_g = var_3 ; var_b = var_1; }
+      else if ( var_i == 1 ) { var_r = var_2 ; var_g = V     ; var_b = var_1; }
+      else if ( var_i == 2 ) { var_r = var_1 ; var_g = V     ; var_b = var_3; }
+      else if ( var_i == 3 ) { var_r = var_1 ; var_g = var_2 ; var_b = V;     }
+      else if ( var_i == 4 ) { var_r = var_3 ; var_g = var_1 ; var_b = V;     }
+      else                   { var_r = V     ; var_g = var_1 ; var_b = var_2; }
 
-    R = int( var_r * 255.f ); // RGB results =0..255
-    G = int( var_g * 255.f );
-    B = int( var_b * 255.f );
-  }
+      R = int( var_r * 255.f ); // RGB results =0..255
+      G = int( var_g * 255.f );
+      B = int( var_b * 255.f );
+    }
 }
 
 IplImage * mcvFloatToHue(IplImage * floatImage, int curve_number)
@@ -268,37 +268,37 @@ IplImage * mcvFloatToHue(IplImage * floatImage, int curve_number)
   cvMinMaxLoc(floatImage, &min, &max, &Pmin, &Pmax);
 
   for(int y = 0; y < result->height; y++)
-  {
-    float * row = mcvRow(floatImage, y, float);
-    unsigned char * rowH = mcvRow(result, y, unsigned char);
-    for(int x = 0; x < result->width; x++)
     {
-      bool use_color = true;
-      if (x < result->width - 1 && y < result->height - 1)
-      {
-        int l1 = int( ((log(row[x]) - log(min)) / (log(max) - log(min))) * curve_number );
-        int l2 = int( ((log(row[x + 1]) - log(min)) / (log(max) - log(min))) * curve_number );
-        int l3 = int( ((log(row[x + floatImage->width]) - log(min)) / (log(max) - log(min))) * curve_number );
-        if (l1 != l2 || l1 != l3) 
-          use_color = false;
-      }
+      float * row = mcvRow(floatImage, y, float);
+      unsigned char * rowH = mcvRow(result, y, unsigned char);
+      for(int x = 0; x < result->width; x++)
+	{
+	  bool use_color = true;
+	  if (x < result->width - 1 && y < result->height - 1)
+	    {
+	      int l1 = int( ((log(row[x]) - log(min)) / (log(max) - log(min))) * curve_number );
+	      int l2 = int( ((log(row[x + 1]) - log(min)) / (log(max) - log(min))) * curve_number );
+	      int l3 = int( ((log(row[x + floatImage->width]) - log(min)) / (log(max) - log(min))) * curve_number );
+	      if (l1 != l2 || l1 != l3) 
+		use_color = false;
+	    }
 
-      if (use_color)
-      {
-        int r, g, b;
-        mcvHSV2RGB(float( (row[x] - min) / (max - min) ), 1.f, 1.f,  r, g, b);
-        rowH[3 * x]     = (unsigned char)(r);
-        rowH[3 * x + 1] = (unsigned char)(g);
-        rowH[3 * x + 2] = (unsigned char)(b);
-      }
-      else
-      {
-        rowH[3 * x]     = 0;
-        rowH[3 * x + 1] = 0;
-        rowH[3 * x + 2] = 0;
-      }
+	  if (use_color)
+	    {
+	      int r, g, b;
+	      mcvHSV2RGB(float( (row[x] - min) / (max - min) ), 1.f, 1.f,  r, g, b);
+	      rowH[3 * x]     = (unsigned char)(r);
+	      rowH[3 * x + 1] = (unsigned char)(g);
+	      rowH[3 * x + 2] = (unsigned char)(b);
+	    }
+	  else
+	    {
+	      rowH[3 * x]     = 0;
+	      rowH[3 * x + 1] = 0;
+	      rowH[3 * x + 2] = 0;
+	    }
+	}
     }
-  }
 
   return result;
 }
@@ -315,35 +315,35 @@ IplImage * mcvFloatToGray(IplImage * floatImage, int curve_number)
   cvMinMaxLoc(floatImage, &min, &max, &Pmin, &Pmax);
 
   for(int y = 0; y < result->height; y++)
-  {
-    float * row = mcvRow(floatImage, y, float);
-    unsigned char * rowH = mcvRow(result, y, unsigned char);
-    for(int x = 0; x < result->width; x++)
     {
-      bool use_gray = true;
-      if (x < result->width - 1 && y < result->height - 1)
-      {
-        int l1 = int( (row[x] - min) / (max - min) * curve_number );
-        int l2 = int( (row[x + 1] - min) / (max - min) * curve_number );
-        int l3 = int( (row[x + floatImage->width] - min) / (max - min) * curve_number );
-        if (l1 != l2 || l1 != l3) 
-          use_gray = false;
-      }
+      float * row = mcvRow(floatImage, y, float);
+      unsigned char * rowH = mcvRow(result, y, unsigned char);
+      for(int x = 0; x < result->width; x++)
+	{
+	  bool use_gray = true;
+	  if (x < result->width - 1 && y < result->height - 1)
+	    {
+	      int l1 = int( (row[x] - min) / (max - min) * curve_number );
+	      int l2 = int( (row[x + 1] - min) / (max - min) * curve_number );
+	      int l3 = int( (row[x + floatImage->width] - min) / (max - min) * curve_number );
+	      if (l1 != l2 || l1 != l3) 
+		use_gray = false;
+	    }
 
-      if (use_gray)
-      {
-        rowH[3 * x]     = (unsigned char)( 255. * (row[x] - min) / (max - min) );
-        rowH[3 * x + 1] = (unsigned char)( 255. * (row[x] - min) / (max - min) );
-        rowH[3 * x + 2] = (unsigned char)( 255. * (row[x] - min) / (max - min) );
-      }
-      else
-      {
-        rowH[3 * x]     = 0;
-        rowH[3 * x + 1] = 0;
-        rowH[3 * x + 2] = 255;
-      }
+	  if (use_gray)
+	    {
+	      rowH[3 * x]     = (unsigned char)( 255. * (row[x] - min) / (max - min) );
+	      rowH[3 * x + 1] = (unsigned char)( 255. * (row[x] - min) / (max - min) );
+	      rowH[3 * x + 2] = (unsigned char)( 255. * (row[x] - min) / (max - min) );
+	    }
+	  else
+	    {
+	      rowH[3 * x]     = 0;
+	      rowH[3 * x + 1] = 0;
+	      rowH[3 * x + 2] = 255;
+	    }
+	}
     }
-  }
 
   return result;
 }
@@ -355,22 +355,22 @@ IplImage * showLocalMinima(IplImage * image)
   int dy = image->widthStep / sizeof(float);
 
   for(int y = 1; y < image->height - 1; y++)
-  {
-    float * row = mcvRow(image, y, float);
-    unsigned char * row_r = mcvRow(result, y, unsigned char);
-    for(int x = 1; x < image->width - 1; x++)
     {
-      if (row[x] < row[x - 1] && row[x] < row[x + 1] &&
-        row[x] < row[x - dy] && row[x] < row[x + dy] && 
-        row[x] < row[x - dy - 1] && row[x] < row[x + dy - 1] &&
-        row[x] < row[x - dy + 1] && row[x] < row[x + dy + 1])
-      {
-        row_r[3 * x] = 0;
-        row_r[3 * x + 1] = 0;
-        row_r[3 * x + 2] = 255;
-      }
+      float * row = mcvRow(image, y, float);
+      unsigned char * row_r = mcvRow(result, y, unsigned char);
+      for(int x = 1; x < image->width - 1; x++)
+	{
+	  if (row[x] < row[x - 1] && row[x] < row[x + 1] &&
+	      row[x] < row[x - dy] && row[x] < row[x + dy] && 
+	      row[x] < row[x - dy - 1] && row[x] < row[x + dy - 1] &&
+	      row[x] < row[x - dy + 1] && row[x] < row[x + dy + 1])
+	    {
+	      row_r[3 * x] = 0;
+	      row_r[3 * x + 1] = 0;
+	      row_r[3 * x + 2] = 255;
+	    }
+	}
     }
-  }
 
   return result;
 }
@@ -382,22 +382,22 @@ IplImage * showLocalMaxima(IplImage * image)
   int dy = image->widthStep / sizeof(float);
 
   for(int y = 1; y < image->height - 1; y++)
-  {
-    float * row = mcvRow(image, y, float);
-    unsigned char * row_r = mcvRow(result, y, unsigned char);
-    for(int x = 1; x < image->width - 1; x++)
     {
-      if (row[x] > row[x - 1] && row[x] > row[x + 1] &&
-          row[x] > row[x - dy] && row[x] > row[x + dy] && 
-          row[x] > row[x - dy - 1] && row[x] > row[x + dy - 1] && 
-          row[x] > row[x - dy + 1] && row[x] > row[x + dy + 1])
-      {
-        row_r[3 * x] = 0;
-        row_r[3 * x + 1] = 0;
-        row_r[3 * x + 2] = 255;
-      }
+      float * row = mcvRow(image, y, float);
+      unsigned char * row_r = mcvRow(result, y, unsigned char);
+      for(int x = 1; x < image->width - 1; x++)
+	{
+	  if (row[x] > row[x - 1] && row[x] > row[x + 1] &&
+	      row[x] > row[x - dy] && row[x] > row[x + dy] && 
+	      row[x] > row[x - dy - 1] && row[x] > row[x + dy - 1] && 
+	      row[x] > row[x - dy + 1] && row[x] > row[x + dy + 1])
+	    {
+	      row_r[3 * x] = 0;
+	      row_r[3 * x + 1] = 0;
+	      row_r[3 * x + 2] = 255;
+	    }
+	}
     }
-  }
 
   return result;
 }
@@ -405,16 +405,16 @@ IplImage * showLocalMaxima(IplImage * image)
 void mcvSwapRandB(IplImage * image)
 {
   for(int l = 0; l < image->height; l++)
-  {
-    unsigned char * line = (unsigned char *)image->imageData + l * image->widthStep;
-
-    for(int c = 0; c < image->nChannels * image->width; c += 3)
     {
-      char r = line[c];
-      line[c] = line[c + 2];
-      line[c + 2] = r;
+      unsigned char * line = (unsigned char *)image->imageData + l * image->widthStep;
+
+      for(int c = 0; c < image->nChannels * image->width; c += 3)
+	{
+	  char r = line[c];
+	  line[c] = line[c + 2];
+	  line[c + 2] = r;
+	}
     }
-  }
 }
 
 void mcvScaleTo0_255(IplImage * original, IplImage * scaled)
@@ -438,23 +438,23 @@ int mcvSaveImage(const char * filename, IplImage * image, bool verbose)
   if (image->depth == IPL_DEPTH_8U)
     result = cvSaveImage(filename, image);
   else
-  {
-    IplImage * tempImage;
+    {
+      IplImage * tempImage;
 
-    double min = 255, max = 0;
-    CvPoint Pmin, Pmax;
-    cvMinMaxLoc(image, &min, &max, &Pmin, &Pmax);
+      double min = 255, max = 0;
+      CvPoint Pmin, Pmax;
+      cvMinMaxLoc(image, &min, &max, &Pmin, &Pmax);
 
-    if (verbose)
-      cout << "[" << min << " : " << max << "] " << flush;
+      if (verbose)
+	cout << "[" << min << " : " << max << "] " << flush;
 
-    tempImage = cvCreateImage(cvSize(image->width, image->height), IPL_DEPTH_8U, 1);
-    cvConvertScale(image, tempImage, 255. / (max - min), -min * 255 / (max - min));
+      tempImage = cvCreateImage(cvSize(image->width, image->height), IPL_DEPTH_8U, 1);
+      cvConvertScale(image, tempImage, 255. / (max - min), -min * 255 / (max - min));
 
-    result = cvSaveImage(filename, tempImage);
+      result = cvSaveImage(filename, tempImage);
 
-    cvReleaseImage(&tempImage);
-  }
+      cvReleaseImage(&tempImage);
+    }
 
   if (verbose && !result)
     cout << "ERROR !" << endl;
@@ -547,18 +547,18 @@ IplImage * mcvCreateRandomImage(CvSize size, int depth, int nChannels)
 
   if (nChannels == 1)
     for(int l = 0; l < size.height; l++)
-    {
-      unsigned char * line = (unsigned char *)result->imageData + l * result->widthStep;
-      for(int c = 0; c < nChannels * size.width; c++)
-        line[c] = (unsigned char)(rand() % 256);
-    }
+      {
+	unsigned char * line = (unsigned char *)result->imageData + l * result->widthStep;
+	for(int c = 0; c < nChannels * size.width; c++)
+	  line[c] = (unsigned char)(rand() % 256);
+      }
   else
     for(int l = 0; l < size.height; l++)
-    {
-      unsigned char * line = (unsigned char *)result->imageData + l * result->widthStep;
-      for(int c = 0; c < nChannels * size.width; c += 3)
-        line[c] = line[c + 1] = line[c + 2] = (unsigned char)(rand() % 256);
-    }
+      {
+	unsigned char * line = (unsigned char *)result->imageData + l * result->widthStep;
+	for(int c = 0; c < nChannels * size.width; c += 3)
+	  line[c] = line[c + 1] = line[c + 2] = (unsigned char)(rand() % 256);
+      }
 
   return result;
 }
@@ -566,25 +566,25 @@ IplImage * mcvCreateRandomImage(CvSize size, int depth, int nChannels)
 void mcvReplace(IplImage * image, int old_value, int new_value)
 {
   for(int l = 0; l < image->height; l++)
-  {
-    unsigned char * line = mcvRow(image, l, unsigned char);
+    {
+      unsigned char * line = mcvRow(image, l, unsigned char);
 
-    for(int c = 0; c < image->width; c++)
-      if (int(line[c]) == old_value)
-        line[c] = (unsigned char)new_value;
-  }
+      for(int c = 0; c < image->width; c++)
+	if (int(line[c]) == old_value)
+	  line[c] = (unsigned char)new_value;
+    }
 }
 
 void mcvReplaceByNoise(IplImage * image, int value)
 {
   for(int l = 0; l < image->height; l++)
-  {
-    unsigned char * line = mcvRow(image, l, unsigned char);
+    {
+      unsigned char * line = mcvRow(image, l, unsigned char);
 
-    for(int c = 0; c < image->width; c++)
-      if (int(line[c]) == value)
-        line[c] = (unsigned char)(rand() % 256);
-  }
+      for(int c = 0; c < image->width; c++)
+	if (int(line[c]) == value)
+	  line[c] = (unsigned char)(rand() % 256);
+    }
 }
 
 void mcvAddWhiteNoise(const IplImage * image, const int minNoise, const int maxNoise)
@@ -592,65 +592,65 @@ void mcvAddWhiteNoise(const IplImage * image, const int minNoise, const int maxN
   int deltaNoise = maxNoise - minNoise;
 
   for(int y = 0; y < image->height; y++)
-  {
-    unsigned char * line = mcvRow(image, y, unsigned char);
-
-    for(int x = 0; x < image->width; x++)
     {
-      int p = line[x];
-      int noise = rand() % (2 * deltaNoise + 1) - deltaNoise;
+      unsigned char * line = mcvRow(image, y, unsigned char);
 
-      if (noise < 0) 
-        noise -= minNoise;
-      else
-        noise += minNoise;
+      for(int x = 0; x < image->width; x++)
+	{
+	  int p = line[x];
+	  int noise = rand() % (2 * deltaNoise + 1) - deltaNoise;
 
-      p += noise;
-      if (p > 255) p = 255;
-      if (p < 0)   p = 0;
+	  if (noise < 0) 
+	    noise -= minNoise;
+	  else
+	    noise += minNoise;
 
-      line[x] = (unsigned char)p;
+	  p += noise;
+	  if (p > 255) p = 255;
+	  if (p < 0)   p = 0;
+
+	  line[x] = (unsigned char)p;
+	}
     }
-  }
 }
 
 void mcvAddWhiteNoise(const IplImage * image, const int maxNoise)
 {
   for(int y = 0; y < image->height; y++)
-  {
-    unsigned char * line = (unsigned char *)(image->imageData + y * image->widthStep);
-
-    for(int x = 0; x < image->width; x++)
     {
-      int p = line[x];
+      unsigned char * line = (unsigned char *)(image->imageData + y * image->widthStep);
 
-      p += rand() % (2 * maxNoise + 1) - maxNoise;
+      for(int x = 0; x < image->width; x++)
+	{
+	  int p = line[x];
 
-      if (p > 255) 
-        p = 255;
-      else if (p < 0)
-        p = 0;
+	  p += rand() % (2 * maxNoise + 1) - maxNoise;
 
-      line[x] = (unsigned char)p;
+	  if (p > 255) 
+	    p = 255;
+	  else if (p < 0)
+	    p = 0;
+
+	  line[x] = (unsigned char)p;
+	}
     }
-  }
 }
 
 // I -> 255 * (I / 255) ^ gamma
 void mcvChangeGamma(IplImage * image, float gamma)
 {
   for(int y = 0; y < image->height; y++)
-  {
-    unsigned char * line = (unsigned char *)(image->imageData + y * image->widthStep);
-
-    for(int x = 0; x < image->width; x++)
     {
-      int I = int(255 * pow(line[x] / 255.0f, gamma));
-      if (I < 0) I = 0;
-      if (I > 256) I = 255;
-      line[x] = (unsigned char)I;
+      unsigned char * line = (unsigned char *)(image->imageData + y * image->widthStep);
+
+      for(int x = 0; x < image->width; x++)
+	{
+	  int I = int(255 * pow(line[x] / 255.0f, gamma));
+	  if (I < 0) I = 0;
+	  if (I > 256) I = 255;
+	  line[x] = (unsigned char)I;
+	}
     }
-  }
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////////////
@@ -728,11 +728,11 @@ void mcvPut(IplImage * destImage, IplImage * imageToCopy, int x, int y)
   destImage->roi = &roi;
 
   if (imageToCopy->nChannels == 1 && destImage->nChannels == 3)
-  {
-    IplImage * colorImageToCopy = mcvGrayToColor(imageToCopy);
-    cvCopy(colorImageToCopy, destImage);
-    cvReleaseImage(&colorImageToCopy);
-  }
+    {
+      IplImage * colorImageToCopy = mcvGrayToColor(imageToCopy);
+      cvCopy(colorImageToCopy, destImage);
+      cvReleaseImage(&colorImageToCopy);
+    }
   else
     cvCopy(imageToCopy, destImage);
 
@@ -745,15 +745,15 @@ void mcvDeinterlace(IplImage * image)
   int width = image->nChannels * image->width;
 
   for(int y = 1; y < image->height; y += 2)
-  {
-    unsigned char * previous = line - image->widthStep;
-    unsigned char * next = line + image->widthStep;
+    {
+      unsigned char * previous = line - image->widthStep;
+      unsigned char * next = line + image->widthStep;
 
-    for(int x = 0; x < width; x++)
-      line[x] = (unsigned char)((int(previous[x]) + int(next[x])) >> 1);
+      for(int x = 0; x < width; x++)
+	line[x] = (unsigned char)((int(previous[x]) + int(next[x])) >> 1);
 
-    line += 2 * image->widthStep;
-  }
+      line += 2 * image->widthStep;
+    }
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////////////
@@ -795,11 +795,11 @@ void imcvMul_MN3(double A[3][3], double B[3][3], double AB[3][3])
 
   for(int i = 0; i < 3; i++)
     for(int j = 0; j < 3; j++)
-    {
-      copy[i][j] = 0.;
-      for(int k = 0; k < 3; k++)
-        copy[i][j] += A[i][k] * B[k][j];
-    }
+      {
+	copy[i][j] = 0.;
+	for(int k = 0; k < 3; k++)
+	  copy[i][j] += A[i][k] * B[k][j];
+      }
   for(int i = 0; i < 3; i++)
     for(int j = 0; j < 3; j++)
       AB[i][j] = copy[i][j];
@@ -811,11 +811,11 @@ void imcvMul_MNt3(double A[3][3], double B[3][3], double ABt[3][3])
 
   for(int i = 0; i < 3; i++)
     for(int j = 0; j < 3; j++)
-    {
-      copy[i][j] = 0.;
-      for(int k = 0; k < 3; k++)
-        copy[i][j] += A[i][k] * B[j][k];
-    }
+      {
+	copy[i][j] = 0.;
+	for(int k = 0; k < 3; k++)
+	  copy[i][j] += A[i][k] * B[j][k];
+      }
   for(int i = 0; i < 3; i++)
     for(int j = 0; j < 3; j++)
       ABt[i][j] = copy[i][j];
@@ -832,10 +832,10 @@ void imcvMul_MNMt3(double M[3][3], double N[3][3], double MNMt[3][3])
 /////////////////////////////////////////////////////////////////////////////////////////////////
 
 /* 
-cf Multiple view geometry, p. 19
-A = T(tx, ty) R(theta) R(-phi) D(lambda1, lambda2) R(phi)
+   cf Multiple view geometry, p. 19
+   A = T(tx, ty) R(theta) R(-phi) D(lambda1, lambda2) R(phi)
 
-!!! actually compute the inverse of A to be opencv complient 
+   !!! actually compute the inverse of A to be opencv complient 
 */
 
 void mcvComputeAffineTransfo(float * a, 
@@ -876,16 +876,16 @@ CvScalar mcvRainbowColor(int index, float coeff)
     index = index % 6;
 
   switch(index)
-  {
-  case 0: return CV_RGB(255 * coeff, 0, 0);
-  case 1: return CV_RGB(0, 255 * coeff, 0);
-  case 2: return CV_RGB(0, 0, 255 * coeff);
+    {
+    case 0: return CV_RGB(255 * coeff, 0, 0);
+    case 1: return CV_RGB(0, 255 * coeff, 0);
+    case 2: return CV_RGB(0, 0, 255 * coeff);
 
-  case 3: return CV_RGB(255 * coeff, 255 * coeff, 0);
-  case 4: return CV_RGB(0, 255 * coeff, 255 * coeff);
-  case 5: return CV_RGB(255 * coeff, 0, 255 * coeff);
+    case 3: return CV_RGB(255 * coeff, 255 * coeff, 0);
+    case 4: return CV_RGB(0, 255 * coeff, 255 * coeff);
+    case 5: return CV_RGB(255 * coeff, 0, 255 * coeff);
 
-  default: return CV_RGB(128, 128, 128);
-  }
+    default: return CV_RGB(128, 128, 128);
+    }
 }
 

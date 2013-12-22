@@ -7,7 +7,7 @@
 #include <config.h>
 #else
 #ifdef WIN32
-	// Comment this out if you do not have GLEW installed.
+// Comment this out if you do not have GLEW installed.
 #define HAVE_GLEW
 #endif
 #endif
@@ -43,55 +43,55 @@
  */
 class IplTexture {
 
-public:
-	IplTexture(IplImage *image=0, bool cache=true, bool smooth=true) 
-		: im(image), downsampled(0), allowCache(cache), reload(true),  
-		smooth(smooth), textureGenerated(false), refcnt(1) {}
+ public:
+ IplTexture(IplImage *image=0, bool cache=true, bool smooth=true) 
+   : im(image), downsampled(0), allowCache(cache), reload(true),  
+    smooth(smooth), textureGenerated(false), refcnt(1) {}
 	
-	virtual ~IplTexture();
+  virtual ~IplTexture();
 		
-	//! Only call genTexture from a valid OpenGL context !
-	void genTexture();
-	void loadTexture();
-	void disableTexture();
-	void update() { reload=true; }
-	void setImage(IplImage *image);
-	IplImage *getImage() { return im; }
-	IplImage *getIm() { return im; }
-	const IplImage *getIm() const { return im; }
-	void freeImage() { if (this && im) { cvReleaseImage(&im); } }
+  //! Only call genTexture from a valid OpenGL context !
+  void genTexture();
+  void loadTexture();
+  void disableTexture();
+  void update() { reload=true; }
+  void setImage(IplImage *image);
+  IplImage *getImage() { return im; }
+  IplImage *getIm() { return im; }
+  const IplImage *getIm() const { return im; }
+  void freeImage() { if (this && im) { cvReleaseImage(&im); } }
 
-	//! Get the U texel coordinates from pixel coordinate x.
-	double u(double x) { return x*uScale; }
+  //! Get the U texel coordinates from pixel coordinate x.
+  double u(double x) { return x*uScale; }
 
-	//! Get the V texel coordinates from pixel coordinate y (axis pointing down).
-	double v(double y) { return y*vScale + vOrigin; }
+  //! Get the V texel coordinates from pixel coordinate y (axis pointing down).
+  double v(double y) { return y*vScale + vOrigin; }
 
-	//! force texture regeneration.
-	void regen(); 
+  //! force texture regeneration.
+  void regen(); 
 
-	//! Add a reference to the reference counter.
-	void addRef() { refcnt++; }
+  //! Add a reference to the reference counter.
+  void addRef() { refcnt++; }
 
-	/*! Removes a reference to the reference counter, and delete the
-	 *  texture if it reaches 0.
-	 */
-	void unref();
+  /*! Removes a reference to the reference counter, and delete the
+   *  texture if it reaches 0.
+   */
+  void unref();
 	
-	void clearWithoutDelete() { im = downsampled = 0; }
+  void clearWithoutDelete() { im = downsampled = 0; }
 
-private:
-	IplImage *im;
-	IplImage *downsampled;
+ private:
+  IplImage *im;
+  IplImage *downsampled;
 
-	bool allowCache;
-	bool reload;
-	bool smooth;
-	bool textureGenerated;
-	int refcnt;
-	unsigned int texture;
-	double uScale, vScale, vOrigin;
-	int texWidth, texHeight;
+  bool allowCache;
+  bool reload;
+  bool smooth;
+  bool textureGenerated;
+  int refcnt;
+  unsigned int texture;
+  double uScale, vScale, vOrigin;
+  int texWidth, texHeight;
 };
 
 #endif

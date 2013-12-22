@@ -5,11 +5,11 @@
 using namespace std;
 
 /**
-\brief Special function to print the connection matrix.
+   \brief Special function to print the connection matrix.
 
-Prints the connection matrix. Therefore it uses only rows that exist
-(at least 1 existing connection to a camera) and displays the number
-of the view.
+   Prints the connection matrix. Therefore it uses only rows that exist
+   (at least 1 existing connection to a camera) and displays the number
+   of the view.
 */
 void showmatrix_ch(CvMat &M){
   //ios::sync_with_stdio();
@@ -32,10 +32,10 @@ void showmatrix_ch(CvMat &M){
 }
 
 /**
-\brief Utility function to print a matrix to the screen.
+   \brief Utility function to print a matrix to the screen.
 
-Prints a matrix to the screen. If it is a 3x3 matrix, the
-determinant is shown, too.
+   Prints a matrix to the screen. If it is a 3x3 matrix, the
+   determinant is shown, too.
 */
 void showmatrix(CvMat &M){
   //ios::sync_with_stdio();
@@ -55,11 +55,11 @@ void showmatrix(CvMat &M){
 }
 
 /**
-\brief Utility function to print a matrix to the screen.
+   \brief Utility function to print a matrix to the screen.
 
-Prints a matrix to the screen. If it is a 3x3 matrix, the
-determinant is shown, too. \b header specifies a title
-string.
+   Prints a matrix to the screen. If it is a 3x3 matrix, the
+   determinant is shown, too. \b header specifies a title
+   string.
 */
 void showmatrix(CvMat &M,const char *header){
   cout << header << "\n";
@@ -67,20 +67,20 @@ void showmatrix(CvMat &M,const char *header){
 }
 
 /**
-\brief Utility function to print a matrix to the screen.
+   \brief Utility function to print a matrix to the screen.
 
-Prints a matrix to the screen. If it is a 3x3 matrix, the
-determinant is shown, too. \b header specifies a title
-string.
+   Prints a matrix to the screen. If it is a 3x3 matrix, the
+   determinant is shown, too. \b header specifies a title
+   string.
 */
 void showmatrix(const char *header,CvMat &M){
   showmatrix(M,header);
 }
 
 /**
-\brief Utility function to print a matrix to a file.
+   \brief Utility function to print a matrix to a file.
 
-Prints the matrix \b M to file \b stream.
+   Prints the matrix \b M to file \b stream.
 */
 void showmatrix_file(CvMat &M,FILE *stream){
   //ios::sync_with_stdio();

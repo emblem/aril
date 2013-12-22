@@ -1,22 +1,22 @@
 /*
-Copyright 2005, 2006 Computer Vision Lab, 
-Ecole Polytechnique Federale de Lausanne (EPFL), Switzerland. 
-All rights reserved.
+  Copyright 2005, 2006 Computer Vision Lab, 
+  Ecole Polytechnique Federale de Lausanne (EPFL), Switzerland. 
+  All rights reserved.
 
-This file is part of BazAR.
+  This file is part of BazAR.
 
-BazAR is free software; you can redistribute it and/or modify it under the
-terms of the GNU General Public License as published by the Free Software
-Foundation; either version 2 of the License, or (at your option) any later
-version.
+  BazAR is free software; you can redistribute it and/or modify it under the
+  terms of the GNU General Public License as published by the Free Software
+  Foundation; either version 2 of the License, or (at your option) any later
+  version.
 
-BazAR is distributed in the hope that it will be useful, but WITHOUT ANY
-WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A
-PARTICULAR PURPOSE. See the GNU General Public License for more details.
+  BazAR is distributed in the hope that it will be useful, but WITHOUT ANY
+  WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A
+  PARTICULAR PURPOSE. See the GNU General Public License for more details.
 
-You should have received a copy of the GNU General Public License along with
-BazAR; if not, write to the Free Software Foundation, Inc., 51 Franklin
-Street, Fifth Floor, Boston, MA 02110-1301, USA 
+  You should have received a copy of the GNU General Public License along with
+  BazAR; if not, write to the Free Software Foundation, Inc., 51 Franklin
+  Street, Fifth Floor, Boston, MA 02110-1301, USA 
 */
 #include <assert.h>
 #include <fstream>
@@ -50,7 +50,7 @@ int used_memory() {
 }
 
 image_classification_tree::image_classification_tree(LEARNPROGRESSION _LearnProgress) 
-                                                     : image_classifier(_LearnProgress)
+  : image_classifier(_LearnProgress)
 {
   root = 0;
 }
@@ -59,7 +59,7 @@ image_classification_tree::image_classification_tree(LEARNPROGRESSION _LearnProg
 image_classification_tree::image_classification_tree(int _image_width, int _image_height, 
                                                      int _class_number, int _max_depth, 
                                                      LEARNPROGRESSION _LearnProgress) 
-                                                     : image_classifier(_image_width, _image_height, _class_number,_LearnProgress)
+  : image_classifier(_image_width, _image_height, _class_number,_LearnProgress)
 {
   max_depth = _max_depth;
 
@@ -87,46 +87,46 @@ bool image_classification_tree::load(string filename)
     image_classification_node ** nodes = new image_classification_node* [nodes_plus_leaves_number];
 
     try
-    {
-      for(int i = 0; i < nodes_plus_leaves_number; i++)
       {
-        image_classification_node * tmp_node = new image_classification_node();
-        ifs >> *tmp_node;
-        nodes[tmp_node->index] = tmp_node;
+	for(int i = 0; i < nodes_plus_leaves_number; i++)
+	  {
+	    image_classification_node * tmp_node = new image_classification_node();
+	    ifs >> *tmp_node;
+	    nodes[tmp_node->index] = tmp_node;
+	  }
       }
-    }
     catch (exception)
-    {
-      delete [] nodes;
-      return false;
-    }
+      {
+	delete [] nodes;
+	return false;
+      }
 
     // Rebuild the tree:
     root = nodes[0];
     for(int i = 0; i < nodes_plus_leaves_number; i++)
-    {
-      image_classification_node * node = nodes[i];
-
-      if ( !node->is_leaf() )
       {
-        assert(node->children_number <= 3);
+	image_classification_node * node = nodes[i];
 
-        for(int i = 0; i < node->children_number; i++)
-        {
-          node->children[i] = nodes[node->children_index[i]];
-          node->children[i]->parent = node;
-        }
-        delete [] node->children_index;
+	if ( !node->is_leaf() )
+	  {
+	    assert(node->children_number <= 3);
+
+	    for(int i = 0; i < node->children_number; i++)
+	      {
+		node->children[i] = nodes[node->children_index[i]];
+		node->children[i]->parent = node;
+	      }
+	    delete [] node->children_index;
+	  }
       }
-    }
 
     delete [] nodes;
 
   }
   catch (exception)
-  {
-    return false;
-  }
+    {
+      return false;
+    }
 
   cout << ". Ok." << endl;
 
@@ -163,25 +163,25 @@ bool image_classification_tree::save(string filename)
 void image_classification_tree::refine(example_generator * vg, int call_number)
 {
   for(int i = 0; i < call_number; i++)
-  {
-    cout << "REFINEMENT: " << call_number - i << "...    \r" << flush;
-
-    vector<image_class_example *> * examples = vg->generate_random_examples();
-
-    for(vector<image_class_example *>::iterator it = examples->begin(); it < examples->end(); it++)
     {
-      image_classification_node * node = root;
+      cout << "REFINEMENT: " << call_number - i << "...    \r" << flush;
 
-      while(!node->is_leaf()) 
-        node = node->children[node->child_index(*it)];
+      vector<image_class_example *> * examples = vg->generate_random_examples();
+
+      for(vector<image_class_example *>::iterator it = examples->begin(); it < examples->end(); it++)
+	{
+	  image_classification_node * node = root;
+
+	  while(!node->is_leaf()) 
+	    node = node->children[node->child_index(*it)];
       
-      node->P[(*it)->class_index]++;
+	  node->P[(*it)->class_index]++;
+	}
+
+      delete examples;
+
+      vg->release_examples();
     }
-
-    delete examples;
-
-    vg->release_examples();
-  }
 
   root->reestimate_probabilities_recursive();
 
@@ -197,41 +197,41 @@ void image_classification_tree::test(example_generator * vg, int call_number)
     inlier_total[i] = total[i] = 0;
 
   for(int i = 0; i < call_number; i++)
-  {
-    cout << "GENERATING TESTING SET: " << call_number - i << "...    " << (char)13 << flush;
-
-    vector<image_class_example *> * examples = vg->generate_random_examples();
-
-    for(vector<image_class_example *>::iterator it = examples->begin(); it < examples->end(); it++)
     {
-      int found_class_index = recognize(*it, 0);
+      cout << "GENERATING TESTING SET: " << call_number - i << "...    " << (char)13 << flush;
 
-      total[(*it)->class_index]++;
-      if ((*it)->class_index == found_class_index)
-        inlier_total[found_class_index]++;
+      vector<image_class_example *> * examples = vg->generate_random_examples();
+
+      for(vector<image_class_example *>::iterator it = examples->begin(); it < examples->end(); it++)
+	{
+	  int found_class_index = recognize(*it, 0);
+
+	  total[(*it)->class_index]++;
+	  if ((*it)->class_index == found_class_index)
+	    inlier_total[found_class_index]++;
+	}
+
+      delete examples;
+
+      vg->release_examples();
     }
-
-    delete examples;
-
-    vg->release_examples();
-  }
 
   cout << "Test: " << flush;
   for(int i = 0; i < class_number; i++)
-  {
-    cout << "[class " << i << ": ";
-    if (total[i] == 0)
-      cout << "not represented !!!]." << flush;
-    else
-      cout << std::setprecision(1) << 100. * float(inlier_total[i]) / total[i] << "% inliers]." << flush;
-  }
+    {
+      cout << "[class " << i << ": ";
+      if (total[i] == 0)
+	cout << "not represented !!!]." << flush;
+      else
+	cout << std::setprecision(1) << 100. * float(inlier_total[i]) / total[i] << "% inliers]." << flush;
+    }
   
   int T = 0, IT = 0;
   for(int i = 0; i < class_number; i++)
-  {
-    T += total[i];
-    IT += inlier_total[i];
-  }
+    {
+      T += total[i];
+      IT += inlier_total[i];
+    }
 
   cout << "ok) -> " << setprecision(1) << 100. * float(IT) / T << "% inliers." << endl;
 }
@@ -256,14 +256,14 @@ float * image_classification_tree::posterior_probabilities(image_class_example *
   unsigned char * I = (unsigned char *)(pv->preprocessed->imageData);
 
   while(!node->is_leaf())
-  {
-    int dot_product = (int)I[node->d1] - (int)I[node->d2];
+    {
+      int dot_product = (int)I[node->d1] - (int)I[node->d2];
 
-    if (dot_product <= 0) 
-      node = node->children[0];
-    else 
-      node = node->children[1];
-  }
+      if (dot_product <= 0) 
+	node = node->children[0];
+      else 
+	node = node->children[1];
+    }
   return node->P;
 }
 

@@ -1,22 +1,22 @@
 /*
-Copyright 2005, 2006 Computer Vision Lab, 
-Ecole Polytechnique Federale de Lausanne (EPFL), Switzerland. 
-All rights reserved.
+  Copyright 2005, 2006 Computer Vision Lab, 
+  Ecole Polytechnique Federale de Lausanne (EPFL), Switzerland. 
+  All rights reserved.
 
-This file is part of BazAR.
+  This file is part of BazAR.
 
-BazAR is free software; you can redistribute it and/or modify it under the
-terms of the GNU General Public License as published by the Free Software
-Foundation; either version 2 of the License, or (at your option) any later
-version.
+  BazAR is free software; you can redistribute it and/or modify it under the
+  terms of the GNU General Public License as published by the Free Software
+  Foundation; either version 2 of the License, or (at your option) any later
+  version.
 
-BazAR is distributed in the hope that it will be useful, but WITHOUT ANY
-WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A
-PARTICULAR PURPOSE. See the GNU General Public License for more details.
+  BazAR is distributed in the hope that it will be useful, but WITHOUT ANY
+  WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A
+  PARTICULAR PURPOSE. See the GNU General Public License for more details.
 
-You should have received a copy of the GNU General Public License along with
-BazAR; if not, write to the Free Software Foundation, Inc., 51 Franklin
-Street, Fifth Floor, Boston, MA 02110-1301, USA 
+  You should have received a copy of the GNU General Public License along with
+  BazAR; if not, write to the Free Software Foundation, Inc., 51 Franklin
+  Street, Fifth Floor, Boston, MA 02110-1301, USA 
 */
 #include <iostream>
 #include <iomanip>
@@ -67,8 +67,8 @@ void ls_minimizer2::alloc_matrices(int maximum_scalar_measure_number)
   assert(maximum_scalar_measure_number>0);
 
   if (J && real_J_size>=maximum_scalar_measure_number) {
-	  step_solver->resize(state_size, maximum_scalar_measure_number);
-	  return;
+    step_solver->resize(state_size, maximum_scalar_measure_number);
+    return;
   }
 
   free_matrices();
@@ -246,10 +246,10 @@ void ls_minimizer2::erase_observations(int a, int b)
   observation_vector::iterator first = observations.begin()+a;
   observation_vector::iterator last = (b<0 ? observations.end() : observations.begin()+b);
   for (observation_vector::iterator it = first; it != last; ++it)
-  {
-    if ((*it)->delete_me) delete *it;
-    else if ((*it)->array_delete_me) delete[] *it;
-  }
+    {
+      if ((*it)->delete_me) delete *it;
+      else if ((*it)->array_delete_me) delete[] *it;
+    }
   observations.erase(first,last);
   assert(a == (signed)observations.size());
 }
@@ -327,12 +327,12 @@ ls_minimizer2::flt_t ls_minimizer2::residual(flt_t * state)
   flt_t b[MAX_B_SIZE];
 
   for (observation_vector::iterator it = observations.begin();
-    it != observations.end(); ++it)
-  {
-    observation *obs = *it;
-    obs->eval_func(state, b, 0, user_data);
-    result += obs->weight*rho(obs->residual(b), obs->squared_c);
-  }
+       it != observations.end(); ++it)
+    {
+      observation *obs = *it;
+      obs->eval_func(state, b, 0, user_data);
+      result += obs->weight*rho(obs->residual(b), obs->squared_c);
+    }
   return result;
 }
 
@@ -358,20 +358,20 @@ void ls_minimizer2::compare_outliers_with_ground_truth(void)
 
   int observation_number = 0;
   for (observation_vector::iterator it = observations.begin();
-    it != observations.end(); ++it)
-  {
-    observation *o = *it;
-    o->eval_func(state, b, 0, user_data);
-    flt_t diff = o->residual(b);
+       it != observations.end(); ++it)
+    {
+      observation *o = *it;
+      o->eval_func(state, b, 0, user_data);
+      flt_t diff = o->residual(b);
 
-    if (diff < o->squared_c && !o->ground_truth_outlier)
-      correct_inlier_number++;
-    else if (diff >= o->squared_c && o->ground_truth_outlier)
-      correct_outlier_number++;
+      if (diff < o->squared_c && !o->ground_truth_outlier)
+	correct_inlier_number++;
+      else if (diff >= o->squared_c && o->ground_truth_outlier)
+	correct_outlier_number++;
 
-    if (!o->ground_truth_outlier) gt_inliers++;
-    ++observation_number;
-  }
+      if (!o->ground_truth_outlier) gt_inliers++;
+      ++observation_number;
+    }
 
 
   cout << endl;
@@ -391,42 +391,42 @@ ls_minimizer2::flt_t ls_minimizer2::build_eps(flt_t * state, flt_t current_best_
   /*flt_t diff[MAX_B_SIZE];*/
   nb_inliers = 0;
   for (observation_vector::iterator it = observations.begin();
-    it != observations.end(); ++it)
-  {
-    observation *o = *it;
-    o->eval_func(state, b, newJ->data.db + im_n*state_size, user_data);
-
-    flt_t res = o->residual(b);
-    assert(res >= 0);
-    assert(o->squared_c>=0);
-    int n = o->get_nb_measures();
-    if (res < o->squared_c)
+       it != observations.end(); ++it)
     {
-      o->outlier = false;
-      nb_inliers++;
-      if (o->weight != 1.) {
-        for(int j = 0; j < n*state_size; j++) 
-          (newJ->data.db + im_n * state_size)[j] *= o->sqrt_weight;
+      observation *o = *it;
+      o->eval_func(state, b, newJ->data.db + im_n*state_size, user_data);
+
+      flt_t res = o->residual(b);
+      assert(res >= 0);
+      assert(o->squared_c>=0);
+      int n = o->get_nb_measures();
+      if (res < o->squared_c)
+	{
+	  o->outlier = false;
+	  nb_inliers++;
+	  if (o->weight != 1.) {
+	    for(int j = 0; j < n*state_size; j++) 
+	      (newJ->data.db + im_n * state_size)[j] *= o->sqrt_weight;
+	  }
+	  for (int i=0; i<n; ++i)
+	    eps->data.db[im_n+i] = o->sqrt_weight * (o->b[i] - b[i]);
+	  im_n+=n;
+	  residual += o->weight * res;
+	  assert(o->weight >=0);
+	}
+      else
+	{
+	  o->outlier = true;
+	  if (outliers_in_residual)
+	    residual += o->weight * o->squared_c;
+	}
+
+      if (residual > current_best_residual) {
+	eps->rows = 0;
+	newJ->rows = 0;
+	return numeric_limits<flt_t>::max();
       }
-      for (int i=0; i<n; ++i)
-        eps->data.db[im_n+i] = o->sqrt_weight * (o->b[i] - b[i]);
-      im_n+=n;
-      residual += o->weight * res;
-      assert(o->weight >=0);
     }
-    else
-    {
-      o->outlier = true;
-      if (outliers_in_residual)
-        residual += o->weight * o->squared_c;
-    }
-
-    if (residual > current_best_residual) {
-      eps->rows = 0;
-      newJ->rows = 0;
-      return numeric_limits<flt_t>::max();
-    }
-  }
 
   eps->rows = im_n;
   newJ->rows = im_n;
@@ -447,15 +447,15 @@ ls_minimizer2::flt_t ls_minimizer2::inlier_residual(flt_t * state, flt_t current
   flt_t b[MAX_B_SIZE];
 
   for (observation_vector::iterator it = observations.begin();
-    it != observations.end(); ++it)
-  {
-    observation *obs = *it;
-    if (!obs->outlier) {
-      obs->eval_func(state, b, 0, user_data);
-      residual += obs->weight * obs->residual(b);
-      if (residual > current_best_residual) return numeric_limits<flt_t>::max();
+       it != observations.end(); ++it)
+    {
+      observation *obs = *it;
+      if (!obs->outlier) {
+	obs->eval_func(state, b, 0, user_data);
+	residual += obs->weight * obs->residual(b);
+	if (residual > current_best_residual) return numeric_limits<flt_t>::max();
+      }
     }
-  }
 
   return residual;
 }
@@ -466,18 +466,18 @@ bool ls_minimizer2::build_J(flt_t * state)
 
   flt_t b[MAX_B_SIZE];
   for (observation_vector::iterator it = observations.begin();
-    it != observations.end(); ++it)
-  {
-    observation *obs = *it;
-    if (!obs->outlier) {
-      int n = obs->get_nb_measures();
-      assert(im_n+n <= real_J_size);
-      obs->eval_func(state, b, J->data.db + im_n*state_size, user_data);
-      if (obs->weight != 1.) for(int j = 0; j < n*state_size; j++) 
-        (J->data.db + im_n * state_size)[j] *= obs->sqrt_weight;
-      im_n += n;
+       it != observations.end(); ++it)
+    {
+      observation *obs = *it;
+      if (!obs->outlier) {
+	int n = obs->get_nb_measures();
+	assert(im_n+n <= real_J_size);
+	obs->eval_func(state, b, J->data.db + im_n*state_size, user_data);
+	if (obs->weight != 1.) for(int j = 0; j < n*state_size; j++) 
+				 (J->data.db + im_n * state_size)[j] *= obs->sqrt_weight;
+	im_n += n;
+      }
     }
-  }
 
   J->rows = im_n;
 
@@ -518,10 +518,10 @@ bool ls_minimizer2::build_J_and_stuff(flt_t * state)
   newJ = tmp;
 
   if (J->rows == 0)
-  {
-    msg(0, "**: No inliers found" << endl);
-    return false;
-  }
+    {
+      msg(0, "**: No inliers found" << endl);
+      return false;
+    }
   //Jt->cols = J->rows;
   // Jteps = Jt * eps
   cvGEMM(J, eps, 1, 0, 1, Jteps, CV_GEMM_A_T);
@@ -533,25 +533,25 @@ bool ls_minimizer2::build_J_and_stuff(flt_t * state)
 void ls_minimizer2::set_current_c_s(flt_t k)
 {
   if (k < 0)
-  {
-    if (inside_julien_method) return;
-    for (observation_vector::iterator it = observations.begin();
-      it != observations.end(); ++it)
     {
-      observation *o = *it;
-      o->squared_c_current = o->squared_c;
+      if (inside_julien_method) return;
+      for (observation_vector::iterator it = observations.begin();
+	   it != observations.end(); ++it)
+	{
+	  observation *o = *it;
+	  o->squared_c_current = o->squared_c;
+	}
     }
-  }
   else
-  {
-    for (observation_vector::iterator it = observations.begin();
-      it != observations.end(); ++it)
     {
-      observation *o = *it;
-      flt_t c = exp(k * log(o->c_max) + (1. - k) * log(o->c_min));
-      o->squared_c_current = c * c;
+      for (observation_vector::iterator it = observations.begin();
+	   it != observations.end(); ++it)
+	{
+	  observation *o = *it;
+	  flt_t c = exp(k * log(o->c_max) + (1. - k) * log(o->c_min));
+	  o->squared_c_current = c * c;
+	}
     }
-  }
 }
 
 int ls_minimizer2::count_measures()
@@ -561,20 +561,20 @@ int ls_minimizer2::count_measures()
   if (observations.size()==0) return 0;
 
   for (observation_vector::iterator it = observations.begin();
-    it != observations.end(); ++it)
-  {
-    n += (*it)->get_nb_measures();
-    nobs++;
-  }
+       it != observations.end(); ++it)
+    {
+      n += (*it)->get_nb_measures();
+      nobs++;
+    }
   msg(2,nobs << " obs, " << n << " measures"<<endl);
   return n;
 }
 
 /*!
-\return an error code <0 if something went wrong. 
-2: unable to improve result after N iterations.
-3: termination criterion reached.
-4: iterations limit exceeded.
+  \return an error code <0 if something went wrong. 
+  2: unable to improve result after N iterations.
+  3: termination criterion reached.
+  4: iterations limit exceeded.
 */
 int ls_minimizer2::minimize_using_levenberg_marquardt_from(flt_t * initial_state)
 {
@@ -603,19 +603,19 @@ int ls_minimizer2::minimize_using_levenberg_marquardt_from(flt_t * initial_state
   msg(1, "LM: "); show_state(1, state, r_previous);
 
   while(iter_nb < lm_max_iterations)
-  {
-    iter_nb++;
-    msg(2, "LM: iteration # " << iter_nb << " --------------------------------------------" << endl);
+    {
+      iter_nb++;
+      msg(2, "LM: iteration # " << iter_nb << " --------------------------------------------" << endl);
 
-    do {
-      for(int i = 0; i < state_size; i++)
-        if (use_user_scaling)
-          aug_JtJ->data.db[i * state_size + i] = JtJ->data.db[i * state_size + i] + lambda * scales[i];
-        else if (use_automated_scaling)
-          aug_JtJ->data.db[i * state_size + i] = JtJ->data.db[i * state_size + i] +
-          lambda * (1 + JtJ->data.db[i * state_size + i] * JtJ->data.db[i * state_size + i]);
-        else
-          aug_JtJ->data.db[i * state_size + i] = JtJ->data.db[i * state_size + i] + lambda;
+      do {
+	for(int i = 0; i < state_size; i++)
+	  if (use_user_scaling)
+	    aug_JtJ->data.db[i * state_size + i] = JtJ->data.db[i * state_size + i] + lambda * scales[i];
+	  else if (use_automated_scaling)
+	    aug_JtJ->data.db[i * state_size + i] = JtJ->data.db[i * state_size + i] +
+	      lambda * (1 + JtJ->data.db[i * state_size + i] * JtJ->data.db[i * state_size + i]);
+	  else
+	    aug_JtJ->data.db[i * state_size + i] = JtJ->data.db[i * state_size + i] + lambda;
 
         assert(aug_JtJ->cols == state_size && state_size == aug_JtJ->rows);
 
@@ -669,29 +669,29 @@ int ls_minimizer2::minimize_using_levenberg_marquardt_from(flt_t * initial_state
 
           msg(2, "LM: iteration failed --> " << r << "   new lambda = " << lambda << endl);
         }
-    } while(rho < 0);
-  }
-lm_end:
+      } while(rho < 0);
+    }
+ lm_end:
   if (iter_nb >= lm_max_iterations)
     reason = 4;
 
   switch(reason) {
-    case 2: msg(1, "LM: " << failures_in_a_row << " failures in a row." << endl); break;
-    case 3: msg(1, "LM: Termination criterion satisfied: cosinus = " << cosinus << " < " << lm_tol_cos << endl);
-      break;
-    case 4: msg(1, "LM: Too many iterations." << endl); break;
-    case -1: msg(1, "LM: qr_solve failed\n"); break;
-    default:
-      msg(1, "LM: unkown termination reason" << endl);
+  case 2: msg(1, "LM: " << failures_in_a_row << " failures in a row." << endl); break;
+  case 3: msg(1, "LM: Termination criterion satisfied: cosinus = " << cosinus << " < " << lm_tol_cos << endl);
+    break;
+  case 4: msg(1, "LM: Too many iterations." << endl); break;
+  case -1: msg(1, "LM: qr_solve failed\n"); break;
+  default:
+    msg(1, "LM: unkown termination reason" << endl);
   }
 
   msg(1, "LM: ");
   for(int i = 0; i < state_size; i++)
-  {
-    msg(1, state[i]);
-    if (i < state_size - 1)
-      msg(1, ", ");
-  }
+    {
+      msg(1, state[i]);
+      if (i < state_size - 1)
+	msg(1, ", ");
+    }
   msg(1, " --> " << r << endl);
   msg(1, "LM: End of minimization." << endl);
 
@@ -737,85 +737,85 @@ int ls_minimizer2::minimize_using_dogleg_from(flt_t * initial_state)
   msg(1, "DL: "); show_state(1, state, r_previous);
 
   while(iter_nb < lm_max_iterations)
-  {
-    iter_nb++;
-    msg(2, "DL: iteration # " << iter_nb << " --------------------------------------------" << endl);
+    {
+      iter_nb++;
+      msg(2, "DL: iteration # " << iter_nb << " --------------------------------------------" << endl);
 
-    JJteps->rows = J->rows;
-    cvMatMul(J, Jteps, JJteps);
-    cvScale(Jteps, dl_delta_sd, cvDotProduct(Jteps, Jteps) / cvDotProduct(JJteps, JJteps));
+      JJteps->rows = J->rows;
+      cvMatMul(J, Jteps, JJteps);
+      cvScale(Jteps, dl_delta_sd, cvDotProduct(Jteps, Jteps) / cvDotProduct(JJteps, JJteps));
 
-    dl_delta_gn_computed = false;
+      dl_delta_gn_computed = false;
 
-    do {
-      msg(2, "DL: Delta = " << Delta << endl);
-      if (cvDotProduct(dl_delta_sd, dl_delta_sd) > Delta * Delta)
-      {
-        cvScale(dl_delta_sd, dl_delta_dl, Delta / cvDotProduct(dl_delta_sd, dl_delta_sd));
-        msg(2, "DL: Trying truncated steepest descent step" << endl);
-      }
-      else {
-        if (!dl_delta_gn_computed) {
-          step_solver->qr_solve(JtJ, Jteps, dl_delta_gn);
-          //          step_solver->qr_solve(J, eps, dl_delta_gn);
-          dl_delta_gn_computed = true;
-        }
-        if (cvDotProduct(dl_delta_gn, dl_delta_gn) <= Delta * Delta)
-        {
-          cvCopy(dl_delta_gn, dl_delta_dl);
+      do {
+	msg(2, "DL: Delta = " << Delta << endl);
+	if (cvDotProduct(dl_delta_sd, dl_delta_sd) > Delta * Delta)
+	  {
+	    cvScale(dl_delta_sd, dl_delta_dl, Delta / cvDotProduct(dl_delta_sd, dl_delta_sd));
+	    msg(2, "DL: Trying truncated steepest descent step" << endl);
+	  }
+	else {
+	  if (!dl_delta_gn_computed) {
+	    step_solver->qr_solve(JtJ, Jteps, dl_delta_gn);
+	    //          step_solver->qr_solve(J, eps, dl_delta_gn);
+	    dl_delta_gn_computed = true;
+	  }
+	  if (cvDotProduct(dl_delta_gn, dl_delta_gn) <= Delta * Delta)
+	    {
+	      cvCopy(dl_delta_gn, dl_delta_dl);
 
-          msg(2, "DL: Trying gauss-newton step" << endl);
-        }
-        else {
-          cvSub(dl_delta_gn, dl_delta_sd, dl_delta_diff);
-          flt_t beta1, beta2, beta;
-          solve_deg2(cvDotProduct(dl_delta_diff, dl_delta_diff), 
-            2 * cvDotProduct(dl_delta_sd, dl_delta_diff), 
-            cvDotProduct(dl_delta_sd, dl_delta_sd) - Delta * Delta,
-            beta1, beta2);
-          beta = (beta1 > 0) ? beta1 : beta2;
-          cvScaleAdd(dl_delta_diff, cvScalar(beta), dl_delta_sd, dl_delta_dl);
+	      msg(2, "DL: Trying gauss-newton step" << endl);
+	    }
+	  else {
+	    cvSub(dl_delta_gn, dl_delta_sd, dl_delta_diff);
+	    flt_t beta1, beta2, beta;
+	    solve_deg2(cvDotProduct(dl_delta_diff, dl_delta_diff), 
+		       2 * cvDotProduct(dl_delta_sd, dl_delta_diff), 
+		       cvDotProduct(dl_delta_sd, dl_delta_sd) - Delta * Delta,
+		       beta1, beta2);
+	    beta = (beta1 > 0) ? beta1 : beta2;
+	    cvScaleAdd(dl_delta_diff, cvScalar(beta), dl_delta_sd, dl_delta_dl);
 
-          msg(2, "DL: Trying truncated gauss-newton step" << endl);
-        }
-      }
-      for(int i = 0; i < state_size; i++) new_state[i] = state[i] + dl_delta_dl->data.db[i];
-      //! TODO looks wrong..
-      r = build_eps(new_state);
-      cvMatMul(JtJ, dl_delta_dl, JtJdelta);
-      flt_t L_delta = 2 * ( 0.5 * r_previous - cvDotProduct(Jteps, dl_delta_dl) + 0.5 * cvDotProduct(dl_delta_dl, JtJdelta));
-      rho = (r_previous - r) / (r_previous - L_delta);
-      if (rho > 0) {
-        set_new_state(new_state);
-        Jds->rows = J->rows;
-        cvMatMul(J, dl_delta_dl, Jds);
-        cosinus = cvDotProduct(eps_previous, Jds) / (sqrt(r_previous) * sqrt(cvDotProduct(Jds, Jds)));
-        msg(2, "DL: cosinus = " << cosinus << endl);
-        if (cosinus < dl_tol_cos) {
-          reason = 3;
-          goto dl_end;
-        }
-        eps_previous->rows = eps->rows; cvCopy(eps, eps_previous);
-        r_previous = r;
-        build_J_and_stuff(state);
+	    msg(2, "DL: Trying truncated gauss-newton step" << endl);
+	  }
+	}
+	for(int i = 0; i < state_size; i++) new_state[i] = state[i] + dl_delta_dl->data.db[i];
+	//! TODO looks wrong..
+	r = build_eps(new_state);
+	cvMatMul(JtJ, dl_delta_dl, JtJdelta);
+	flt_t L_delta = 2 * ( 0.5 * r_previous - cvDotProduct(Jteps, dl_delta_dl) + 0.5 * cvDotProduct(dl_delta_dl, JtJdelta));
+	rho = (r_previous - r) / (r_previous - L_delta);
+	if (rho > 0) {
+	  set_new_state(new_state);
+	  Jds->rows = J->rows;
+	  cvMatMul(J, dl_delta_dl, Jds);
+	  cosinus = cvDotProduct(eps_previous, Jds) / (sqrt(r_previous) * sqrt(cvDotProduct(Jds, Jds)));
+	  msg(2, "DL: cosinus = " << cosinus << endl);
+	  if (cosinus < dl_tol_cos) {
+	    reason = 3;
+	    goto dl_end;
+	  }
+	  eps_previous->rows = eps->rows; cvCopy(eps, eps_previous);
+	  r_previous = r;
+	  build_J_and_stuff(state);
 
-        failures_in_a_row = 0;
-        msg(2, "DL: "); show_state(2, state, r);
-        if (verbose_level >= 3) { compare_outliers_with_ground_truth(); compare_state_with_ground_truth(); }
-      }
-      else {
-        msg(2, "DL:  -> failure." << endl);
+	  failures_in_a_row = 0;
+	  msg(2, "DL: "); show_state(2, state, r);
+	  if (verbose_level >= 3) { compare_outliers_with_ground_truth(); compare_state_with_ground_truth(); }
+	}
+	else {
+	  msg(2, "DL:  -> failure." << endl);
 
-        failures_in_a_row++;
-        if (failures_in_a_row > lm_max_failures_in_a_row) {
-          reason = 2;
-          goto dl_end;
-        }
-      }
-      Delta = dl_update_Delta(rho, Delta, 0.25, 0.75);
-    } while(rho < 0);
-  }
-dl_end:
+	  failures_in_a_row++;
+	  if (failures_in_a_row > lm_max_failures_in_a_row) {
+	    reason = 2;
+	    goto dl_end;
+	  }
+	}
+	Delta = dl_update_Delta(rho, Delta, 0.25, 0.75);
+      } while(rho < 0);
+    }
+ dl_end:
   if (iter_nb >= lm_max_iterations)
     reason = 4;
 
@@ -825,11 +825,11 @@ dl_end:
 
   msg(1, "DL: ");
   for(int i = 0; i < state_size; i++)
-  {
-    msg(1, state[i]);
-    if (i < state_size - 1)
-      msg(1, ", ");
-  }
+    {
+      msg(1, state[i]);
+      if (i < state_size - 1)
+	msg(1, ", ");
+    }
   msg(1, " --> " << r << endl);
   msg(1, "DL: End of minimization." << endl);
 
@@ -852,40 +852,40 @@ bool ls_minimizer2::line_search(CvMat * dir,
   flt_t old_residual = residual_lambda;
 
   while(residual_lambda > residual0)
-  {
-    msg(2, " LS: rough search lambda = " << lambda << endl);
-    lambda /= ct_k_rough;
-    for(int i = 0; i < state_size; i++) new_state[i] = state[i] + lambda * dir->data.db[i];
-    old_residual = residual_lambda;
-    residual_lambda = inlier_residual(new_state, residual0);
-  }
+    {
+      msg(2, " LS: rough search lambda = " << lambda << endl);
+      lambda /= ct_k_rough;
+      for(int i = 0; i < state_size; i++) new_state[i] = state[i] + lambda * dir->data.db[i];
+      old_residual = residual_lambda;
+      residual_lambda = inlier_residual(new_state, residual0);
+    }
 
   while(residual_lambda < residual0)
-  {
-    msg(2, " LS: rough search lambda = " << lambda << endl);
-    residual0 = residual_lambda;
-    lambda *= ct_k_rough;
-    for(int i = 0; i < state_size; i++) new_state[i] = state[i] + lambda * dir->data.db[i];
-    old_residual = residual_lambda;
-    residual_lambda = inlier_residual(new_state, old_residual);
-  }
+    {
+      msg(2, " LS: rough search lambda = " << lambda << endl);
+      residual0 = residual_lambda;
+      lambda *= ct_k_rough;
+      for(int i = 0; i < state_size; i++) new_state[i] = state[i] + lambda * dir->data.db[i];
+      old_residual = residual_lambda;
+      residual_lambda = inlier_residual(new_state, old_residual);
+    }
   lambda /= ct_k_rough;
   residual_lambda = old_residual;
   for(int i = 0; i < state_size; i++) new_state[i] = state[i] + lambda * dir->data.db[i];
 
   bool found = false;
   while(residual_lambda < new_residual)
-  {
-    msg(2, " LS: fine  search lambda = " << lambda << endl);
-    new_residual = residual_lambda;
-    memcpy(best_state, new_state, state_size * sizeof(flt_t));
-    new_lambda = lambda;
-    found = true;
+    {
+      msg(2, " LS: fine  search lambda = " << lambda << endl);
+      new_residual = residual_lambda;
+      memcpy(best_state, new_state, state_size * sizeof(flt_t));
+      new_lambda = lambda;
+      found = true;
 
-    lambda *= ct_k_fine;
-    for(int i = 0; i < state_size; i++) new_state[i] = state[i] + lambda * dir->data.db[i];
-    residual_lambda = build_eps(new_state, new_residual);
-  }
+      lambda *= ct_k_fine;
+      for(int i = 0; i < state_size; i++) new_state[i] = state[i] + lambda * dir->data.db[i];
+      residual_lambda = build_eps(new_state, new_residual);
+    }
 
   return found;
 }
@@ -912,70 +912,70 @@ int ls_minimizer2::minimize_using_cattail_from(flt_t * initial_state)
   int iter_nb = 0;
   int reason;
   do
-  {
-    if (verbose_level >= 3) { msg(3, "CT: "); compare_state_with_ground_truth(); }
-
-    r = build_eps_return_inlier_residual(state);
-    flt_t best_r = r;
-    build_J_and_stuff(state);
-
-    msg(2, "CT " << nb_inliers << " inliers." << endl);
-
-    int method = -1;
-    flt_t best_lambda, gain = 0.;
-
-    step_solver->qr_solve(J, eps, ct_delta_gn);
-    for(int i = 0; i < state_size; i++) best_state[i] = state[i] + ct_delta_gn->data.db[i];
-    flt_t r_gn = inlier_residual(best_state, best_r);
-    if (r_gn < best_r)
     {
-      gain = r - r_gn;
-      best_r = r_gn;
-      method = 1;
-    }
+      if (verbose_level >= 3) { msg(3, "CT: "); compare_state_with_ground_truth(); }
 
-    for(int i = 0; i < state_size; i++) ct_delta_sd->data.db[i] = Jteps->data.db[i] / JtJ->data.db[i * state_size + i];
-    if (line_search(ct_delta_sd, 0.0001, 1, r, best_r, best_lambda))
-    {
-      gain = r - best_r;
-      method = 2;
-    }
+      r = build_eps_return_inlier_residual(state);
+      flt_t best_r = r;
+      build_J_and_stuff(state);
 
-    if (method == -1)
-    {
-      reason = 2;
-      goto ct_end;
-    }
-    else if (method == 1)
-      msg(2, "CT: Taking the gauss-newton step." << endl);
-    else if (method == 2)
-      msg(2, "CT: Taking the corrected linear model step (lambda = " << best_lambda << ")." << endl);
-    else 
-    {
-      cerr << "bug in ls_minimizer2::minimize_using_cattail_from" << endl;
-      exit(0);
-    }
+      msg(2, "CT " << nb_inliers << " inliers." << endl);
 
-    msg(2, "CT: Gain = " << gain << " --> residual = " << best_r << endl);
-    memcpy(state, best_state, state_size * sizeof(flt_t));
+      int method = -1;
+      flt_t best_lambda, gain = 0.;
 
-    r = best_r;
-    iter_nb++;
-    //////////////////////////////////////////////////////////////////////////////////////
-  } while(iter_nb < ct_max_iterations);
+      step_solver->qr_solve(J, eps, ct_delta_gn);
+      for(int i = 0; i < state_size; i++) best_state[i] = state[i] + ct_delta_gn->data.db[i];
+      flt_t r_gn = inlier_residual(best_state, best_r);
+      if (r_gn < best_r)
+	{
+	  gain = r - r_gn;
+	  best_r = r_gn;
+	  method = 1;
+	}
+
+      for(int i = 0; i < state_size; i++) ct_delta_sd->data.db[i] = Jteps->data.db[i] / JtJ->data.db[i * state_size + i];
+      if (line_search(ct_delta_sd, 0.0001, 1, r, best_r, best_lambda))
+	{
+	  gain = r - best_r;
+	  method = 2;
+	}
+
+      if (method == -1)
+	{
+	  reason = 2;
+	  goto ct_end;
+	}
+      else if (method == 1)
+	msg(2, "CT: Taking the gauss-newton step." << endl);
+      else if (method == 2)
+	msg(2, "CT: Taking the corrected linear model step (lambda = " << best_lambda << ")." << endl);
+      else 
+	{
+	  cerr << "bug in ls_minimizer2::minimize_using_cattail_from" << endl;
+	  exit(0);
+	}
+
+      msg(2, "CT: Gain = " << gain << " --> residual = " << best_r << endl);
+      memcpy(state, best_state, state_size * sizeof(flt_t));
+
+      r = best_r;
+      iter_nb++;
+      //////////////////////////////////////////////////////////////////////////////////////
+    } while(iter_nb < ct_max_iterations);
   reason = 4;
 
-ct_end:
+ ct_end:
   if (reason == 2) msg(2, "CT: no improvement found." << endl);
   if (reason == 4) msg(2, "CT: Too many iterations (" << ct_max_iterations << ")." << endl);
 
   msg(1, "CT: ");
   for(int i = 0; i < state_size; i++)
-  {
-    msg(1, state[i]);
-    if (i < state_size - 1)
-      msg(1, ", ");
-  }
+    {
+      msg(1, state[i]);
+      if (i < state_size - 1)
+	msg(1, ", ");
+    }
   msg(1, " --> " << r << endl);
   msg(1, "CT: End of minimization." << endl);
 
@@ -1019,41 +1019,41 @@ ls_minimizer2::flt_t ls_minimizer2::minimize_using_prosac(sample_consensus_func 
   int *idx = new int[nb_samples];
   observation **o = new observation *[nb_samples];
   for(int iter = 0; iter < max_number_of_iterations; iter++)
-  {
-    if (!pick_random_indices(idx, nb_samples, mymin(iter + nb_samples, observations.size())))
     {
-      cerr << "PR: not enough observations." << endl;
-      return false;
-    }
+      if (!pick_random_indices(idx, nb_samples, mymin(iter + nb_samples, observations.size())))
+	{
+	  cerr << "PR: not enough observations." << endl;
+	  return false;
+	}
 
-    for (int i=0; i<nb_samples; i++) {
-      //o[i] = observations[idx[i]];
-      observation_vector::iterator it=observations.begin();
-      for (int j=0; j<idx[i]; ++i) ++it;
-      o[i] = *it;
-    }
-
-    //! TODO <Julien> I modified this. It may be wrong.
-    if (f(new_state, o, nb_samples, user_data))
-    {
-      set_new_state(new_state);
-      flt_t new_residual = build_eps(state, best_residual);
-      if (new_residual < best_residual)
-      {
-        best_residual = new_residual;
-        memcpy(best_state, state, state_size * sizeof(flt_t));
-        int nb_inliers = 0;
-        for (observation_vector::iterator it = observations.begin();
-          it != observations.end(); ++it)
-        {
-          if (!(*it)->outlier)
-            nb_inliers++;
-        }
-        if (nb_inliers > min_number_of_inliers)
-          break;
+      for (int i=0; i<nb_samples; i++) {
+	//o[i] = observations[idx[i]];
+	observation_vector::iterator it=observations.begin();
+	for (int j=0; j<idx[i]; ++i) ++it;
+	o[i] = *it;
       }
+
+      //! TODO <Julien> I modified this. It may be wrong.
+      if (f(new_state, o, nb_samples, user_data))
+	{
+	  set_new_state(new_state);
+	  flt_t new_residual = build_eps(state, best_residual);
+	  if (new_residual < best_residual)
+	    {
+	      best_residual = new_residual;
+	      memcpy(best_state, state, state_size * sizeof(flt_t));
+	      int nb_inliers = 0;
+	      for (observation_vector::iterator it = observations.begin();
+		   it != observations.end(); ++it)
+		{
+		  if (!(*it)->outlier)
+		    nb_inliers++;
+		}
+	      if (nb_inliers > min_number_of_inliers)
+		break;
+	    }
+	}
     }
-  }
 
   delete[] o;
   delete[] idx;
@@ -1071,14 +1071,14 @@ ls_minimizer2::flt_t ls_minimizer2::minimize_using_julien_method_from(const flt_
   memcpy(state, initial_state, state_size * sizeof(flt_t));
 
   for(int i = 0; i < nb_steps; i++)
-  {
-    msg(2, endl);
-    msg(2, "-----------------------------------------------------------------" << endl);
-    msg(2, " STEP # " << i << " / " << nb_steps << endl);
-    msg(2, "-----------------------------------------------------------------" << endl);
-    set_current_c_s(1. - flt_t(i) / (nb_steps - 1));
-    minimize_using_cattail_from(state);
-  }
+    {
+      msg(2, endl);
+      msg(2, "-----------------------------------------------------------------" << endl);
+      msg(2, " STEP # " << i << " / " << nb_steps << endl);
+      msg(2, "-----------------------------------------------------------------" << endl);
+      set_current_c_s(1. - flt_t(i) / (nb_steps - 1));
+      minimize_using_cattail_from(state);
+    }
 
   ct_set_max_iterations(50);
   minimize_using_cattail_from(state);
@@ -1097,36 +1097,36 @@ void ls_minimizer2::check_jacobians_around(flt_t * state0, flt_t state_step)
   int obsnb=0;
 
   for (observation_vector::iterator it = observations.begin();
-    it != observations.end(); ++it)
-  {
-    cout << "OBS #" << obsnb++ << endl;
-
-    observation *o = *it;
-    int n = o->get_nb_measures();
-    flt_t * J = new flt_t[n * state_size];
-    set_new_state(state0);
-    o->eval_func(state, b0, J, user_data);
-
-    for(int j = 0; j < state_size; j++)
+       it != observations.end(); ++it)
     {
-      for(int k = 0; k < state_size; k++)
-        new_state[k] = state0[k];
-      new_state[j] += state_step;
+      cout << "OBS #" << obsnb++ << endl;
 
-      set_new_state(new_state);
+      observation *o = *it;
+      int n = o->get_nb_measures();
+      flt_t * J = new flt_t[n * state_size];
+      set_new_state(state0);
+      o->eval_func(state, b0, J, user_data);
 
-      o->eval_func(state, b, 0, user_data);
-      for (int i=0; i<n; i++) {
-        flt_t analytic = J[i*state_size + j];
-        flt_t numeric = (b[i] - b0[i])/state_step;
+      for(int j = 0; j < state_size; j++)
+	{
+	  for(int k = 0; k < state_size; k++)
+	    new_state[k] = state0[k];
+	  new_state[j] += state_step;
 
-        cout << " (df" << i << "/ds" << j << ") = " 
-          << analytic << " = " << numeric << endl;
-      }
+	  set_new_state(new_state);
+
+	  o->eval_func(state, b, 0, user_data);
+	  for (int i=0; i<n; i++) {
+	    flt_t analytic = J[i*state_size + j];
+	    flt_t numeric = (b[i] - b0[i])/state_step;
+
+	    cout << " (df" << i << "/ds" << j << ") = " 
+		 << analytic << " = " << numeric << endl;
+	  }
+	}
+
+      delete [] J;
     }
-
-    delete [] J;
-  }
 }
 
 void ls_minimizer2::add_observation_2data_1measure(func_nn_ptr f, const flt_t data[2], const flt_t goal)
