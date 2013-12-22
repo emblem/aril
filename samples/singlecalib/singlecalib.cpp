@@ -16,11 +16,30 @@
 #include <config.h>
 #endif
 
-char *modelFile="model.jpg";
+const char *modelFile="model.jpg";
 
 IplImage *acquire_model(CvCapture *capture);
 void show_result(planar_object_recognizer &recognizer, IplImage *video, IplImage **dst);
 bool add_detected_homography(planar_object_recognizer &detector, CamCalibration &calib);
+
+int boxCorners[4] = {-1, -1, -1, -1};
+
+void onMouseStatic(int event, int x, int y, int flags, void *param) {
+  bool *completed = (bool *)param;
+
+  if (event == CV_EVENT_LBUTTONDOWN) {
+    if(boxCorners[0] == -1) {
+      boxCorners[0] = x;
+      boxCorners[1] = y;
+      cout << "First Corner Set: " << x << ", " << y << endl;
+    } else if(boxCorners[2] == -1) {
+      boxCorners[2] = x;
+      boxCorners[3] = y;
+      cout << "Second Corner Set: " <<  x << ", " << y << endl;
+      *completed = true;
+    }
+  }
+}
 
 void usage(const char *s) {
 	cerr << "usage:\n" << s
@@ -75,22 +94,33 @@ int main( int argc, char** argv )
 				string(modelFile), // mode image file name
 				400,               // maximum number of keypoints on the model
 				32,                // patch size in pixels
-				7,                 // yape radius. Use 3,5 or 7.
-				32,                // number of trees for the classifier. Somewhere between 12-50
-				4                  // number of levels in the gaussian pyramid
+				5,                 // yape radius. Use 3,5 or 7.
+				16,                // number of trees for the classifier. Somewhere between 12-50
+				3                  // number of levels in the gaussian pyramid
 				))
 	{
 		// interactively acquire a model image
 		IplImage *shot = acquire_model(capture);
 		cvSaveImage(modelFile, shot);
-		detector.build(shot, 400, 32, 7, 32, 4);
+
+		int roi[8];
+		roi[0] = boxCorners[0];
+		roi[1] = boxCorners[1];
+		roi[2] = boxCorners[2];
+		roi[3] = boxCorners[1];
+		roi[4] = boxCorners[2];
+		roi[5] = boxCorners[3];
+		roi[6] = boxCorners[0];
+		roi[7] = boxCorners[3];
+
+		detector.build(shot, 400, 32, 3, 16, 3, 0, roi);
 		detector.save(string(modelFile)+".classifier");
 		cvReleaseImage(&shot);
 	}
 
 	// A lower threshold will allow detection in harder conditions, but
 	// might lead to false positives.
-	detector.match_score_threshold=.03f;
+	detector.match_score_threshold=.2f;
 
 	const char *win = "Bazar";
 
@@ -145,6 +175,8 @@ int main( int argc, char** argv )
 					break;
 				}
 			}
+		} else {
+		  cout << "No Homography" << endl;
 		}
 		show_result(detector, frame, &display);
 		cvShowImage(win, display);
@@ -162,23 +194,30 @@ int main( int argc, char** argv )
 
 void show_result(planar_object_recognizer &detector, IplImage *video, IplImage **dst)
 {
+  int patch_size = detector.forest->image_width;
 	if (*dst==0) *dst=cvCloneImage(video);
 	else cvCopy(video, *dst);
-
-	if (detector.object_is_detected) {
+	float min = 1, max = 0;
+	//	if (detector.object_is_detected) {
 		for (int i=0; i<detector.match_number; ++i) {
-
-			image_object_point_match * match = detector.matches+i;
-			if (match->inlier) {
-			cvCircle(*dst,
-				cvPoint((int) (PyrImage::convCoordf(match->image_point->u, 
-							int(match->image_point->scale), 0)),
-					(int)(PyrImage::convCoordf(match->image_point->v, 
-							int(match->image_point->scale), 0))),
-				3, CV_RGB(0,255,0), -1, 8,0);
+		  image_object_point_match * match = detector.matches+i;
+		  if (min > match->score) min = match->score;
+		  if (max < match->score) max = match->score;
+			//			if (match->inlier) {
+			if (match->score > detector.match_score_threshold) {
+			  cvCircle(*dst,
+				   cvPoint((int) (PyrImage::convCoordf(match->image_point->u, 
+								       int(match->image_point->scale), 0)),
+					   (int)(PyrImage::convCoordf(match->image_point->v, 
+								      int(match->image_point->scale), 0))),
+				   (int)PyrImage::convCoordf(patch_size/2.f, int(detector.matches[i].image_point->scale), 0),
+				   //CV_RGB(match->inlier?255:0,255,0),
+				   mcvRainbowColor(match->object_point->class_index),
+				   2, 8,0);
 			}
-	}
-	}
+		}
+		cout << "min: " << min << " max: " << max << endl;
+		//	}
 }
 
 static void putText(IplImage *im, const char *text, CvPoint p, CvFont *f1, CvFont *f2)
@@ -186,6 +225,8 @@ static void putText(IplImage *im, const char *text, CvPoint p, CvFont *f1, CvFon
 	cvPutText(im,text,p,f2, cvScalarAll(0));
 	cvPutText(im,text,p,f1, cvScalarAll(255));
 }
+
+
 
 IplImage *acquire_model(CvCapture *capture)
 {
@@ -204,8 +245,10 @@ IplImage *acquire_model(CvCapture *capture)
 	IplImage *shot=0, *text=0;
 
 	bool accepted =false;
-	while (!accepted) {
+	bool cropped =false;
 
+	cvSetMouseCallback(win, onMouseStatic, &cropped);
+	while (!cropped) {
 		if (!pause) {
 			frame = cvQueryFrame(capture);
 			if (!text) text=cvCloneImage(frame);
@@ -215,7 +258,7 @@ IplImage *acquire_model(CvCapture *capture)
 			cvShowImage(win, text);
 		}
 
-		char k = cvWaitKey(pause ? 0 : 10);
+		char k = cvWaitKey(10);
 		switch (k) {
 			case 'n': pause=false; break;
 			case ' ': 
@@ -229,12 +272,21 @@ IplImage *acquire_model(CvCapture *capture)
 				  }
 				  break;
 			case 'y':
-			case '\n': if (pause && shot) accepted=true; break;
+			case '\n':
+			  if (pause && shot) {
+			    accepted=true;
+			    cvCopy(shot,text);
+			    putText(text,"Click upper left and lower right corners", cvPoint(3,20), &font, &fontbold);
+			    cvShowImage(win, text);
+			  }
+			  break;
 			case 'q': exit(0); break;
 			case -1: break;
 			default: cerr << k << ": what?\n";
 		}
 	}
+	cout << "Completed Image Acquisition" << endl;
+	cvSetMouseCallback(win, NULL, NULL);
 
 	cvReleaseImage(&text);
 	return shot;

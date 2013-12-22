@@ -174,9 +174,8 @@ public:
   flag and set the corresponding parameters. The directories have to exist before, for image
   creation, too.
   */
-  void PrintOptimizedResultsToFile2(  char* file_descriptor, bool create_png = false, char* sequence_descriptor = "", 
-    char* png_descriptor = "", int c_start = 0, int h_start = 0 );
-
+  void PrintOptimizedResultsToFile2(  char* file_descriptor, bool create_png = false, const char* sequence_descriptor = "",
+    const char* png_descriptor = "", int c_start = 0, int h_start = 0 );
   /////////////////////////////////////////////////////////////////////////////////////
   // Functions below this line are used by CamCalibration and CamAugmentation only ! //
   /////////////////////////////////////////////////////////////////////////////////////

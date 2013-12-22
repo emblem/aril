@@ -283,6 +283,7 @@ public:
   //@}
 
   void check_target_size(IplImage *image);
+  void save_image_of_points(int patch_size, IplImage* model_image, keypoint *model_points, int num_pts, char* filename, int img_num);
 };
 
 //@}

@@ -66,12 +66,12 @@ int main( int argc, char** argv )
 
 	// Train or load classifier
 	if(!detector.build_with_cache(
-				string(modelFile), // mode image file name
+				string(modelFile), // model image file name
 				400,               // maximum number of keypoints on the model
 				32,                // patch size in pixels
-				7,                 // yape radius. Use 3,5 or 7.
-				32,                // number of trees for the classifier. Somewhere between 12-50
-				4                  // number of levels in the gaussian pyramid
+				5,                 // yape radius. Use 3,5 or 7.
+				16,                // number of trees for the classifier. Somewhere between 12-50
+				3                  // number of levels in the gaussian pyramid
 				))
 	{
 		cerr << "Unable to load the model image "
@@ -131,18 +131,6 @@ int main( int argc, char** argv )
 
 		}
 		show_result(augment, &display);
-		/*
-		int patch_size = detector.forest->image_width;
-
-		for(int i = 0; i < detector.detected_point_number; i++) {
-		  cvCircle(display, 
-			   cvPoint((int)PyrImage::convCoordf(detector.detected_points[i].u, int(detector.detected_points[i].scale), 0), 
-				   (int)PyrImage::convCoordf(detector.detected_points[i].v, int(detector.detected_points[i].scale), 0)),
-			   (int)PyrImage::convCoordf(patch_size/2.f, int(detector.detected_points[i].scale), 0), 
-			   mcvRainbowColor(int(detector.detected_points[i].scale)), 1);
-			   }*/
-
-
 		
 		int patch_size = detector.forest->image_width;
 		float min = 10000;

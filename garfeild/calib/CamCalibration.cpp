@@ -2392,8 +2392,8 @@ void CamCalibration::PrintOptimizedResultsToFile1()
   }
 }
 
-void CamCalibration::PrintOptimizedResultsToFile2( char* file_descriptor, bool create_png, char* sequence_descriptor, 
-                                                   char* png_descriptor, int c_start, int h_start )
+void CamCalibration::PrintOptimizedResultsToFile2( char* file_descriptor, bool create_png, const char* sequence_descriptor,
+                                                   const char* png_descriptor, int c_start, int h_start )
 {
   FILE *stream;
   char file_name[200];

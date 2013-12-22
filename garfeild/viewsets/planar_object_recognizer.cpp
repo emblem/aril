@@ -32,6 +32,8 @@ using namespace std;
 #include <keypoints/yape.h>
 #include "planar_object_recognizer.h"
 
+
+
 planar_object_recognizer::planar_object_recognizer()
 {
   forest = 0;
@@ -957,6 +959,9 @@ void planar_object_recognizer::detect_most_stable_model_points(int max_point_num
     int current_detected_point_number = point_detector->detect(&(new_images_generator.smoothed_generated_object_view->image), 
                                                                  model_points_2d, K * max_point_number_on_model);
 
+    /*    save_image_of_points(patch_size, new_images_generator.smoothed_generated_object_view->image.images[0],
+	  model_points_2d, current_detected_point_number, "detected_pts_%04d.bmp", j);*/
+
     for(int i = 0; i < current_detected_point_number; i++)
     {
       keypoint * k = model_points_2d + i;
@@ -972,6 +977,10 @@ void planar_object_recognizer::detect_most_stable_model_points(int max_point_num
       kd.u = nu;
       kd.v = nv;
       kd.scale = k->scale;
+
+      k->u = nu;
+      k->v = nv;
+
       if (new_images_generator.inside_roi( // Keep point only if it is on the target roi
                                           int(PyrImage::convCoordf(k->u, int(k->scale), 0)),
                                           int(PyrImage::convCoordf(k->v, int(k->scale), 0))))
@@ -1018,8 +1027,7 @@ void planar_object_recognizer::detect_most_stable_model_points(int max_point_num
     model_points[i].scale = it->first.scale;
     model_points[i].class_index = i;
 
-    if (i == 0)
-      cout << "Point " << i << " detected " << it->second << " times." << endl;
+    cout << "Point " << i << " detected " << it->second << " times." << endl;
   }
   cout << "... Point " << i << " detected " << it->second << " times (" 
        << view_nb << " generated views, "
@@ -1036,15 +1044,13 @@ void planar_object_recognizer::detect_most_stable_model_points(int max_point_num
 
 // VISUALIZATION: The following functions are useful for visualization only !!!
 
-void planar_object_recognizer::save_image_of_model_points(int patch_size, char * filename)
-{
+void planar_object_recognizer::save_image_of_model_points(int patch_size, char* filename) {
   IplImage* model_image = mcvGrayToColor(new_images_generator.original_image);
-
   for(int i = 0; i < model_point_number; i++)
     cvCircle(model_image, 
              cvPoint((int)PyrImage::convCoordf(float(model_points[i].M[0]), int(model_points[i].scale), 0), 
-                                               (int)PyrImage::convCoordf(float(model_points[i].M[1]), int(model_points[i].scale), 0)),
-                                               (int)PyrImage::convCoordf(patch_size/2.f, int(model_points[i].scale), 0), 
+		     (int)PyrImage::convCoordf(float(model_points[i].M[1]), int(model_points[i].scale), 0)),
+	     (int)PyrImage::convCoordf(patch_size/2.f, int(model_points[i].scale), 0),
              mcvRainbowColor(int(model_points[i].scale)), 1);
 
   if (filename == 0)
@@ -1052,6 +1058,20 @@ void planar_object_recognizer::save_image_of_model_points(int patch_size, char *
   else
     mcvSaveImage(filename, model_image);
 
+  cvReleaseImage(&model_image);
+}
+
+void planar_object_recognizer::save_image_of_points(int patch_size, IplImage* in_model_image, keypoint *model_points, int num_pts, char* filename, int img_num)
+{
+  IplImage* model_image = mcvGrayToColor(in_model_image);
+
+  for(int i = 0; i < num_pts; i++)
+    cvCircle(model_image,
+             cvPoint((int)PyrImage::convCoordf(float(model_points[i].u), int(model_points[i].scale), 0),
+		     (int)PyrImage::convCoordf(float(model_points[i].v), int(model_points[i].scale), 0)),
+	     (int)PyrImage::convCoordf(patch_size/2.f, int(model_points[i].scale), 0),
+             mcvRainbowColor(int(model_points[i].scale)), 1);
+  mcvSaveImage(filename, img_num, model_image);
   cvReleaseImage(&model_image);
 }
 

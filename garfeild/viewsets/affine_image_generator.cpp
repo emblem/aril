@@ -365,15 +365,8 @@ void affine_image_generator::generate_random_affine_transformation(void)
   affine_transformation(a, image_width, image_height, float(u_corner4), float(v_corner4), nu3, nv3);
 
   // Moves two of the four corners on the borders of the image to maximize the visible part of the generated view:
-  if (rand() % 2 == 0)
-    Tx = - int(min4(nu0, nu1, nu2, nu3)) + patch_size;
-  else
-    Tx = image_width - int(max4(nu0, nu1, nu2, nu3)) - patch_size;
-
-  if (rand() % 2 == 0)
-    Ty = -int(min4(nv0, nv1, nv2, nv3)) + patch_size;
-  else
-    Ty = image_height - int(max4(nv0, nv1, nv2, nv3)) - patch_size;
+  Tx = image_width/2 - int(nu0 + nu1 + nu2 + nu3)/4;
+  Ty = image_height/2 - int(nv0 + nv1 + nv2 + nv3)/4;
 
   mcvComputeAffineTransfo(a, 
                           image_width / 2, image_height / 2,
@@ -527,13 +520,12 @@ void affine_image_generator::generate_affine_image(void)
 
     if (noise_level > 0)
       add_white_noise(affine_image);
+  }
 
-    if (0)
-    {
-      static int n = 0;
-      mcvSaveImage("affine%04d.bmp", n, affine_image);
-      n++;
-    }
+  if (0) {
+    static int n = 0;
+    mcvSaveImage("affine%04d.bmp", n, affine_image);
+    n++;
   }
 }
 
