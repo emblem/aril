@@ -35,6 +35,7 @@ stamp-h1
 starter/starter.pc
 samples/*/normals.mat
 samples/*/*.bmp*
+samples/*/*.jpg*
 samples/*/camera*.txt
 samples/*/lightParams.mat
 samples/*/view_r_t.txt
