@@ -1,22 +1,22 @@
 /*
-Copyright 2005, 2006 Computer Vision Lab, 
-Ecole Polytechnique Federale de Lausanne (EPFL), Switzerland. 
-All rights reserved.
+  Copyright 2005, 2006 Computer Vision Lab, 
+  Ecole Polytechnique Federale de Lausanne (EPFL), Switzerland. 
+  All rights reserved.
 
-This file is part of BazAR.
+  This file is part of BazAR.
 
-BazAR is free software; you can redistribute it and/or modify it under the
-terms of the GNU General Public License as published by the Free Software
-Foundation; either version 2 of the License, or (at your option) any later
-version.
+  BazAR is free software; you can redistribute it and/or modify it under the
+  terms of the GNU General Public License as published by the Free Software
+  Foundation; either version 2 of the License, or (at your option) any later
+  version.
 
-BazAR is distributed in the hope that it will be useful, but WITHOUT ANY
-WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A
-PARTICULAR PURPOSE. See the GNU General Public License for more details.
+  BazAR is distributed in the hope that it will be useful, but WITHOUT ANY
+  WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A
+  PARTICULAR PURPOSE. See the GNU General Public License for more details.
 
-You should have received a copy of the GNU General Public License along with
-BazAR; if not, write to the Free Software Foundation, Inc., 51 Franklin
-Street, Fifth Floor, Boston, MA 02110-1301, USA 
+  You should have received a copy of the GNU General Public License along with
+  BazAR; if not, write to the Free Software Foundation, Inc., 51 Franklin
+  Street, Fifth Floor, Boston, MA 02110-1301, USA 
 */
 #ifndef YAPE_H
 #define YAPE_H
@@ -30,64 +30,64 @@ Street, Fifth Floor, Boston, MA 02110-1301, USA
 const int yape_max_radius = 20;
 
 /*!
-\ingroup keypoints 
-\brief \em YAPE feature point detector.
+  \ingroup keypoints 
+  \brief \em YAPE feature point detector.
 
-Stands for Yet Another Point Extractor.
+  Stands for Yet Another Point Extractor.
 
-Usage:
+  Usage:
 
-You need OpenCV to use this code.
-Two different uses of the Yape class are possible:
+  You need OpenCV to use this code.
+  Two different uses of the Yape class are possible:
 
-1) The simplest way is to call the static function static_detect:
-\code
-int N = yape::static_detect(image, points, maxNumberOfPoints[, radius]);
-\endcode
+  1) The simplest way is to call the static function static_detect:
+  \code
+  int N = yape::static_detect(image, points, maxNumberOfPoints[, radius]);
+  \endcode
 
-where:
-- \c image is a pointer on a \c IplImage structure from OpenCv. The type of the image should
-be \c IPL_DEPTH_8U, with one channel;
-The lowest its value is, the finest are the detected points;
-- \c points is a array of \ref keypoint s. It should be large enough to store all the detected points;
-- \c maxNumberOfPoints is the desired maximum number of detected points.
-- \c radius is a parameter for the point detection. Its value should be between 3 and 7, its default value is 7.
+  where:
+  - \c image is a pointer on a \c IplImage structure from OpenCv. The type of the image should
+  be \c IPL_DEPTH_8U, with one channel;
+  The lowest its value is, the finest are the detected points;
+  - \c points is a array of \ref keypoint s. It should be large enough to store all the detected points;
+  - \c maxNumberOfPoints is the desired maximum number of detected points.
+  - \c radius is a parameter for the point detection. Its value should be between 3 and 7, its default value is 7.
 
-The function returns the actual number of detected points.
+  The function returns the actual number of detected points.
 
-2) Detection in a large number of images of same size:
+  2) Detection in a large number of images of same size:
 
-If the detection should be performed on a large number of images of same size,
-you should first create  an instance of the detector. The yape constructor performs
-some pre-computation and pre- memory allocation to save some computation time during
-the actual detection.
-\code
-// Create an instance of Yape for detection in 640x480 images:
-yape * pe = new yape(640, 480);
+  If the detection should be performed on a large number of images of same size,
+  you should first create  an instance of the detector. The yape constructor performs
+  some pre-computation and pre- memory allocation to save some computation time during
+  the actual detection.
+  \code
+  // Create an instance of Yape for detection in 640x480 images:
+  yape * pe = new yape(640, 480);
 
-// The default value for the radius is 7. Use set_radius() to change it:
-pe->set_radius(3);
+  // The default value for the radius is 7. Use set_radius() to change it:
+  pe->set_radius(3);
 
-// Call the function detect() exactly like the static_detect() function:
-N[0] = pe->detect(images[0], points[0], 100);
-N[1] = pe->detect(images[1], points[1], 100);
-N[2] = pe->detect(images[2], points[2], 100);
-N[3] = pe->detect(images[3], points[3], 100);
-...
+  // Call the function detect() exactly like the static_detect() function:
+  N[0] = pe->detect(images[0], points[0], 100);
+  N[1] = pe->detect(images[1], points[1], 100);
+  N[2] = pe->detect(images[2], points[2], 100);
+  N[3] = pe->detect(images[3], points[3], 100);
+  ...
 
-// Call the destructor:
-delete pe;
-\endcode
+  // Call the destructor:
+  delete pe;
+  \endcode
 
-The \c saveImageOfDetectedPoints function is useful to save an image of the detected points:
-\code
-static void saveImageOfDetectedPoints(char * name, IplImage * image, CvPoint * points, int points_nb);
-\endcode
+  The \c saveImageOfDetectedPoints function is useful to save an image of the detected points:
+  \code
+  static void saveImageOfDetectedPoints(char * name, IplImage * image, CvPoint * points, int points_nb);
+  \endcode
 */
 
 class yape
 {
-public:
+ public:
   //! Constructor for detection in \c width x \c height images.
   yape(int width, int height);
   virtual ~yape();
@@ -132,14 +132,14 @@ public:
 
   void subpix_refine(IplImage *im, keypoint *p);
 
-protected:
+ protected:
   void reserve_tmp_arrays(void);
 
   int get_local_maxima(IplImage * image, int R, float scale /*, keypoint * points, int max_point_number */);
 
   void perform_one_point(const unsigned char * I, const int x, short * Scores,
-    const int Im, const int Ip, 
-    const short * dirs, const unsigned char opposite, const unsigned char dirs_nb);
+			 const int Im, const int Ip, 
+			 const short * dirs, const unsigned char opposite, const unsigned char dirs_nb);
 
   bool double_check(IplImage * image, int x, int y, short * dirs, unsigned char dirs_nb);
   bool third_check(const short * Sb, const int next_line);
@@ -198,7 +198,7 @@ protected:
  * \ingroup keypoints
  */
 class pyr_yape : public yape {
-public:
+ public:
   pyr_yape(int w, int h, int nbLev);
   virtual ~pyr_yape();
 
@@ -220,7 +220,7 @@ public:
   //! compute and print on stdout a keypoint scale histogram.
   void stat_points(keypoint *points, int nb_pts);
   
-//protected:
+  //protected:
   PyrImage *internal_pim; //< pyramid image, recylcled for each frame
   PyrImage *pscores;
   dir_table *pDirs[12];

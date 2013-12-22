@@ -6,28 +6,28 @@
 #include <garfeild.h>
 
 class CalibModel {
-public:
-	IplImage *image;
-	CvPoint corners[4];
+ public:
+  IplImage *image;
+  CvPoint corners[4];
 
-	LightMap map;
-	CamAugmentation augm;
+  LightMap map;
+  CamAugmentation augm;
 
-	CalibModel(const char *modelfile = "model.bmp");
-	~CalibModel();
+  CalibModel(const char *modelfile = "model.bmp");
+  ~CalibModel();
 
-	bool buildCached(int nbcam, CvCapture *capture, bool cache, planar_object_recognizer &detector);
+  bool buildCached(int nbcam, CvCapture *capture, bool cache, planar_object_recognizer &detector);
 
-private:
-	const char *win;
-	const char *modelfile;
+ private:
+  const char *win;
+  const char *modelfile;
 
-	enum State { TAKE_SHOT, CORNERS };
-	State state;
-	int grab;
-	static void onMouseStatic(int event, int x, int y, int flags, void* param);
-	void onMouse(int event, int x, int y, int flags);
-	bool interactiveSetup(CvCapture *capture);
+  enum State { TAKE_SHOT, CORNERS };
+  State state;
+  int grab;
+  static void onMouseStatic(int event, int x, int y, int flags, void* param);
+  void onMouse(int event, int x, int y, int flags);
+  bool interactiveSetup(CvCapture *capture);
 };
 
 

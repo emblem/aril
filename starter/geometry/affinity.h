@@ -1,22 +1,22 @@
 /*
-Copyright 2005, 2006 Computer Vision Lab, 
-Ecole Polytechnique Federale de Lausanne (EPFL), Switzerland. 
-All rights reserved.
+  Copyright 2005, 2006 Computer Vision Lab, 
+  Ecole Polytechnique Federale de Lausanne (EPFL), Switzerland. 
+  All rights reserved.
 
-This file is part of BazAR.
+  This file is part of BazAR.
 
-BazAR is free software; you can redistribute it and/or modify it under the
-terms of the GNU General Public License as published by the Free Software
-Foundation; either version 2 of the License, or (at your option) any later
-version.
+  BazAR is free software; you can redistribute it and/or modify it under the
+  terms of the GNU General Public License as published by the Free Software
+  Foundation; either version 2 of the License, or (at your option) any later
+  version.
 
-BazAR is distributed in the hope that it will be useful, but WITHOUT ANY
-WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A
-PARTICULAR PURPOSE. See the GNU General Public License for more details.
+  BazAR is distributed in the hope that it will be useful, but WITHOUT ANY
+  WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A
+  PARTICULAR PURPOSE. See the GNU General Public License for more details.
 
-You should have received a copy of the GNU General Public License along with
-BazAR; if not, write to the Free Software Foundation, Inc., 51 Franklin
-Street, Fifth Floor, Boston, MA 02110-1301, USA 
+  You should have received a copy of the GNU General Public License along with
+  BazAR; if not, write to the Free Software Foundation, Inc., 51 Franklin
+  Street, Fifth Floor, Boston, MA 02110-1301, USA 
 */
 #ifndef AFFINITY_H
 #define AFFINITY_H
@@ -32,7 +32,7 @@ using namespace std;
 */
 class affinity : public CvMat
 {
-public:
+ public:
   affinity(void);
   affinity(float u1, float v1, float up1, float vp1,
            float u2, float v2, float up2, float vp2,
@@ -61,7 +61,7 @@ public:
   friend void mcvGetQuadrangleSubPix(IplImage * src, IplImage * dest, affinity * A, 
                                      int fill_outliers = 0, CvScalar fill_value = cvScalarAll(0));
 
-private:
+ private:
   void initialize(void);
   CvMat * AA, * B, * X;
 };

@@ -5,16 +5,16 @@
 #include <optimization/ls_minimizer2.h>
 
 /**
-\brief Calculates gradient.
+   \brief Calculates gradient.
 
-Calculates gradient of point \b p using a calibration matrix \n
-with specified intrinsic parameters \b fx , \b fy , \b cx , \b cy , \n
-rotation matrix \b R and translation vector \b Rx , \b Ry , \b Rz , \n
-rotation matrix \b S and translation vector \b Sx , \b Sy , \b Sz. \n
-The jacobian matrices have to be specified: \b R_jacobian , \b S_Jacobian. \n
-The result for all parameters is given in \b cgret[24] , the first 12
-parameters for the u-coordinate, the following 12 for the v-coordinate,
-each of the specifying the two multiplied Rt-matrices.
+   Calculates gradient of point \b p using a calibration matrix \n
+   with specified intrinsic parameters \b fx , \b fy , \b cx , \b cy , \n
+   rotation matrix \b R and translation vector \b Rx , \b Ry , \b Rz , \n
+   rotation matrix \b S and translation vector \b Sx , \b Sy , \b Sz. \n
+   The jacobian matrices have to be specified: \b R_jacobian , \b S_Jacobian. \n
+   The result for all parameters is given in \b cgret[24] , the first 12
+   parameters for the u-coordinate, the following 12 for the v-coordinate,
+   each of the specifying the two multiplied Rt-matrices.
 */
 extern void twomat_gradian (
                             double fx,
@@ -36,44 +36,44 @@ extern void twomat_gradian (
                             double uv[2] );
 
 /**
-\brief Special function to print the connection matrix.
+   \brief Special function to print the connection matrix.
 
-Prints the connection matrix. Therefore it uses only rows that exist
-(at least 1 existing connection to a camera) and displays the number
-of the view.
+   Prints the connection matrix. Therefore it uses only rows that exist
+   (at least 1 existing connection to a camera) and displays the number
+   of the view.
 */
 extern void showmatrix_ch(CvMat &M);
 
 /**
-\brief Utility function to print a matrix to the screen.
+   \brief Utility function to print a matrix to the screen.
 
-Prints a matrix to the screen. If it is a 3x3 matrix, the
-determinant is shown, too.
+   Prints a matrix to the screen. If it is a 3x3 matrix, the
+   determinant is shown, too.
 */
 extern void showmatrix(CvMat &M);
 
 /**
-\brief Utility function to print a matrix to the screen.
+   \brief Utility function to print a matrix to the screen.
 
-Prints a matrix to the screen. If it is a 3x3 matrix, the
-determinant is shown, too. \b header specifies a title
-string.
+   Prints a matrix to the screen. If it is a 3x3 matrix, the
+   determinant is shown, too. \b header specifies a title
+   string.
 */
 extern void showmatrix(CvMat &M,const char *header);
 
 /**
-\brief Utility function to print a matrix to the screen.
+   \brief Utility function to print a matrix to the screen.
 
-Prints a matrix to the screen. If it is a 3x3 matrix, the
-determinant is shown, too. \b header specifies a title
-string.
+   Prints a matrix to the screen. If it is a 3x3 matrix, the
+   determinant is shown, too. \b header specifies a title
+   string.
 */
 extern void showmatrix(const char *header,CvMat &M);
 
 /**
-\brief Utility function to print a matrix to a file.
+   \brief Utility function to print a matrix to a file.
 
-Prints the matrix \b M to file \b stream.
+   Prints the matrix \b M to file \b stream.
 */
 extern void showmatrix_file(CvMat &M,FILE *stream);
 
@@ -119,11 +119,11 @@ bool CamAugmentation::LoadOptimalStructureFromFile( char* cam_c_file, char *cam_
           fscanf( stream, "%f", &h );
           cvmSet(m,i,j,h);
         }
-        fscanf( stream, "\n" );
-        s_optimal.v_camera_width.push_back( width );
-        s_optimal.v_camera_height.push_back( height );
-        s_optimal.v_camera_c.push_back( m );
-        printf( "Calibration matrix %i loaded!\n", num );
+      fscanf( stream, "\n" );
+      s_optimal.v_camera_width.push_back( width );
+      s_optimal.v_camera_height.push_back( height );
+      s_optimal.v_camera_c.push_back( m );
+      printf( "Calibration matrix %i loaded!\n", num );
     }
     fclose( stream );
   } else {
@@ -142,17 +142,17 @@ bool CamAugmentation::LoadOptimalStructureFromFile( char* cam_c_file, char *cam_
           fscanf( stream, "%f", &h );
           cvmSet(m,i,j,h);
         }
-        fscanf( stream, "\n" );
-        s_optimal.v_camera_r_t.push_back( m );
+      fscanf( stream, "\n" );
+      s_optimal.v_camera_r_t.push_back( m );
 
-        // Create jacobian:
-        CvMat* R = cvCreateMat( 3, 3, CV_64FC1 );
-        CvMat* r = cvCreateMat( 3, 1, CV_64FC1 );
-        CvMat* j = cvCreateMat( 3, 9, CV_64FC1 );
-        CamCalibration::ExtractRotationTranslationFrom3x4Matrix( m, R, NULL );
-        cvRodrigues2( R, r, j );
-        s_optimal.v_camera_r_t_jacobian.push_back( j );
-        printf( "Rotation-Translation matrix %i loaded and jacobian created!\n", num );
+      // Create jacobian:
+      CvMat* R = cvCreateMat( 3, 3, CV_64FC1 );
+      CvMat* r = cvCreateMat( 3, 1, CV_64FC1 );
+      CvMat* j = cvCreateMat( 3, 9, CV_64FC1 );
+      CamCalibration::ExtractRotationTranslationFrom3x4Matrix( m, R, NULL );
+      cvRodrigues2( R, r, j );
+      s_optimal.v_camera_r_t_jacobian.push_back( j );
+      printf( "Rotation-Translation matrix %i loaded and jacobian created!\n", num );
     }
     fclose( stream );
   } else {
@@ -382,7 +382,7 @@ struct PoseObs : ls_minimizer2::observation
 
 //void CamAugmentation::projFunc( double *x, double *params, int na, double *f, double *grad, int *ind, LsqData *Data ){
 void PoseObs::eval_func(const double *params, double *f, double *J, void **user_data) const {
-                        CamAugmentation *cam = (CamAugmentation*) *user_data;
+  CamAugmentation *cam = (CamAugmentation*) *user_data;
 
   // Unpack arguments:
   int c     = this->cam;
@@ -428,21 +428,21 @@ void PoseObs::eval_func(const double *params, double *f, double *J, void **user_
     double uv[2];
 
     twomat_gradian (	cvmGet( cam->s_optimal.v_camera_c[c], 0, 0 ),
-      cvmGet( cam->s_optimal.v_camera_c[c], 1, 1 ),
-      cvmGet( cam->s_optimal.v_camera_c[c], 0, 2 ),
-      cvmGet( cam->s_optimal.v_camera_c[c], 1, 2 ),
-      R1,
-      -cvmGet( &m_T1, 0, 0 ),
-      -cvmGet( &m_T1, 1, 0 ),
-      -cvmGet( &m_T1, 2, 0 ),
-      cam->s_optimal.v_camera_r_t_jacobian[c],
-      R2,
-      -cvmGet( &m_T2, 0, 0 ),
-      -cvmGet( &m_T2, 1, 0 ),
-      -cvmGet( &m_T2, 2, 0 ),
-      cam->v_homography_r_t_jacobian,
-      a_p,
-      cgret, uv );
+			cvmGet( cam->s_optimal.v_camera_c[c], 1, 1 ),
+			cvmGet( cam->s_optimal.v_camera_c[c], 0, 2 ),
+			cvmGet( cam->s_optimal.v_camera_c[c], 1, 2 ),
+			R1,
+			-cvmGet( &m_T1, 0, 0 ),
+			-cvmGet( &m_T1, 1, 0 ),
+			-cvmGet( &m_T1, 2, 0 ),
+			cam->s_optimal.v_camera_r_t_jacobian[c],
+			R2,
+			-cvmGet( &m_T2, 0, 0 ),
+			-cvmGet( &m_T2, 1, 0 ),
+			-cvmGet( &m_T2, 2, 0 ),
+			cam->v_homography_r_t_jacobian,
+			a_p,
+			cgret, uv );
 
     gc=0;
     for( int i = 0; i < 3; i++ )
@@ -487,12 +487,12 @@ bool CamAugmentation::OptimizeCurrentView( int iter, double eps ){
       }
     }
 
-    minimizer.minimize_using_levenberg_marquardt_from(&v_opt_param[0]);
+  minimizer.minimize_using_levenberg_marquardt_from(&v_opt_param[0]);
 
-    void *ptr = this;
-    updateCB(minimizer.state, &ptr);
+  void *ptr = this;
+  updateCB(minimizer.state, &ptr);
 
-    return true;
+  return true;
 }
 
 bool CamAugmentation::Accomodate( int iter, double eps ){

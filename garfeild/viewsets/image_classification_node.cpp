@@ -1,22 +1,22 @@
 /*
-Copyright 2005, 2006 Computer Vision Lab, 
-Ecole Polytechnique Federale de Lausanne (EPFL), Switzerland. 
-All rights reserved.
+  Copyright 2005, 2006 Computer Vision Lab, 
+  Ecole Polytechnique Federale de Lausanne (EPFL), Switzerland. 
+  All rights reserved.
 
-This file is part of BazAR.
+  This file is part of BazAR.
 
-BazAR is free software; you can redistribute it and/or modify it under the
-terms of the GNU General Public License as published by the Free Software
-Foundation; either version 2 of the License, or (at your option) any later
-version.
+  BazAR is free software; you can redistribute it and/or modify it under the
+  terms of the GNU General Public License as published by the Free Software
+  Foundation; either version 2 of the License, or (at your option) any later
+  version.
 
-BazAR is distributed in the hope that it will be useful, but WITHOUT ANY
-WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A
-PARTICULAR PURPOSE. See the GNU General Public License for more details.
+  BazAR is distributed in the hope that it will be useful, but WITHOUT ANY
+  WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A
+  PARTICULAR PURPOSE. See the GNU General Public License for more details.
 
-You should have received a copy of the GNU General Public License along with
-BazAR; if not, write to the Free Software Foundation, Inc., 51 Franklin
-Street, Fifth Floor, Boston, MA 02110-1301, USA 
+  You should have received a copy of the GNU General Public License along with
+  BazAR; if not, write to the Free Software Foundation, Inc., 51 Franklin
+  Street, Fifth Floor, Boston, MA 02110-1301, USA 
 */
 #include <assert.h>
 
@@ -73,16 +73,16 @@ bool image_classification_node::should_stop_recursion(void)
   int represented_class_number = 0;
   int first_represented_class_index = 0;
   for(vector<image_class_example *>::iterator it = examples->begin(); it < examples->end(); it++)
-  {
-    if (represented_class_number == 0)
     {
-      first_represented_class_index = (*it)->class_index;
-      represented_class_number = 1;
+      if (represented_class_number == 0)
+	{
+	  first_represented_class_index = (*it)->class_index;
+	  represented_class_number = 1;
+	}
+      else
+	if ((*it)->class_index != first_represented_class_index)
+	  return false;
     }
-    else
-      if ((*it)->class_index != first_represented_class_index)
-        return false;
-  }
 
   return true;
 }
@@ -95,24 +95,24 @@ void image_classification_node::premature_end_recursion(void)
     P[i] = 0.;
 
   if (nb_examples() > 0)
-  {
-    for(vector<image_class_example *>::iterator it = examples->begin(); it < examples->end(); it++)
-      P[(*it)->class_index]++;
+    {
+      for(vector<image_class_example *>::iterator it = examples->begin(); it < examples->end(); it++)
+	P[(*it)->class_index]++;
 
-    for(int i = 0; i < class_number; i++)
-      P[i] /= examples->size();
-  }
+      for(int i = 0; i < class_number; i++)
+	P[i] /= examples->size();
+    }
 
   best_class = 0;
   float best_p = P[best_class];
   for(int i = 0; i < class_number; i++)
-  {
-    if (P[i] > best_p)
     {
-      best_p = P[i];
-      best_class = i;
+      if (P[i] > best_p)
+	{
+	  best_p = P[i];
+	  best_class = i;
+	}
     }
-  }
 }
 
 void image_classification_node::expand(void)
@@ -123,16 +123,16 @@ void image_classification_node::expand(void)
     children[i] = new image_classification_node(depth + 1, class_number, this);
 
   if (examples != 0)
-  {
-    for(vector<image_class_example *>::iterator it = examples->begin(); it < examples->end(); it++)
-      for(int i = 0; i < children_number; i++)
-        if (fall_in_child(*it, i))
-          children[i]->add_example(*it);
+    {
+      for(vector<image_class_example *>::iterator it = examples->begin(); it < examples->end(); it++)
+	for(int i = 0; i < children_number; i++)
+	  if (fall_in_child(*it, i))
+	    children[i]->add_example(*it);
 
-    delete examples;
+      delete examples;
 
-    examples = 0;
-  }
+      examples = 0;
+    }
 }
 
 bool image_classification_node::fall_in_child(image_class_example * pv, int child_index)
@@ -162,12 +162,12 @@ int image_classification_node::child_index(image_class_example * pv) const
 void image_classification_node::end_recursion(void)
 {
   for(int i = 0; i < children_number; i++)
-  {
-    children[i] = new image_classification_node(depth + 1, class_number, this);
-    children[i]->P = new float[class_number];
-    for(int j = 0; j < class_number; j++)
-      children[i]->P[j] = 0.;
-  }
+    {
+      children[i] = new image_classification_node(depth + 1, class_number, this);
+      children[i]->P = new float[class_number];
+      for(int j = 0; j < class_number; j++)
+	children[i]->P[j] = 0.;
+    }
 }
 
 void image_classification_node::change_class_number_and_reset_probabilities(int new_class_number)
@@ -175,14 +175,14 @@ void image_classification_node::change_class_number_and_reset_probabilities(int 
   class_number = new_class_number;
 
   if (is_leaf())
-  {
-    delete [] P;
+    {
+      delete [] P;
 
-    P = new float[class_number];
+      P = new float[class_number];
 
-    for(int i = 0; i < class_number; i++)
-      P[i] = 0.;
-  }
+      for(int i = 0; i < class_number; i++)
+	P[i] = 0.;
+    }
   else
     for(int i = 0; i < children_number; i++)
       children[i]->change_class_number_and_reset_probabilities(new_class_number);
@@ -191,37 +191,37 @@ void image_classification_node::change_class_number_and_reset_probabilities(int 
 void image_classification_node::reestimate_probabilities_recursive(float * weights)
 {
   if (is_leaf())
-  {
-    if (weights == 0)
     {
-      probability_sum = 0;
+      if (weights == 0)
+	{
+	  probability_sum = 0;
 
-      for(int i = 0; i < class_number; i++)
-        probability_sum += P[i];
+	  for(int i = 0; i < class_number; i++)
+	    probability_sum += P[i];
 
+	  for(int i = 0; i < class_number; i++)
+	    P[i] = (probability_sum > 0) ? P[i] / probability_sum : 0.f;
+	}
+      else
+	{
+	  probability_sum = 0;
+
+	  for(int i = 0; i < class_number; i++)
+	    probability_sum += weights[i] * P[i];
+
+	  for(int i = 0; i < class_number; i++)
+	    P[i] = (probability_sum > 0) ? weights[i] * P[i] / probability_sum : 0.f;
+	}
+
+      best_class = 0;
+      float best_p = P[best_class];
       for(int i = 0; i < class_number; i++)
-        P[i] = (probability_sum > 0) ? P[i] / probability_sum : 0.f;
+	if (P[i] > best_p)
+	  {
+	    best_p = P[i];
+	    best_class = i;
+	  }
     }
-    else
-    {
-      probability_sum = 0;
-
-      for(int i = 0; i < class_number; i++)
-        probability_sum += weights[i] * P[i];
-
-      for(int i = 0; i < class_number; i++)
-        P[i] = (probability_sum > 0) ? weights[i] * P[i] / probability_sum : 0.f;
-    }
-
-    best_class = 0;
-    float best_p = P[best_class];
-    for(int i = 0; i < class_number; i++)
-      if (P[i] > best_p)
-      {
-        best_p = P[i];
-        best_class = i;
-      }
-  }
   else
     for(int i = 0; i < children_number; i++)
       children[i]->reestimate_probabilities_recursive(weights);
@@ -230,18 +230,18 @@ void image_classification_node::reestimate_probabilities_recursive(float * weigh
 void image_classification_node::restore_occurances_recursive(float * weights)
 {
   if (is_leaf())
-  {    
-    if (weights == 0)
-    {
-      for(int i = 0; i < class_number; i++)
-        P[i] = P[i] * probability_sum;
+    {    
+      if (weights == 0)
+	{
+	  for(int i = 0; i < class_number; i++)
+	    P[i] = P[i] * probability_sum;
+	}
+      else
+	{
+	  for(int i = 0; i < class_number; i++)
+	    P[i] = (weights[i] > 0) ? probability_sum * P[i] / weights[i] : 0.f;
+	}
     }
-    else
-    {
-      for(int i = 0; i < class_number; i++)
-        P[i] = (weights[i] > 0) ? probability_sum * P[i] / weights[i] : 0.f;
-    }
-  }
   else
     for(int i = 0; i < children_number; i++)
       children[i]->restore_occurances_recursive(weights);
@@ -279,14 +279,14 @@ int image_classification_node::leaves_number(void)
   if (is_leaf())
     return 1;
   else
-  {
-    int n = 0;
+    {
+      int n = 0;
 
-    for(int i = 0; i < children_number; i++)
-      n += children[i]->leaves_number();
+      for(int i = 0; i < children_number; i++)
+	n += children[i]->leaves_number();
 
-    return n;
-  }
+      return n;
+    }
 }
 
 int image_classification_node::node_number(void)
@@ -294,14 +294,14 @@ int image_classification_node::node_number(void)
   if (is_leaf())
     return 0;
   else 
-  {
-    int n = 1;
+    {
+      int n = 1;
 
-    for(int i = 0; i < children_number; i++)
-      n += children[i]->node_number();
+      for(int i = 0; i < children_number; i++)
+	n += children[i]->node_number();
 
-    return n;
-  }
+      return n;
+    }
 }
 
 void image_classification_node::set_Dot(int image_width, int image_height)
@@ -342,28 +342,28 @@ ostream& operator<< (ostream& o, const image_classification_node& node)
   int i;
 
   if (node.is_leaf())
-  {
-    o << "LEAF " << node.index << " " << node.depth << endl;
-    o << node.class_number << " classes" << endl;
+    {
+      o << "LEAF " << node.index << " " << node.depth << endl;
+      o << node.class_number << " classes" << endl;
 
-    if (node.P != 0)
-      for(i = 0; i < node.class_number; i++)
-        if (node.P[i] > 0.001)
-          o << i << " " << node.P[i] << endl;
+      if (node.P != 0)
+	for(i = 0; i < node.class_number; i++)
+	  if (node.P[i] > 0.001)
+	    o << i << " " << node.P[i] << endl;
 
-    o << "-1 -1" << endl;
-  }
+      o << "-1 -1" << endl;
+    }
   else
-  {
-    o << "NODE " << node.index << " " << node.depth << endl;
-    o << "2dots_tau0" << endl; // Kept for compatibility with older versions
-    o << 0 << " " << node.du1 << " " << node.dv1 << " " << node.du2 << " " << node.dv2 << endl;
-    for(i = 0; i < node.children_number; i++)
-      o << node.children[i]->index << " ";
-    o << endl;
-    for(i = 0; i < node.children_number; i++)
-      o << *node.children[i];
-  }
+    {
+      o << "NODE " << node.index << " " << node.depth << endl;
+      o << "2dots_tau0" << endl; // Kept for compatibility with older versions
+      o << 0 << " " << node.du1 << " " << node.dv1 << " " << node.du2 << " " << node.dv2 << endl;
+      for(i = 0; i < node.children_number; i++)
+	o << node.children[i]->index << " ";
+      o << endl;
+      for(i = 0; i < node.children_number; i++)
+	o << *node.children[i];
+    }
 
   return o;
 }
@@ -379,53 +379,53 @@ istream& operator>> (istream& is, image_classification_node& node)
   is >> node_type;
 
   if (strcmp(node_type, "LEAF") == 0)
-  {
-    is >> node.index >> node.depth;
-    is >> node.class_number >> dummyString ;
-    node.P = new float[node.class_number];
-    node.best_class = 0;
-    float best_p = 0;
-    for(int i = 0; i < node.class_number; i++)
-      node.P[i] = 0;
-
-    int ci;
-    do
     {
-      float p;
-      is >> ci >> p;
-      if (ci >= 0)
-      {
-        node.P[ci] = p;
+      is >> node.index >> node.depth;
+      is >> node.class_number >> dummyString ;
+      node.P = new float[node.class_number];
+      node.best_class = 0;
+      float best_p = 0;
+      for(int i = 0; i < node.class_number; i++)
+	node.P[i] = 0;
 
-        if (p > best_p)
-        {
-          best_p = p;
-          node.best_class = ci;
-        }
-      }
-    } while (ci >= 0);
-  }
+      int ci;
+      do
+	{
+	  float p;
+	  is >> ci >> p;
+	  if (ci >= 0)
+	    {
+	      node.P[ci] = p;
+
+	      if (p > best_p)
+		{
+		  best_p = p;
+		  node.best_class = ci;
+		}
+	    }
+	} while (ci >= 0);
+    }
   else if (strcmp(node_type, "NODE") == 0)
-  {
-    int _scale, _du1, _dv1, _du2, _dv2;
+    {
+      int _scale, _du1, _dv1, _du2, _dv2;
 
-    is >> node.index >> node.depth;
+      is >> node.index >> node.depth;
 
-    is >> dummyString; // Always 2dots_tau0 : Kept for compatibily with older versions of garfield lib
+      is >> dummyString; // Always 2dots_tau0 : Kept for compatibily with older versions of garfield lib
 
-    is >> _scale >> _du1 >> _dv1 >> _du2 >> _dv2;
-    node.set_Dot(_du1, _dv1, _du2, _dv2, global_patch_size, global_patch_size);
+      is >> _scale >> _du1 >> _dv1 >> _du2 >> _dv2;
+      node.set_Dot(_du1, _dv1, _du2, _dv2, global_patch_size, global_patch_size);
 
-    node.children_index = new int[node.children_number];
+      node.children_index = new int[node.children_number];
 
-    for(int i = 0; i < node.children_number; i++)
-      is >> node.children_index[i];
-  }
+      for(int i = 0; i < node.children_number; i++)
+	is >> node.children_index[i];
+    }
   else
-  {
-    cerr << "Error while reading image_classification_node (token = " << node_type << ")." << endl;
-    //throw exception("Error while reading image_classification_node"); //TODO A FAIRE
-  }
+    {
+      cerr << "Error while reading image_classification_node (token = " << node_type << ")." << endl;
+      //throw exception("Error while reading image_classification_node"); //TODO A FAIRE
+    }
 
   return is;
 }

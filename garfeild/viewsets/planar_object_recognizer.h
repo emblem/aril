@@ -1,22 +1,22 @@
 /*
-Copyright 2005, 2006 Computer Vision Lab, 
-Ecole Polytechnique Federale de Lausanne (EPFL), Switzerland. 
-All rights reserved.
+  Copyright 2005, 2006 Computer Vision Lab, 
+  Ecole Polytechnique Federale de Lausanne (EPFL), Switzerland. 
+  All rights reserved.
 
-This file is part of BazAR.
+  This file is part of BazAR.
 
-BazAR is free software; you can redistribute it and/or modify it under the
-terms of the GNU General Public License as published by the Free Software
-Foundation; either version 2 of the License, or (at your option) any later
-version.
+  BazAR is free software; you can redistribute it and/or modify it under the
+  terms of the GNU General Public License as published by the Free Software
+  Foundation; either version 2 of the License, or (at your option) any later
+  version.
 
-BazAR is distributed in the hope that it will be useful, but WITHOUT ANY
-WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A
-PARTICULAR PURPOSE. See the GNU General Public License for more details.
+  BazAR is distributed in the hope that it will be useful, but WITHOUT ANY
+  WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A
+  PARTICULAR PURPOSE. See the GNU General Public License for more details.
 
-You should have received a copy of the GNU General Public License along with
-BazAR; if not, write to the Free Software Foundation, Inc., 51 Franklin
-Street, Fifth Floor, Boston, MA 02110-1301, USA 
+  You should have received a copy of the GNU General Public License along with
+  BazAR; if not, write to the Free Software Foundation, Inc., 51 Franklin
+  Street, Fifth Floor, Boston, MA 02110-1301, USA 
 */
 #ifndef PLANAR_OBJECT_RECOGNIZER_H
 #define PLANAR_OBJECT_RECOGNIZER_H
@@ -40,15 +40,15 @@ Street, Fifth Floor, Boston, MA 02110-1301, USA
 static const int hard_max_detected_pts = 5000;
 
 /*!
-\ingroup viewsets
-\brief Planar object detector 
+  \ingroup viewsets
+  \brief Planar object detector 
 
-This class can learn a planar surface and recognize its feature points on a 
-new image.
+  This class can learn a planar surface and recognize its feature points on a 
+  new image.
 */
 class planar_object_recognizer
 {
-public:
+ public:
   //! empty constructor. call build, load or buildWithCache before use
   planar_object_recognizer();
 
@@ -65,12 +65,12 @@ public:
                         LEARNPROGRESSION LearnProgress=0);
 
   bool build(IplImage *model_image,
-		  int max_point_number_on_model, int patch_size,
-		  int yape_radius, int tree_number, int nbLev, 
-		  LEARNPROGRESSION LearnProgress=0, int *roi=0);
+	     int max_point_number_on_model, int patch_size,
+	     int yape_radius, int tree_number, int nbLev, 
+	     LEARNPROGRESSION LearnProgress=0, int *roi=0);
   //@{
   /** \name Functions for fine tuning:
-  */
+   */
   //! Activate bins when detecting model points (Default)
   void use_bins_when_creating_model_points(void) { use_bins_for_model_points = true; } 
   //! Disactivate bins when detecting model points
@@ -125,17 +125,17 @@ public:
   bool load(string directory_name);
 
   /*!
-  \brief Detect the object in the given input image.
+    \brief Detect the object in the given input image.
 
-  Returns true if the object is detected.
-  If the object is detected, put the detected corners in the fieds \c detected_u_corner1, \c detected_v_corner1 ...
+    Returns true if the object is detected.
+    If the object is detected, put the detected corners in the fieds \c detected_u_corner1, \c detected_v_corner1 ...
 
-  Calls successively the functions:
-  - \c detect_points 
-  - \c preprocess_points
-  - \c match_points
-  - \c estimate_affine_transformation
-  - \c estimate_homographic_transformation_nonlinear_method
+    Calls successively the functions:
+    - \c detect_points 
+    - \c preprocess_points
+    - \c match_points
+    - \c estimate_affine_transformation
+    - \c estimate_homographic_transformation_nonlinear_method
   */
   bool detect(IplImage * input_image);
 
@@ -144,7 +144,7 @@ public:
 
   //@{
   /** \name Functions called by the detect() function 
-  */
+   */
   void detect_points(IplImage * input_image);
   void preprocess_points(void);
   void match_points(bool fill_match_struct = true);
@@ -183,9 +183,9 @@ public:
 
   //! For visualization
   IplImage * create_result_image(IplImage * input_image, 
-    bool p_draw_points, bool p_draw_matches, 
-    bool p_draw_object, bool p_draw_model_image,
-    int line_width = 2);
+				 bool p_draw_points, bool p_draw_matches, 
+				 bool p_draw_object, bool p_draw_model_image,
+				 int line_width = 2);
 
   //! For debugging: save generated patches for a particular point in dir patches,
   //! before and after orientation correction.
@@ -207,7 +207,7 @@ public:
   object_view * object_input_view;
 
   pair<object_keypoint, int> * search_for_existing_model_point(vector< pair<object_keypoint, int> > * tmp_model_points,
-    float cu, float cv, int scale);
+							       float cu, float cv, int scale);
   void detect_most_stable_model_points(int max_point_number_on_model, 
                                        int patch_size, int view_number, 
                                        double min_view_rate, 
@@ -239,8 +239,8 @@ public:
   double min_view_rate;
 
   /*! interest points that are closer than this distance are merged by
-  * by search_for_existing_model_point().
-  */
+   * by search_for_existing_model_point().
+   */
   double keypoint_distance_threshold;
 
   /*! The RANSAC estimation will not take into account a match whose score is

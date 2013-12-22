@@ -1,22 +1,22 @@
 /*
-Copyright 2005, 2006 Computer Vision Lab, 
-Ecole Polytechnique Federale de Lausanne (EPFL), Switzerland. 
-All rights reserved.
+  Copyright 2005, 2006 Computer Vision Lab, 
+  Ecole Polytechnique Federale de Lausanne (EPFL), Switzerland. 
+  All rights reserved.
 
-This file is part of BazAR.
+  This file is part of BazAR.
 
-BazAR is free software; you can redistribute it and/or modify it under the
-terms of the GNU General Public License as published by the Free Software
-Foundation; either version 2 of the License, or (at your option) any later
-version.
+  BazAR is free software; you can redistribute it and/or modify it under the
+  terms of the GNU General Public License as published by the Free Software
+  Foundation; either version 2 of the License, or (at your option) any later
+  version.
 
-BazAR is distributed in the hope that it will be useful, but WITHOUT ANY
-WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A
-PARTICULAR PURPOSE. See the GNU General Public License for more details.
+  BazAR is distributed in the hope that it will be useful, but WITHOUT ANY
+  WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A
+  PARTICULAR PURPOSE. See the GNU General Public License for more details.
 
-You should have received a copy of the GNU General Public License along with
-BazAR; if not, write to the Free Software Foundation, Inc., 51 Franklin
-Street, Fifth Floor, Boston, MA 02110-1301, USA 
+  You should have received a copy of the GNU General Public License along with
+  BazAR; if not, write to the Free Software Foundation, Inc., 51 Franklin
+  Street, Fifth Floor, Boston, MA 02110-1301, USA 
 */
 #ifndef LS_MINIMIZER2_H
 #define LS_MINIMIZER2_H
@@ -33,12 +33,12 @@ Street, Fifth Floor, Boston, MA 02110-1301, USA
 
 
 /*! Non-linear Minimizer, modified API
-*  \author Vincent Lepetit, Julien Pilet
-*  \ingroup starter
-*/
+ *  \author Vincent Lepetit, Julien Pilet
+ *  \ingroup starter
+ */
 class ls_minimizer2
 {
-public:
+ public:
 
   typedef double flt_t;
   typedef void (*callback_function)(flt_t * state, void ** user_data);
@@ -49,10 +49,10 @@ public:
   enum {MAX_B_SIZE = 4};
 
   /*! Base structure containing observation data for minimization.
-  *  The user should create a new class inheriting from observation, 
-  *  or use the predefined observation_nn with provided function 
-  *  pointers.
-  */
+   *  The user should create a new class inheriting from observation, 
+   *  or use the predefined observation_nn with provided function 
+   *  pointers.
+   */
   struct observation
   {
     virtual ~observation(){}
@@ -81,11 +81,11 @@ public:
 
   //! Function pointer type used by observation_nn
   typedef void (*func_nn_ptr)(const flt_t *state, const flt_t *data, int data_size, 
-    flt_t *b, flt_t *J, void **user_data);
+			      flt_t *b, flt_t *J, void **user_data);
 
   //! Pre-defined structure for users that prefer function pointers to class heritage.
   template <int nb_data, int nb_obs> 
-  struct observation_nn : observation {
+    struct observation_nn : observation {
     flt_t data[nb_data];
     flt_t y[nb_obs];
 
@@ -116,21 +116,21 @@ public:
   void set_state_size(int size);
 
   /*! Scale applied to each optimized parameter (each dimension of the
-  * optimization space). Not used by default, but an automated method is used.
-  */
+   * optimization space). Not used by default, but an automated method is used.
+   */
   void set_scales(flt_t * scales);
   void desactivate_automated_scaling(void) { use_automated_scaling = false; }
 
   /*! 0 = nothing
-  *  1 = messages before and after minimization
-  *  2 = message at each iteration.
-  *  3 = debug
-  */
+   *  1 = messages before and after minimization
+   *  2 = message at each iteration.
+   *  3 = debug
+   */
   void set_verbose_level(int vl);
 
   /*! user arbitrary pointers. slot_index should be in [0,9]
-  * this pointer array is passed to the callback functions
-  */
+   * this pointer array is passed to the callback functions
+   */
   void set_user_data(int slot_index, void * ptr);
 
   //! call that before adding observations for a new optimization.
@@ -153,14 +153,14 @@ public:
   void set_state_change_callback(callback_function callback);
 
   /*! For robust estimation (default = +inf)
-  *  residual = max( ||b-f(d,state)||^2, c^2 )
-  *  This value will be applied to next added observations
-  */
+   *  residual = max( ||b-f(d,state)||^2, c^2 )
+   *  This value will be applied to next added observations
+   */
   void set_default_c(flt_t c);
 
   /*! For robust estimation (default = +inf):
-  *  change the last added observation robust estimator value
-  */
+   *  change the last added observation robust estimator value
+   */
   void set_last_observation_c(flt_t c);
 
   //! For robust estimation using Julien' method (default = +inf for both):
@@ -196,8 +196,8 @@ public:
   int minimize_using_dogleg_from(flt_t * initial_state);
 
   /*! Cat Tail (experimental)
-  * a mix between gauss-newton and line search.
-  */
+   * a mix between gauss-newton and line search.
+   */
   int minimize_using_cattail_from(flt_t * initial_state);
   void ct_set_max_iterations(int it) {ct_max_iterations = it; }
   void set_line_search_parameters(flt_t lambda0, flt_t k_rough, flt_t k_fine);
@@ -211,8 +211,8 @@ public:
 
   // DEBUGGING:
   /*! Checking derivatives: compares finite difference jacobian and analytical
-  *  jacobian computed by the user provided functions.
-  */
+   *  jacobian computed by the user provided functions.
+   */
   void check_jacobians_around(flt_t * state, flt_t state_step);
 
   // Comparing with ground truth:
@@ -225,15 +225,15 @@ public:
     alloc_matrices(max_obs);
   }
 
-private:
+ private:
   void set_default_values(void);
   void free_all();
   int real_J_size;
   void alloc_matrices(int maximum_scalar_measure_number);
   void free_matrices();
-public:
+ public:
   int count_measures();
-private:
+ private:
   inline flt_t rho(flt_t x2, flt_t c2) { return (x2 < c2) ? x2 : c2; }
   flt_t build_eps(flt_t * state, flt_t current_best_residual = std::numeric_limits<flt_t>::max(),
                   bool outliers_in_residual=true);
@@ -270,20 +270,20 @@ private:
   callback_function state_change_callback;
   void set_new_state(const flt_t *new_state);
 
-public:
+ public:
   bool use_user_scaling, use_automated_scaling;
 
-private:
+ private:
   void * user_data[10];
 
   // Algorithm specific data:
   // Levenberg-Marquardt
-public:
+ public:
   int lm_max_iterations;
   int lm_max_failures_in_a_row;
   flt_t lm_initial_lambda;
   flt_t lm_tol_cos;
-private:
+ private:
 
   // Dog leg:
   flt_t dl_update_Delta(flt_t rho, flt_t Delta, flt_t rho_min, flt_t rho_max);
@@ -304,9 +304,9 @@ private:
   bool inside_julien_method;
 
   // For debugging:
-public:
+ public:
   int verbose_level;
-private:
+ private:
   flt_t * ground_truth_state;
 };
 

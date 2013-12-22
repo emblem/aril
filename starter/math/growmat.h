@@ -4,15 +4,15 @@
 #include <cv.h>
 
 class CvGrowMat : public CvMat {
-public:
+ public:
 
-	CvGrowMat(int maxlines, int maxcols, int type);
-	~CvGrowMat();
+  CvGrowMat(int maxlines, int maxcols, int type);
+  ~CvGrowMat();
 
-	void resize(int lines, int cols);
+  void resize(int lines, int cols);
 
-private:
-	CvMat *mat;
+ private:
+  CvMat *mat;
 };
 
 #endif

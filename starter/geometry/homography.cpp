@@ -1,22 +1,22 @@
 /*
-Copyright 2005, 2006 Computer Vision Lab, 
-Ecole Polytechnique Federale de Lausanne (EPFL), Switzerland. 
-All rights reserved.
+  Copyright 2005, 2006 Computer Vision Lab, 
+  Ecole Polytechnique Federale de Lausanne (EPFL), Switzerland. 
+  All rights reserved.
 
-This file is part of BazAR.
+  This file is part of BazAR.
 
-BazAR is free software; you can redistribute it and/or modify it under the
-terms of the GNU General Public License as published by the Free Software
-Foundation; either version 2 of the License, or (at your option) any later
-version.
+  BazAR is free software; you can redistribute it and/or modify it under the
+  terms of the GNU General Public License as published by the Free Software
+  Foundation; either version 2 of the License, or (at your option) any later
+  version.
 
-BazAR is distributed in the hope that it will be useful, but WITHOUT ANY
-WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A
-PARTICULAR PURPOSE. See the GNU General Public License for more details.
+  BazAR is distributed in the hope that it will be useful, but WITHOUT ANY
+  WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A
+  PARTICULAR PURPOSE. See the GNU General Public License for more details.
 
-You should have received a copy of the GNU General Public License along with
-BazAR; if not, write to the Free Software Foundation, Inc., 51 Franklin
-Street, Fifth Floor, Boston, MA 02110-1301, USA 
+  You should have received a copy of the GNU General Public License along with
+  BazAR; if not, write to the Free Software Foundation, Inc., 51 Franklin
+  Street, Fifth Floor, Boston, MA 02110-1301, USA 
 */
 #include <iostream>
 #include <float.h>
@@ -43,43 +43,43 @@ homography::homography(float u1, float v1, float up1, float vp1,
   initialize();
 
   estimate(u1, v1, up1, vp1,
-          u2, v2, up2, vp2,
-          u3, v3, up3, vp3,
-          u4, v4, up4, vp4);
+	   u2, v2, up2, vp2,
+	   u3, v3, up3, vp3,
+	   u4, v4, up4, vp4);
 }
 
 homography::~homography()
 {
-	if (AA) cvReleaseMat(&AA);
-	if (B) cvReleaseMat(&AA);
-	if (X) cvReleaseMat(&AA);
-	if (AA_n) cvReleaseMat(&AA_n);
-	if (B_n) cvReleaseMat(&AA_n);
-	if (X_n) cvReleaseMat(&AA_n);
-	delete [] data.ptr;
+  if (AA) cvReleaseMat(&AA);
+  if (B) cvReleaseMat(&AA);
+  if (X) cvReleaseMat(&AA);
+  if (AA_n) cvReleaseMat(&AA_n);
+  if (B_n) cvReleaseMat(&AA_n);
+  if (X_n) cvReleaseMat(&AA_n);
+  delete [] data.ptr;
 }
 
 void homography::initialize(void)
 {
-	AA = cvCreateMat(8, 8, CV_32FC1);
-	B  = cvCreateMat(8, 1, CV_32FC1);
-	X  = cvCreateMat(8, 1, CV_32FC1);
+  AA = cvCreateMat(8, 8, CV_32FC1);
+  B  = cvCreateMat(8, 1, CV_32FC1);
+  X  = cvCreateMat(8, 1, CV_32FC1);
 
-	AA_n = NULL;
-	B_n  = NULL;
-	X_n  = NULL;
-	match_number = 0;
-	actual_match_number = 0;
+  AA_n = NULL;
+  B_n  = NULL;
+  X_n  = NULL;
+  match_number = 0;
+  actual_match_number = 0;
 
 
-	type = CV_32FC1;
+  type = CV_32FC1;
 
-	type = CV_MAT_MAGIC_VAL | CV_MAT_CONT_FLAG | CV_MAT_TYPE(type);
-	cols = 3;
-	rows = 3;
-	step = cols * CV_ELEM_SIZE(type);
-	data.ptr = (uchar*)new float[cols * rows];
-	refcount = NULL;
+  type = CV_MAT_MAGIC_VAL | CV_MAT_CONT_FLAG | CV_MAT_TYPE(type);
+  cols = 3;
+  rows = 3;
+  step = cols * CV_ELEM_SIZE(type);
+  data.ptr = (uchar*)new float[cols * rows];
+  refcount = NULL;
 }
 
 ostream& operator<< (ostream& o, const homography& H)
@@ -134,10 +134,10 @@ bool homography::estimate(float u1, float v1, float up1, float vp1,
   int ok = cvSolve(AA, B, X, CV_SVD);
 
   if (ok != 1)
-  {
-    cerr << "homography::estimate: cvSolve failure" << endl;
-    return false;
-  }
+    {
+      cerr << "homography::estimate: cvSolve failure" << endl;
+      return false;
+    }
 
   cvmSet(0, 0, ::cvmGet(X, 0, 0));
   cvmSet(0, 1, ::cvmGet(X, 1, 0));
@@ -203,18 +203,18 @@ void homography::add_match(float u, float v, float up, float vp)
 void homography::estimate(void)
 {
   if (match_number != actual_match_number)
-  {
-    cerr << "error when calling estimate_linear_method: not enough given matches." << endl;
-    return;
-  }
+    {
+      cerr << "error when calling estimate_linear_method: not enough given matches." << endl;
+      return;
+    }
 
   int ok = cvSolve(AA_n, B_n, X_n, CV_SVD);
 
   if (ok != 1)
-  {
-    cerr << "homography::estimate: cvSolve failure" << endl;
-    return;
-  }
+    {
+      cerr << "homography::estimate: cvSolve failure" << endl;
+      return;
+    }
 
   cvmSet(0, 0, ::cvmGet(X_n, 0, 0));
   cvmSet(0, 1, ::cvmGet(X_n, 1, 0));

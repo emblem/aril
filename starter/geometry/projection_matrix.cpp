@@ -1,22 +1,22 @@
 /*
-Copyright 2005, 2006 Computer Vision Lab, 
-Ecole Polytechnique Federale de Lausanne (EPFL), Switzerland. 
-All rights reserved.
+  Copyright 2005, 2006 Computer Vision Lab, 
+  Ecole Polytechnique Federale de Lausanne (EPFL), Switzerland. 
+  All rights reserved.
 
-This file is part of BazAR.
+  This file is part of BazAR.
 
-BazAR is free software; you can redistribute it and/or modify it under the
-terms of the GNU General Public License as published by the Free Software
-Foundation; either version 2 of the License, or (at your option) any later
-version.
+  BazAR is free software; you can redistribute it and/or modify it under the
+  terms of the GNU General Public License as published by the Free Software
+  Foundation; either version 2 of the License, or (at your option) any later
+  version.
 
-BazAR is distributed in the hope that it will be useful, but WITHOUT ANY
-WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A
-PARTICULAR PURPOSE. See the GNU General Public License for more details.
+  BazAR is distributed in the hope that it will be useful, but WITHOUT ANY
+  WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A
+  PARTICULAR PURPOSE. See the GNU General Public License for more details.
 
-You should have received a copy of the GNU General Public License along with
-BazAR; if not, write to the Free Software Foundation, Inc., 51 Franklin
-Street, Fifth Floor, Boston, MA 02110-1301, USA 
+  You should have received a copy of the GNU General Public License along with
+  BazAR; if not, write to the Free Software Foundation, Inc., 51 Franklin
+  Street, Fifth Floor, Boston, MA 02110-1301, USA 
 */
 #include <cmath>
 #include <iostream>
@@ -139,10 +139,10 @@ void projection_matrix::set_3x4_matrix(double P[3][4], int w, int h)
 }
 
 /*! Load external and internal parameters from a tdir file. The w and h specify
-* the size of the projection rectangle.
-*
-* \return true on success, false on failure.
-*/
+ * the size of the projection rectangle.
+ *
+ * \return true on success, false on failure.
+ */
 bool projection_matrix::load_tdir(const char * tdir_filename, int w, int h)
 {
   ifstream file;
@@ -172,26 +172,26 @@ static double diagDiff(const int W, const int H, double dx, double dy)
 }
 
 /*! Load external and internal parameters from a tdir file, estimating image
-* width and height.
-*
-* THE WIDTH AND HEIGHT ESTIMATION MIGHT BE WRONG!
-*
-* \return true on success, false on failure.
-*/
+ * width and height.
+ *
+ * THE WIDTH AND HEIGHT ESTIMATION MIGHT BE WRONG!
+ *
+ * \return true on success, false on failure.
+ */
 bool projection_matrix::load_tdir(const char * tdir_filename)
 {
   if (!load_tdir(tdir_filename, 0, 0)) return false;
 
   static const int modes[] = {
-      640, 480,
-      320, 240,
-      720, 576,
-      360, 288,
-      800, 600,
-      1024, 768,
-      512, 384,
-      1280, 1024,
-      -1, -1
+    640, 480,
+    320, 240,
+    720, 576,
+    360, 288,
+    800, 600,
+    1024, 768,
+    512, 384,
+    1280, 1024,
+    -1, -1
   };
 
   int best = 0;
@@ -239,11 +239,11 @@ void projection_matrix::read_one_line(FILE * f, char * line)
   char c;
 
   do
-  {
-    fscanf(f, "%c", &c);
-    line[n] = c;
-    n++;
-  } while (c != '\n');
+    {
+      fscanf(f, "%c", &c);
+      line[n] = c;
+      n++;
+    } while (c != '\n');
   n = n - 2; // Skip the (char)13 and the (char)10:
   line[n] = '\0';
 }
@@ -277,45 +277,45 @@ bool projection_matrix::read_from_matchmover_output(FILE * f)
   double Oc[3], local_R[3][3], local_t[3];
 
   if (fscanf(f, "\t%d", &camera_index) != 1)
-  {
-    cerr << "Error while reading matchmover output (1)." << endl;
-    return false;
-  }
+    {
+      cerr << "Error while reading matchmover output (1)." << endl;
+      return false;
+    }
 
   if (fscanf(f, "\t F ( %lf ) Pr ( %lf ) Pp ( %lf %lf ) K ( %lf )",
-    &focale_length, &pixel_ratio, &principal_point_u, &principal_point_v, &K) != 5)
-  {
-    cerr << "Error while reading matchmover output (2)." << endl;
-    return false;
-  }
+	     &focale_length, &pixel_ratio, &principal_point_u, &principal_point_v, &K) != 5)
+    {
+      cerr << "Error while reading matchmover output (2)." << endl;
+      return false;
+    }
 
   if (fscanf(f, "\tOc ( %lf %lf %lf )", &(Oc[0]), &(Oc[1]), &(Oc[2])) != 3)
-  {
-    cerr << "Error while reading matchmover output (3)." << endl;
-    return false;
-  }
+    {
+      cerr << "Error while reading matchmover output (3)." << endl;
+      return false;
+    }
 
   if (fscanf(f, "\tRot ( %lf %lf %lf", &(local_R[0][0]), &(local_R[0][1]), &(local_R[0][2])) != 3)
-  {
-    cerr << "Error while reading matchmover output (4)." << endl;
-    return false;
-  }
+    {
+      cerr << "Error while reading matchmover output (4)." << endl;
+      return false;
+    }
 
   if (fscanf(f, "%lf %lf %lf", &(local_R[1][0]), &(local_R[1][1]), &(local_R[1][2])) != 3)
-  {
-    cerr << "Error while reading matchmover output (5)." << endl;
-    return false;
-  }
+    {
+      cerr << "Error while reading matchmover output (5)." << endl;
+      return false;
+    }
 
   if (fscanf(f, " %lf %lf %lf )", &(local_R[2][0]), &(local_R[2][1]), &(local_R[2][2])) != 3)
-  {
-    cerr << "Error while reading matchmover output (6)." << endl;
-    return false;
-  }
+    {
+      cerr << "Error while reading matchmover output (6)." << endl;
+      return false;
+    }
 
   set_original_internal_parameters(int(2 * principal_point_u), int(2 * principal_point_v), // image size
-    focale_length, pixel_ratio * focale_length, 
-    principal_point_u, principal_point_v);
+				   focale_length, pixel_ratio * focale_length, 
+				   principal_point_u, principal_point_v);
 
   gfla_mul_mat_vect_3x3(local_R, Oc, local_t);
   gfla_opp_3(local_t);
@@ -399,20 +399,20 @@ bool projection_matrix::read_internal_parameters_from_tdir_file(const char * tdi
 
   FILE * tdir_file = fopen(tdir_filename, "r");
   if (tdir_file == 0) 
-  {
-    perror(tdir_filename);
-    return false;
-  }
-
-  for(int i = 0; i < 12 ; i++)
-  {
-    if (fscanf(tdir_file, "%lf", &tdir_mat[i]) == EOF)
     {
-      cout<<"Error loading file (corrupt or wrong format)"<<endl;
-      fclose(tdir_file);
+      perror(tdir_filename);
       return false;
     }
-  }
+
+  for(int i = 0; i < 12 ; i++)
+    {
+      if (fscanf(tdir_file, "%lf", &tdir_mat[i]) == EOF)
+	{
+	  cout<<"Error loading file (corrupt or wrong format)"<<endl;
+	  fclose(tdir_file);
+	  return false;
+	}
+    }
   fclose(tdir_file);
 
   original_fx = fx = tdir_mat[0];
@@ -448,11 +448,11 @@ void projection_matrix::set_camera_centre_and_lookat_point(double Cx, double Cy,
   gfla_cross_product(rli3, rli1, rli2);
 
   for(int i = 0; i < 3; i++)
-  {
-    R[0][i] = rli1[i];
-    R[1][i] = rli2[i];
-    R[2][i] = rli3[i];
-  }
+    {
+      R[0][i] = rli1[i];
+      R[1][i] = rli2[i];
+      R[2][i] = rli3[i];
+    }
 
   for(int i = 0; i < 3; i++)
     T[i] = -(R[i][0] * Cx + R[i][1] * Cy + R[i][2] * Cz);
@@ -485,13 +485,13 @@ void projection_matrix::set_external_parameters_exp_map(double * state, CvMat * 
   double length = sqrt(om[0] * om[0] + om[1] * om[1] + om[2] * om[2]);
 
   if (length > (2 * 3.14159 - 1)) 
-  {
-    double new_length = fmod(length, 2 * 3.14159);
-    double r = new_length / length;
-    om[0] *= r;
-    om[1] *= r;
-    om[2] *= r;
-  }
+    {
+      double new_length = fmod(length, 2 * 3.14159);
+      double r = new_length / length;
+      om[0] *= r;
+      om[1] *= r;
+      om[2] *= r;
+    }
 
   // make the rotation matrix
   double rm[9], rv[3];
@@ -507,11 +507,11 @@ void projection_matrix::set_external_parameters_exp_map(double * state, CvMat * 
 
   // complete the rotation matrix with translation
   for(int i = 0; i < 3; i++)
-  {
-    for(int j = 0; j < 3; j++)
-      R[i][j] = cvmGet(&rotMat, i, j); 
-    T[i] = t[i];
-  }
+    {
+      for(int j = 0; j < 3; j++)
+	R[i][j] = cvmGet(&rotMat, i, j); 
+      T[i] = t[i];
+    }
 
   have_to_recompute_invAR = have_to_recompute_optical_centre = have_to_recompute_P = true;
 }
@@ -542,11 +542,11 @@ void projection_matrix::get_external_parameters_exp_map(double * state)
 void projection_matrix::set_external_parameters(double wc2vc[3][4])
 {
   for(int i = 0; i < 3; i++)
-  {
-    for(int j = 0; j < 3; j++)
-      R[i][j] = wc2vc[i][j];
-    T[i] = wc2vc[i][3];
-  }
+    {
+      for(int j = 0; j < 3; j++)
+	R[i][j] = wc2vc[i][j];
+      T[i] = wc2vc[i][3];
+    }
 
   have_to_recompute_invAR = have_to_recompute_optical_centre = have_to_recompute_P = true;
 }
@@ -554,11 +554,11 @@ void projection_matrix::set_external_parameters(double wc2vc[3][4])
 void projection_matrix::set_external_parameters(double ** wc2vc)
 {
   for(int i = 0; i < 3; i++)
-  {
-    for(int j = 0; j < 3; j++)
-      R[i][j] = wc2vc[i][j];
-    T[i] = wc2vc[i][3];
-  }
+    {
+      for(int j = 0; j < 3; j++)
+	R[i][j] = wc2vc[i][j];
+      T[i] = wc2vc[i][3];
+    }
 
   have_to_recompute_invAR = have_to_recompute_optical_centre = have_to_recompute_P = true;
 }
@@ -631,11 +631,11 @@ void projection_matrix::set_external_parameters(CvMat * H)
   gfla_cross_product(R1p, R2p, R3p);
 
   for(int i = 0; i < 3; i++)
-  {
-    R[i][0] = R1p[i]; 
-    R[i][1] = R2p[i]; 
-    R[i][2] = R3p[i];
-  }
+    {
+      R[i][0] = R1p[i]; 
+      R[i][1] = R2p[i]; 
+      R[i][2] = R3p[i];
+    }
 
   cout << *this << endl;
 
@@ -714,21 +714,21 @@ void projection_matrix::get_external_parameters(double * omega, double * phi, do
 void projection_matrix::world_to_cam(double * M, double * Mc)
 {
   if (M != Mc)
-  {
-    Mc[0] = R[0][0] * M[0] + R[0][1] * M[1] + R[0][2] * M[2] + T[0];
-    Mc[1] = R[1][0] * M[0] + R[1][1] * M[1] + R[1][2] * M[2] + T[1];
-    Mc[2] = R[2][0] * M[0] + R[2][1] * M[1] + R[2][2] * M[2] + T[2];
-  }
+    {
+      Mc[0] = R[0][0] * M[0] + R[0][1] * M[1] + R[0][2] * M[2] + T[0];
+      Mc[1] = R[1][0] * M[0] + R[1][1] * M[1] + R[1][2] * M[2] + T[1];
+      Mc[2] = R[2][0] * M[0] + R[2][1] * M[1] + R[2][2] * M[2] + T[2];
+    }
   else
-  {
-    double M2[3];
-    M2[0] = R[0][0] * M[0] + R[0][1] * M[1] + R[0][2] * M[2] + T[0];
-    M2[1] = R[1][0] * M[0] + R[1][1] * M[1] + R[1][2] * M[2] + T[1];
-    M2[2] = R[2][0] * M[0] + R[2][1] * M[1] + R[2][2] * M[2] + T[2];
-    Mc[0] = M2[0];
-    Mc[1] = M2[1];
-    Mc[2] = M2[2];
-  }
+    {
+      double M2[3];
+      M2[0] = R[0][0] * M[0] + R[0][1] * M[1] + R[0][2] * M[2] + T[0];
+      M2[1] = R[1][0] * M[0] + R[1][1] * M[1] + R[1][2] * M[2] + T[1];
+      M2[2] = R[2][0] * M[0] + R[2][1] * M[1] + R[2][2] * M[2] + T[2];
+      Mc[0] = M2[0];
+      Mc[1] = M2[1];
+      Mc[2] = M2[2];
+    }
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -835,11 +835,11 @@ void projection_matrix::set_GL_PROJECTION(int xdim, int ydim, float * gl_vector)
   gfla_mul_mat_3x3x4(S, tdir, Stdir);
 
   for(int j = 0; j < 4; j++)
-  {
-    gl_mat[j][0] = float(Stdir[0][j]);
-    gl_mat[j][1] = float(Stdir[1][j]); 
-    gl_mat[j][3] = float(Stdir[2][j]); 
-  }
+    {
+      gl_mat[j][0] = float(Stdir[0][j]);
+      gl_mat[j][1] = float(Stdir[1][j]); 
+      gl_mat[j][3] = float(Stdir[2][j]); 
+    }
 
   // Plane distance computation in 3rd column:
   for(int j = 0; j < 4; j++)
@@ -939,15 +939,15 @@ void projection_matrix::compute_P(void)
 
   for(int i = 0; i < 3; i++)
     for(int j = 0; j < 4; j++)
-    {
-      P[i][j] = 0;
-      for(int k = 0; k < 3; k++)
-        if (j < 3)
-          P[i][j] += A[i][k] * R[k][j];
-        else
-          P[i][j] += A[i][k] * T[k];
-    }
+      {
+	P[i][j] = 0;
+	for(int k = 0; k < 3; k++)
+	  if (j < 3)
+	    P[i][j] += A[i][k] * R[k][j];
+	  else
+	    P[i][j] += A[i][k] * T[k];
+      }
 
-    have_to_recompute_P = false;
+  have_to_recompute_P = false;
 }
 
