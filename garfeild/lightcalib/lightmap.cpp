@@ -611,7 +611,7 @@ bool LightMap::save(const char *lightParamsFN, const char *normalsFN)
 bool LightMap::computeLightParams()
 {
 	int obsMatCols=normals->rows+2*nbCam;
-	int sizes[] = {obs.size(), obsMatCols};
+	int sizes[] = {(int)obs.size(), obsMatCols};
 
 	if (lightParams) cvReleaseMat(&lightParams);
 	lightParams = cvCreateMat(obsMatCols, reflc.avgChannels, CV_32FC1);

@@ -1,0 +1,834 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		AFCCC93D18666677008380B1 /* general.h in Sources */ = {isa = PBXBuildFile; fileRef = AFCCC904186665F0008380B1 /* general.h */; };
+		AFCCC93E18666677008380B1 /* affinity.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AFCCC906186665F0008380B1 /* affinity.cpp */; };
+		AFCCC93F18666677008380B1 /* affinity.h in Sources */ = {isa = PBXBuildFile; fileRef = AFCCC907186665F0008380B1 /* affinity.h */; };
+		AFCCC94018666677008380B1 /* homography.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AFCCC908186665F0008380B1 /* homography.cpp */; };
+		AFCCC94118666677008380B1 /* homography.h in Sources */ = {isa = PBXBuildFile; fileRef = AFCCC909186665F0008380B1 /* homography.h */; };
+		AFCCC94218666677008380B1 /* projection_matrix.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AFCCC90A186665F1008380B1 /* projection_matrix.cpp */; };
+		AFCCC94318666677008380B1 /* projection_matrix.h in Sources */ = {isa = PBXBuildFile; fileRef = AFCCC90B186665F1008380B1 /* projection_matrix.h */; };
+		AFCCC94418666677008380B1 /* mcv.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AFCCC90D186665F1008380B1 /* mcv.cpp */; };
+		AFCCC94518666677008380B1 /* mcv.h in Sources */ = {isa = PBXBuildFile; fileRef = AFCCC90E186665F1008380B1 /* mcv.h */; };
+		AFCCC94618666677008380B1 /* pyrimage.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AFCCC90F186665F1008380B1 /* pyrimage.cpp */; };
+		AFCCC94718666677008380B1 /* pyrimage.h in Sources */ = {isa = PBXBuildFile; fileRef = AFCCC910186665F1008380B1 /* pyrimage.h */; };
+		AFCCC94818666677008380B1 /* growmat.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AFCCC912186665F1008380B1 /* growmat.cpp */; };
+		AFCCC94918666677008380B1 /* growmat.h in Sources */ = {isa = PBXBuildFile; fileRef = AFCCC913186665F1008380B1 /* growmat.h */; };
+		AFCCC94A18666677008380B1 /* linear_algebra.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AFCCC914186665F1008380B1 /* linear_algebra.cpp */; };
+		AFCCC94B18666677008380B1 /* linear_algebra.h in Sources */ = {isa = PBXBuildFile; fileRef = AFCCC915186665F1008380B1 /* linear_algebra.h */; };
+		AFCCC94C18666677008380B1 /* linear_systems.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AFCCC916186665F1008380B1 /* linear_systems.cpp */; };
+		AFCCC94D18666677008380B1 /* linear_systems.h in Sources */ = {isa = PBXBuildFile; fileRef = AFCCC917186665F1008380B1 /* linear_systems.h */; };
+		AFCCC94E18666677008380B1 /* mcvm.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AFCCC918186665F1008380B1 /* mcvm.cpp */; };
+		AFCCC94F18666677008380B1 /* mcvm.h in Sources */ = {isa = PBXBuildFile; fileRef = AFCCC919186665F1008380B1 /* mcvm.h */; };
+		AFCCC95018666677008380B1 /* polynom_solver.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AFCCC91A186665F1008380B1 /* polynom_solver.cpp */; };
+		AFCCC95118666677008380B1 /* polynom_solver.h in Sources */ = {isa = PBXBuildFile; fileRef = AFCCC91B186665F1008380B1 /* polynom_solver.h */; };
+		AFCCC95218666677008380B1 /* robust_estimators.h in Sources */ = {isa = PBXBuildFile; fileRef = AFCCC91C186665F1008380B1 /* robust_estimators.h */; };
+		AFCCC95318666677008380B1 /* ls_minimizer.h in Sources */ = {isa = PBXBuildFile; fileRef = AFCCC91E186665F1008380B1 /* ls_minimizer.h */; };
+		AFCCC95418666677008380B1 /* ls_minimizer2.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AFCCC91F186665F1008380B1 /* ls_minimizer2.cpp */; };
+		AFCCC95518666677008380B1 /* ls_minimizer2.h in Sources */ = {isa = PBXBuildFile; fileRef = AFCCC920186665F1008380B1 /* ls_minimizer2.h */; };
+		AFCCC95618666677008380B1 /* ls_step_solver.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AFCCC921186665F1008380B1 /* ls_step_solver.cpp */; };
+		AFCCC95718666677008380B1 /* ls_step_solver.h in Sources */ = {isa = PBXBuildFile; fileRef = AFCCC922186665F1008380B1 /* ls_step_solver.h */; };
+		AFCCC95818666677008380B1 /* observation_types.h in Sources */ = {isa = PBXBuildFile; fileRef = AFCCC923186665F1008380B1 /* observation_types.h */; };
+		AFCCC95918666677008380B1 /* prosac_function_types.h in Sources */ = {isa = PBXBuildFile; fileRef = AFCCC924186665F1008380B1 /* prosac_function_types.h */; };
+		AFCCC9A8186667C5008380B1 /* CamAugmentation.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AFCCC95C1866677F008380B1 /* CamAugmentation.cpp */; };
+		AFCCC9A9186667C5008380B1 /* CamAugmentation.h in Sources */ = {isa = PBXBuildFile; fileRef = AFCCC95D1866677F008380B1 /* CamAugmentation.h */; };
+		AFCCC9AA186667C5008380B1 /* CamCalibration.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AFCCC95E1866677F008380B1 /* CamCalibration.cpp */; };
+		AFCCC9AB186667C5008380B1 /* CamCalibration.h in Sources */ = {isa = PBXBuildFile; fileRef = AFCCC95F1866677F008380B1 /* CamCalibration.h */; };
+		AFCCC9AC186667C5008380B1 /* camera.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AFCCC9601866677F008380B1 /* camera.cpp */; };
+		AFCCC9AD186667C5008380B1 /* camera.h in Sources */ = {isa = PBXBuildFile; fileRef = AFCCC9611866677F008380B1 /* camera.h */; };
+		AFCCC9AE186667C5008380B1 /* gradient.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AFCCC9621866677F008380B1 /* gradient.cpp */; };
+		AFCCC9AF186667C5008380B1 /* matvec.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AFCCC9631866677F008380B1 /* matvec.cpp */; };
+		AFCCC9B0186667C5008380B1 /* matvec.h in Sources */ = {isa = PBXBuildFile; fileRef = AFCCC9641866677F008380B1 /* matvec.h */; };
+		AFCCC9B1186667C5008380B1 /* keypoint.h in Sources */ = {isa = PBXBuildFile; fileRef = AFCCC9671866677F008380B1 /* keypoint.h */; };
+		AFCCC9B2186667C5008380B1 /* keypoint_match.h in Sources */ = {isa = PBXBuildFile; fileRef = AFCCC9681866677F008380B1 /* keypoint_match.h */; };
+		AFCCC9B3186667C5008380B1 /* keypoint_orientation_corrector.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AFCCC9691866677F008380B1 /* keypoint_orientation_corrector.cpp */; };
+		AFCCC9B4186667C5008380B1 /* keypoint_orientation_corrector.h in Sources */ = {isa = PBXBuildFile; fileRef = AFCCC96A1866677F008380B1 /* keypoint_orientation_corrector.h */; };
+		AFCCC9B5186667C5008380B1 /* yape.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AFCCC96B1866677F008380B1 /* yape.cpp */; };
+		AFCCC9B6186667C5008380B1 /* yape.h in Sources */ = {isa = PBXBuildFile; fileRef = AFCCC96C1866677F008380B1 /* yape.h */; };
+		AFCCC9B7186667C5008380B1 /* ipltexture.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AFCCC96E1866677F008380B1 /* ipltexture.cpp */; };
+		AFCCC9B8186667C5008380B1 /* ipltexture.h in Sources */ = {isa = PBXBuildFile; fileRef = AFCCC96F1866677F008380B1 /* ipltexture.h */; };
+		AFCCC9B9186667C5008380B1 /* lightcalib.h in Sources */ = {isa = PBXBuildFile; fileRef = AFCCC9701866677F008380B1 /* lightcalib.h */; };
+		AFCCC9BA186667C5008380B1 /* lightcollector.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AFCCC9711866677F008380B1 /* lightcollector.cpp */; };
+		AFCCC9BB186667C5008380B1 /* lightcollector.h in Sources */ = {isa = PBXBuildFile; fileRef = AFCCC9721866677F008380B1 /* lightcollector.h */; };
+		AFCCC9BC186667C5008380B1 /* lightmap.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AFCCC9731866677F008380B1 /* lightmap.cpp */; };
+		AFCCC9BD186667C5008380B1 /* lightmap.h in Sources */ = {isa = PBXBuildFile; fileRef = AFCCC9741866677F008380B1 /* lightmap.h */; };
+		AFCCC9BE186667C5008380B1 /* tri.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AFCCC9751866677F008380B1 /* tri.cpp */; };
+		AFCCC9BF186667C5008380B1 /* affine_image_generator.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AFCCC9771866677F008380B1 /* affine_image_generator.cpp */; };
+		AFCCC9C0186667C5008380B1 /* affine_image_generator.h in Sources */ = {isa = PBXBuildFile; fileRef = AFCCC9781866677F008380B1 /* affine_image_generator.h */; };
+		AFCCC9C1186667C5008380B1 /* example_generator.h in Sources */ = {isa = PBXBuildFile; fileRef = AFCCC9791866677F008380B1 /* example_generator.h */; };
+		AFCCC9C2186667C5008380B1 /* image_class_example.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AFCCC97A1866677F008380B1 /* image_class_example.cpp */; };
+		AFCCC9C3186667C5008380B1 /* image_class_example.h in Sources */ = {isa = PBXBuildFile; fileRef = AFCCC97B1866677F008380B1 /* image_class_example.h */; };
+		AFCCC9C4186667C5008380B1 /* image_classification_forest.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AFCCC97C1866677F008380B1 /* image_classification_forest.cpp */; };
+		AFCCC9C5186667C5008380B1 /* image_classification_forest.h in Sources */ = {isa = PBXBuildFile; fileRef = AFCCC97D1866677F008380B1 /* image_classification_forest.h */; };
+		AFCCC9C6186667C5008380B1 /* image_classification_node.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AFCCC97E1866677F008380B1 /* image_classification_node.cpp */; };
+		AFCCC9C7186667C5008380B1 /* image_classification_node.h in Sources */ = {isa = PBXBuildFile; fileRef = AFCCC97F1866677F008380B1 /* image_classification_node.h */; };
+		AFCCC9C8186667C5008380B1 /* image_classification_tree.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AFCCC9801866677F008380B1 /* image_classification_tree.cpp */; };
+		AFCCC9C9186667C5008380B1 /* image_classification_tree.h in Sources */ = {isa = PBXBuildFile; fileRef = AFCCC9811866677F008380B1 /* image_classification_tree.h */; };
+		AFCCC9CA186667C5008380B1 /* image_classifier.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AFCCC9821866677F008380B1 /* image_classifier.cpp */; };
+		AFCCC9CB186667C5008380B1 /* image_classifier.h in Sources */ = {isa = PBXBuildFile; fileRef = AFCCC9831866677F008380B1 /* image_classifier.h */; };
+		AFCCC9CC186667C5008380B1 /* image_object_point_match.h in Sources */ = {isa = PBXBuildFile; fileRef = AFCCC9841866677F008380B1 /* image_object_point_match.h */; };
+		AFCCC9CD186667C5008380B1 /* object_keypoint.h in Sources */ = {isa = PBXBuildFile; fileRef = AFCCC9851866677F008380B1 /* object_keypoint.h */; };
+		AFCCC9CE186667C5008380B1 /* object_view.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AFCCC9861866677F008380B1 /* object_view.cpp */; };
+		AFCCC9CF186667C5008380B1 /* object_view.h in Sources */ = {isa = PBXBuildFile; fileRef = AFCCC9871866677F008380B1 /* object_view.h */; };
+		AFCCC9D0186667C5008380B1 /* planar_object_recognizer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AFCCC9881866677F008380B1 /* planar_object_recognizer.cpp */; };
+		AFCCC9D1186667C5008380B1 /* planar_object_recognizer.h in Sources */ = {isa = PBXBuildFile; fileRef = AFCCC9891866677F008380B1 /* planar_object_recognizer.h */; };
+		AFCCC9D718666854008380B1 /* libgarfeild.a in Frameworks */ = {isa = PBXBuildFile; fileRef = AFCCC9A4186667AC008380B1 /* libgarfeild.a */; };
+		AFCCC9D818666854008380B1 /* libstarter.a in Frameworks */ = {isa = PBXBuildFile; fileRef = AFCCC93918666623008380B1 /* libstarter.a */; };
+		AFCCC9DD1866739F008380B1 /* singlecalib.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AFCCC9DB1866739F008380B1 /* singlecalib.cpp */; };
+		AFCCC9E218667660008380B1 /* singlecalib in CopyFiles */ = {isa = PBXBuildFile; fileRef = AFCCC8EC18666591008380B1 /* singlecalib */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		AFCCC8EA18666591008380B1 /* CopyFiles */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 12;
+			dstPath = $PROJECT_DIR;
+			dstSubfolderSpec = 0;
+			files = (
+				AFCCC9E218667660008380B1 /* singlecalib in CopyFiles */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
+/* Begin PBXFileReference section */
+		AFCCC8EC18666591008380B1 /* singlecalib */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = singlecalib; sourceTree = BUILT_PRODUCTS_DIR; };
+		AFCCC904186665F0008380B1 /* general.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = general.h; sourceTree = "<group>"; };
+		AFCCC906186665F0008380B1 /* affinity.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = affinity.cpp; sourceTree = "<group>"; };
+		AFCCC907186665F0008380B1 /* affinity.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = affinity.h; sourceTree = "<group>"; };
+		AFCCC908186665F0008380B1 /* homography.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = homography.cpp; sourceTree = "<group>"; };
+		AFCCC909186665F0008380B1 /* homography.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = homography.h; sourceTree = "<group>"; };
+		AFCCC90A186665F1008380B1 /* projection_matrix.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = projection_matrix.cpp; sourceTree = "<group>"; };
+		AFCCC90B186665F1008380B1 /* projection_matrix.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = projection_matrix.h; sourceTree = "<group>"; };
+		AFCCC90D186665F1008380B1 /* mcv.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = mcv.cpp; sourceTree = "<group>"; };
+		AFCCC90E186665F1008380B1 /* mcv.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = mcv.h; sourceTree = "<group>"; };
+		AFCCC90F186665F1008380B1 /* pyrimage.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = pyrimage.cpp; sourceTree = "<group>"; };
+		AFCCC910186665F1008380B1 /* pyrimage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = pyrimage.h; sourceTree = "<group>"; };
+		AFCCC912186665F1008380B1 /* growmat.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = growmat.cpp; sourceTree = "<group>"; };
+		AFCCC913186665F1008380B1 /* growmat.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = growmat.h; sourceTree = "<group>"; };
+		AFCCC914186665F1008380B1 /* linear_algebra.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = linear_algebra.cpp; sourceTree = "<group>"; };
+		AFCCC915186665F1008380B1 /* linear_algebra.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = linear_algebra.h; sourceTree = "<group>"; };
+		AFCCC916186665F1008380B1 /* linear_systems.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = linear_systems.cpp; sourceTree = "<group>"; };
+		AFCCC917186665F1008380B1 /* linear_systems.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = linear_systems.h; sourceTree = "<group>"; };
+		AFCCC918186665F1008380B1 /* mcvm.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = mcvm.cpp; sourceTree = "<group>"; };
+		AFCCC919186665F1008380B1 /* mcvm.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = mcvm.h; sourceTree = "<group>"; };
+		AFCCC91A186665F1008380B1 /* polynom_solver.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = polynom_solver.cpp; sourceTree = "<group>"; };
+		AFCCC91B186665F1008380B1 /* polynom_solver.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = polynom_solver.h; sourceTree = "<group>"; };
+		AFCCC91C186665F1008380B1 /* robust_estimators.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = robust_estimators.h; sourceTree = "<group>"; };
+		AFCCC91E186665F1008380B1 /* ls_minimizer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ls_minimizer.h; sourceTree = "<group>"; };
+		AFCCC91F186665F1008380B1 /* ls_minimizer2.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ls_minimizer2.cpp; sourceTree = "<group>"; };
+		AFCCC920186665F1008380B1 /* ls_minimizer2.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ls_minimizer2.h; sourceTree = "<group>"; };
+		AFCCC921186665F1008380B1 /* ls_step_solver.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ls_step_solver.cpp; sourceTree = "<group>"; };
+		AFCCC922186665F1008380B1 /* ls_step_solver.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ls_step_solver.h; sourceTree = "<group>"; };
+		AFCCC923186665F1008380B1 /* observation_types.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = observation_types.h; sourceTree = "<group>"; };
+		AFCCC924186665F1008380B1 /* prosac_function_types.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = prosac_function_types.h; sourceTree = "<group>"; };
+		AFCCC925186665F1008380B1 /* starter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = starter.h; path = ../../starter/starter.h; sourceTree = "<group>"; };
+		AFCCC93918666623008380B1 /* libstarter.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libstarter.a; sourceTree = BUILT_PRODUCTS_DIR; };
+		AFCCC95C1866677F008380B1 /* CamAugmentation.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CamAugmentation.cpp; sourceTree = "<group>"; };
+		AFCCC95D1866677F008380B1 /* CamAugmentation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CamAugmentation.h; sourceTree = "<group>"; };
+		AFCCC95E1866677F008380B1 /* CamCalibration.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CamCalibration.cpp; sourceTree = "<group>"; };
+		AFCCC95F1866677F008380B1 /* CamCalibration.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CamCalibration.h; sourceTree = "<group>"; };
+		AFCCC9601866677F008380B1 /* camera.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = camera.cpp; sourceTree = "<group>"; };
+		AFCCC9611866677F008380B1 /* camera.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = camera.h; sourceTree = "<group>"; };
+		AFCCC9621866677F008380B1 /* gradient.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = gradient.cpp; sourceTree = "<group>"; };
+		AFCCC9631866677F008380B1 /* matvec.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = matvec.cpp; sourceTree = "<group>"; };
+		AFCCC9641866677F008380B1 /* matvec.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = matvec.h; sourceTree = "<group>"; };
+		AFCCC9651866677F008380B1 /* garfeild.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = garfeild.h; path = ../../garfeild/garfeild.h; sourceTree = "<group>"; };
+		AFCCC9671866677F008380B1 /* keypoint.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = keypoint.h; sourceTree = "<group>"; };
+		AFCCC9681866677F008380B1 /* keypoint_match.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = keypoint_match.h; sourceTree = "<group>"; };
+		AFCCC9691866677F008380B1 /* keypoint_orientation_corrector.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = keypoint_orientation_corrector.cpp; sourceTree = "<group>"; };
+		AFCCC96A1866677F008380B1 /* keypoint_orientation_corrector.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = keypoint_orientation_corrector.h; sourceTree = "<group>"; };
+		AFCCC96B1866677F008380B1 /* yape.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = yape.cpp; sourceTree = "<group>"; };
+		AFCCC96C1866677F008380B1 /* yape.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = yape.h; sourceTree = "<group>"; };
+		AFCCC96E1866677F008380B1 /* ipltexture.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ipltexture.cpp; sourceTree = "<group>"; };
+		AFCCC96F1866677F008380B1 /* ipltexture.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ipltexture.h; sourceTree = "<group>"; };
+		AFCCC9701866677F008380B1 /* lightcalib.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = lightcalib.h; sourceTree = "<group>"; };
+		AFCCC9711866677F008380B1 /* lightcollector.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = lightcollector.cpp; sourceTree = "<group>"; };
+		AFCCC9721866677F008380B1 /* lightcollector.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = lightcollector.h; sourceTree = "<group>"; };
+		AFCCC9731866677F008380B1 /* lightmap.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = lightmap.cpp; sourceTree = "<group>"; };
+		AFCCC9741866677F008380B1 /* lightmap.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = lightmap.h; sourceTree = "<group>"; };
+		AFCCC9751866677F008380B1 /* tri.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = tri.cpp; sourceTree = "<group>"; };
+		AFCCC9771866677F008380B1 /* affine_image_generator.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = affine_image_generator.cpp; sourceTree = "<group>"; };
+		AFCCC9781866677F008380B1 /* affine_image_generator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = affine_image_generator.h; sourceTree = "<group>"; };
+		AFCCC9791866677F008380B1 /* example_generator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = example_generator.h; sourceTree = "<group>"; };
+		AFCCC97A1866677F008380B1 /* image_class_example.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = image_class_example.cpp; sourceTree = "<group>"; };
+		AFCCC97B1866677F008380B1 /* image_class_example.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = image_class_example.h; sourceTree = "<group>"; };
+		AFCCC97C1866677F008380B1 /* image_classification_forest.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = image_classification_forest.cpp; sourceTree = "<group>"; };
+		AFCCC97D1866677F008380B1 /* image_classification_forest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = image_classification_forest.h; sourceTree = "<group>"; };
+		AFCCC97E1866677F008380B1 /* image_classification_node.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = image_classification_node.cpp; sourceTree = "<group>"; };
+		AFCCC97F1866677F008380B1 /* image_classification_node.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = image_classification_node.h; sourceTree = "<group>"; };
+		AFCCC9801866677F008380B1 /* image_classification_tree.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = image_classification_tree.cpp; sourceTree = "<group>"; };
+		AFCCC9811866677F008380B1 /* image_classification_tree.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = image_classification_tree.h; sourceTree = "<group>"; };
+		AFCCC9821866677F008380B1 /* image_classifier.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = image_classifier.cpp; sourceTree = "<group>"; };
+		AFCCC9831866677F008380B1 /* image_classifier.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = image_classifier.h; sourceTree = "<group>"; };
+		AFCCC9841866677F008380B1 /* image_object_point_match.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = image_object_point_match.h; sourceTree = "<group>"; };
+		AFCCC9851866677F008380B1 /* object_keypoint.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = object_keypoint.h; sourceTree = "<group>"; };
+		AFCCC9861866677F008380B1 /* object_view.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = object_view.cpp; sourceTree = "<group>"; };
+		AFCCC9871866677F008380B1 /* object_view.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = object_view.h; sourceTree = "<group>"; };
+		AFCCC9881866677F008380B1 /* planar_object_recognizer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = planar_object_recognizer.cpp; sourceTree = "<group>"; };
+		AFCCC9891866677F008380B1 /* planar_object_recognizer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = planar_object_recognizer.h; sourceTree = "<group>"; };
+		AFCCC9A4186667AC008380B1 /* libgarfeild.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libgarfeild.a; sourceTree = BUILT_PRODUCTS_DIR; };
+		AFCCC9DA1866739F008380B1 /* augment3d.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = augment3d.cpp; sourceTree = "<group>"; };
+		AFCCC9DB1866739F008380B1 /* singlecalib.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = singlecalib.cpp; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		AFCCC8E918666591008380B1 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				AFCCC9D718666854008380B1 /* libgarfeild.a in Frameworks */,
+				AFCCC9D818666854008380B1 /* libstarter.a in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		AFCCC93618666623008380B1 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		AFCCC9A1186667AC008380B1 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		AFCCC8E318666591008380B1 = {
+			isa = PBXGroup;
+			children = (
+				AFCCC99D18666788008380B1 /* garfeild */,
+				AFCCC932186665FC008380B1 /* starter */,
+				AFCCC9DE186673A7008380B1 /* singlecalib */,
+				AFCCC8ED18666591008380B1 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		AFCCC8ED18666591008380B1 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				AFCCC8EC18666591008380B1 /* singlecalib */,
+				AFCCC93918666623008380B1 /* libstarter.a */,
+				AFCCC9A4186667AC008380B1 /* libgarfeild.a */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		AFCCC903186665F0008380B1 /* general */ = {
+			isa = PBXGroup;
+			children = (
+				AFCCC904186665F0008380B1 /* general.h */,
+			);
+			name = general;
+			path = ../../starter/general;
+			sourceTree = "<group>";
+		};
+		AFCCC905186665F0008380B1 /* geometry */ = {
+			isa = PBXGroup;
+			children = (
+				AFCCC906186665F0008380B1 /* affinity.cpp */,
+				AFCCC907186665F0008380B1 /* affinity.h */,
+				AFCCC908186665F0008380B1 /* homography.cpp */,
+				AFCCC909186665F0008380B1 /* homography.h */,
+				AFCCC90A186665F1008380B1 /* projection_matrix.cpp */,
+				AFCCC90B186665F1008380B1 /* projection_matrix.h */,
+			);
+			name = geometry;
+			path = ../../starter/geometry;
+			sourceTree = "<group>";
+		};
+		AFCCC90C186665F1008380B1 /* image */ = {
+			isa = PBXGroup;
+			children = (
+				AFCCC90D186665F1008380B1 /* mcv.cpp */,
+				AFCCC90E186665F1008380B1 /* mcv.h */,
+				AFCCC90F186665F1008380B1 /* pyrimage.cpp */,
+				AFCCC910186665F1008380B1 /* pyrimage.h */,
+			);
+			name = image;
+			path = ../../starter/image;
+			sourceTree = "<group>";
+		};
+		AFCCC911186665F1008380B1 /* math */ = {
+			isa = PBXGroup;
+			children = (
+				AFCCC912186665F1008380B1 /* growmat.cpp */,
+				AFCCC913186665F1008380B1 /* growmat.h */,
+				AFCCC914186665F1008380B1 /* linear_algebra.cpp */,
+				AFCCC915186665F1008380B1 /* linear_algebra.h */,
+				AFCCC916186665F1008380B1 /* linear_systems.cpp */,
+				AFCCC917186665F1008380B1 /* linear_systems.h */,
+				AFCCC918186665F1008380B1 /* mcvm.cpp */,
+				AFCCC919186665F1008380B1 /* mcvm.h */,
+				AFCCC91A186665F1008380B1 /* polynom_solver.cpp */,
+				AFCCC91B186665F1008380B1 /* polynom_solver.h */,
+				AFCCC91C186665F1008380B1 /* robust_estimators.h */,
+			);
+			name = math;
+			path = ../../starter/math;
+			sourceTree = "<group>";
+		};
+		AFCCC91D186665F1008380B1 /* optimization */ = {
+			isa = PBXGroup;
+			children = (
+				AFCCC91E186665F1008380B1 /* ls_minimizer.h */,
+				AFCCC91F186665F1008380B1 /* ls_minimizer2.cpp */,
+				AFCCC920186665F1008380B1 /* ls_minimizer2.h */,
+				AFCCC921186665F1008380B1 /* ls_step_solver.cpp */,
+				AFCCC922186665F1008380B1 /* ls_step_solver.h */,
+				AFCCC923186665F1008380B1 /* observation_types.h */,
+				AFCCC924186665F1008380B1 /* prosac_function_types.h */,
+			);
+			name = optimization;
+			path = ../../starter/optimization;
+			sourceTree = "<group>";
+		};
+		AFCCC932186665FC008380B1 /* starter */ = {
+			isa = PBXGroup;
+			children = (
+				AFCCC93418666610008380B1 /* include */,
+				AFCCC93318666603008380B1 /* src */,
+			);
+			name = starter;
+			sourceTree = "<group>";
+		};
+		AFCCC93318666603008380B1 /* src */ = {
+			isa = PBXGroup;
+			children = (
+				AFCCC903186665F0008380B1 /* general */,
+				AFCCC905186665F0008380B1 /* geometry */,
+				AFCCC90C186665F1008380B1 /* image */,
+				AFCCC911186665F1008380B1 /* math */,
+				AFCCC91D186665F1008380B1 /* optimization */,
+			);
+			name = src;
+			sourceTree = "<group>";
+		};
+		AFCCC93418666610008380B1 /* include */ = {
+			isa = PBXGroup;
+			children = (
+				AFCCC925186665F1008380B1 /* starter.h */,
+			);
+			name = include;
+			sourceTree = "<group>";
+		};
+		AFCCC95B1866677F008380B1 /* calib */ = {
+			isa = PBXGroup;
+			children = (
+				AFCCC95C1866677F008380B1 /* CamAugmentation.cpp */,
+				AFCCC95D1866677F008380B1 /* CamAugmentation.h */,
+				AFCCC95E1866677F008380B1 /* CamCalibration.cpp */,
+				AFCCC95F1866677F008380B1 /* CamCalibration.h */,
+				AFCCC9601866677F008380B1 /* camera.cpp */,
+				AFCCC9611866677F008380B1 /* camera.h */,
+				AFCCC9621866677F008380B1 /* gradient.cpp */,
+				AFCCC9631866677F008380B1 /* matvec.cpp */,
+				AFCCC9641866677F008380B1 /* matvec.h */,
+			);
+			name = calib;
+			path = ../../garfeild/calib;
+			sourceTree = "<group>";
+		};
+		AFCCC9661866677F008380B1 /* keypoints */ = {
+			isa = PBXGroup;
+			children = (
+				AFCCC9671866677F008380B1 /* keypoint.h */,
+				AFCCC9681866677F008380B1 /* keypoint_match.h */,
+				AFCCC9691866677F008380B1 /* keypoint_orientation_corrector.cpp */,
+				AFCCC96A1866677F008380B1 /* keypoint_orientation_corrector.h */,
+				AFCCC96B1866677F008380B1 /* yape.cpp */,
+				AFCCC96C1866677F008380B1 /* yape.h */,
+			);
+			name = keypoints;
+			path = ../../garfeild/keypoints;
+			sourceTree = "<group>";
+		};
+		AFCCC96D1866677F008380B1 /* lightcalib */ = {
+			isa = PBXGroup;
+			children = (
+				AFCCC96E1866677F008380B1 /* ipltexture.cpp */,
+				AFCCC96F1866677F008380B1 /* ipltexture.h */,
+				AFCCC9701866677F008380B1 /* lightcalib.h */,
+				AFCCC9711866677F008380B1 /* lightcollector.cpp */,
+				AFCCC9721866677F008380B1 /* lightcollector.h */,
+				AFCCC9731866677F008380B1 /* lightmap.cpp */,
+				AFCCC9741866677F008380B1 /* lightmap.h */,
+				AFCCC9751866677F008380B1 /* tri.cpp */,
+			);
+			name = lightcalib;
+			path = ../../garfeild/lightcalib;
+			sourceTree = "<group>";
+		};
+		AFCCC9761866677F008380B1 /* viewsets */ = {
+			isa = PBXGroup;
+			children = (
+				AFCCC9771866677F008380B1 /* affine_image_generator.cpp */,
+				AFCCC9781866677F008380B1 /* affine_image_generator.h */,
+				AFCCC9791866677F008380B1 /* example_generator.h */,
+				AFCCC97A1866677F008380B1 /* image_class_example.cpp */,
+				AFCCC97B1866677F008380B1 /* image_class_example.h */,
+				AFCCC97C1866677F008380B1 /* image_classification_forest.cpp */,
+				AFCCC97D1866677F008380B1 /* image_classification_forest.h */,
+				AFCCC97E1866677F008380B1 /* image_classification_node.cpp */,
+				AFCCC97F1866677F008380B1 /* image_classification_node.h */,
+				AFCCC9801866677F008380B1 /* image_classification_tree.cpp */,
+				AFCCC9811866677F008380B1 /* image_classification_tree.h */,
+				AFCCC9821866677F008380B1 /* image_classifier.cpp */,
+				AFCCC9831866677F008380B1 /* image_classifier.h */,
+				AFCCC9841866677F008380B1 /* image_object_point_match.h */,
+				AFCCC9851866677F008380B1 /* object_keypoint.h */,
+				AFCCC9861866677F008380B1 /* object_view.cpp */,
+				AFCCC9871866677F008380B1 /* object_view.h */,
+				AFCCC9881866677F008380B1 /* planar_object_recognizer.cpp */,
+				AFCCC9891866677F008380B1 /* planar_object_recognizer.h */,
+			);
+			name = viewsets;
+			path = ../../garfeild/viewsets;
+			sourceTree = "<group>";
+		};
+		AFCCC99D18666788008380B1 /* garfeild */ = {
+			isa = PBXGroup;
+			children = (
+				AFCCC99F1866679A008380B1 /* src */,
+				AFCCC99E18666791008380B1 /* include */,
+			);
+			name = garfeild;
+			sourceTree = "<group>";
+		};
+		AFCCC99E18666791008380B1 /* include */ = {
+			isa = PBXGroup;
+			children = (
+				AFCCC9651866677F008380B1 /* garfeild.h */,
+			);
+			name = include;
+			sourceTree = "<group>";
+		};
+		AFCCC99F1866679A008380B1 /* src */ = {
+			isa = PBXGroup;
+			children = (
+				AFCCC95B1866677F008380B1 /* calib */,
+				AFCCC9661866677F008380B1 /* keypoints */,
+				AFCCC96D1866677F008380B1 /* lightcalib */,
+				AFCCC9761866677F008380B1 /* viewsets */,
+			);
+			name = src;
+			sourceTree = "<group>";
+		};
+		AFCCC9DE186673A7008380B1 /* singlecalib */ = {
+			isa = PBXGroup;
+			children = (
+				AFCCC9DF186673B0008380B1 /* src */,
+			);
+			name = singlecalib;
+			sourceTree = "<group>";
+		};
+		AFCCC9DF186673B0008380B1 /* src */ = {
+			isa = PBXGroup;
+			children = (
+				AFCCC9DA1866739F008380B1 /* augment3d.cpp */,
+				AFCCC9DB1866739F008380B1 /* singlecalib.cpp */,
+			);
+			name = src;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXHeadersBuildPhase section */
+		AFCCC93718666623008380B1 /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		AFCCC9A2186667AC008380B1 /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXHeadersBuildPhase section */
+
+/* Begin PBXNativeTarget section */
+		AFCCC8EB18666591008380B1 /* singlecalib */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = AFCCC8F518666591008380B1 /* Build configuration list for PBXNativeTarget "singlecalib" */;
+			buildPhases = (
+				AFCCC8E818666591008380B1 /* Sources */,
+				AFCCC8E918666591008380B1 /* Frameworks */,
+				AFCCC8EA18666591008380B1 /* CopyFiles */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = singlecalib;
+			productName = singlecalib;
+			productReference = AFCCC8EC18666591008380B1 /* singlecalib */;
+			productType = "com.apple.product-type.tool";
+		};
+		AFCCC93818666623008380B1 /* starter */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = AFCCC93A18666623008380B1 /* Build configuration list for PBXNativeTarget "starter" */;
+			buildPhases = (
+				AFCCC93518666623008380B1 /* Sources */,
+				AFCCC93618666623008380B1 /* Frameworks */,
+				AFCCC93718666623008380B1 /* Headers */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = starter;
+			productName = starter;
+			productReference = AFCCC93918666623008380B1 /* libstarter.a */;
+			productType = "com.apple.product-type.library.static";
+		};
+		AFCCC9A3186667AC008380B1 /* garfeild */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = AFCCC9A5186667AC008380B1 /* Build configuration list for PBXNativeTarget "garfeild" */;
+			buildPhases = (
+				AFCCC9A0186667AC008380B1 /* Sources */,
+				AFCCC9A1186667AC008380B1 /* Frameworks */,
+				AFCCC9A2186667AC008380B1 /* Headers */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = garfeild;
+			productName = garfeild;
+			productReference = AFCCC9A4186667AC008380B1 /* libgarfeild.a */;
+			productType = "com.apple.product-type.library.static";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		AFCCC8E418666591008380B1 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastUpgradeCheck = 0500;
+			};
+			buildConfigurationList = AFCCC8E718666591008380B1 /* Build configuration list for PBXProject "singlecalib" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+			);
+			mainGroup = AFCCC8E318666591008380B1;
+			productRefGroup = AFCCC8ED18666591008380B1 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				AFCCC8EB18666591008380B1 /* singlecalib */,
+				AFCCC93818666623008380B1 /* starter */,
+				AFCCC9A3186667AC008380B1 /* garfeild */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXSourcesBuildPhase section */
+		AFCCC8E818666591008380B1 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				AFCCC9DD1866739F008380B1 /* singlecalib.cpp in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		AFCCC93518666623008380B1 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				AFCCC93D18666677008380B1 /* general.h in Sources */,
+				AFCCC93E18666677008380B1 /* affinity.cpp in Sources */,
+				AFCCC93F18666677008380B1 /* affinity.h in Sources */,
+				AFCCC94018666677008380B1 /* homography.cpp in Sources */,
+				AFCCC94118666677008380B1 /* homography.h in Sources */,
+				AFCCC94218666677008380B1 /* projection_matrix.cpp in Sources */,
+				AFCCC94318666677008380B1 /* projection_matrix.h in Sources */,
+				AFCCC94418666677008380B1 /* mcv.cpp in Sources */,
+				AFCCC94518666677008380B1 /* mcv.h in Sources */,
+				AFCCC94618666677008380B1 /* pyrimage.cpp in Sources */,
+				AFCCC94718666677008380B1 /* pyrimage.h in Sources */,
+				AFCCC94818666677008380B1 /* growmat.cpp in Sources */,
+				AFCCC94918666677008380B1 /* growmat.h in Sources */,
+				AFCCC94A18666677008380B1 /* linear_algebra.cpp in Sources */,
+				AFCCC94B18666677008380B1 /* linear_algebra.h in Sources */,
+				AFCCC94C18666677008380B1 /* linear_systems.cpp in Sources */,
+				AFCCC94D18666677008380B1 /* linear_systems.h in Sources */,
+				AFCCC94E18666677008380B1 /* mcvm.cpp in Sources */,
+				AFCCC94F18666677008380B1 /* mcvm.h in Sources */,
+				AFCCC95018666677008380B1 /* polynom_solver.cpp in Sources */,
+				AFCCC95118666677008380B1 /* polynom_solver.h in Sources */,
+				AFCCC95218666677008380B1 /* robust_estimators.h in Sources */,
+				AFCCC95318666677008380B1 /* ls_minimizer.h in Sources */,
+				AFCCC95418666677008380B1 /* ls_minimizer2.cpp in Sources */,
+				AFCCC95518666677008380B1 /* ls_minimizer2.h in Sources */,
+				AFCCC95618666677008380B1 /* ls_step_solver.cpp in Sources */,
+				AFCCC95718666677008380B1 /* ls_step_solver.h in Sources */,
+				AFCCC95818666677008380B1 /* observation_types.h in Sources */,
+				AFCCC95918666677008380B1 /* prosac_function_types.h in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		AFCCC9A0186667AC008380B1 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				AFCCC9A8186667C5008380B1 /* CamAugmentation.cpp in Sources */,
+				AFCCC9A9186667C5008380B1 /* CamAugmentation.h in Sources */,
+				AFCCC9AA186667C5008380B1 /* CamCalibration.cpp in Sources */,
+				AFCCC9AB186667C5008380B1 /* CamCalibration.h in Sources */,
+				AFCCC9AC186667C5008380B1 /* camera.cpp in Sources */,
+				AFCCC9AD186667C5008380B1 /* camera.h in Sources */,
+				AFCCC9AE186667C5008380B1 /* gradient.cpp in Sources */,
+				AFCCC9AF186667C5008380B1 /* matvec.cpp in Sources */,
+				AFCCC9B0186667C5008380B1 /* matvec.h in Sources */,
+				AFCCC9B1186667C5008380B1 /* keypoint.h in Sources */,
+				AFCCC9B2186667C5008380B1 /* keypoint_match.h in Sources */,
+				AFCCC9B3186667C5008380B1 /* keypoint_orientation_corrector.cpp in Sources */,
+				AFCCC9B4186667C5008380B1 /* keypoint_orientation_corrector.h in Sources */,
+				AFCCC9B5186667C5008380B1 /* yape.cpp in Sources */,
+				AFCCC9B6186667C5008380B1 /* yape.h in Sources */,
+				AFCCC9B7186667C5008380B1 /* ipltexture.cpp in Sources */,
+				AFCCC9B8186667C5008380B1 /* ipltexture.h in Sources */,
+				AFCCC9B9186667C5008380B1 /* lightcalib.h in Sources */,
+				AFCCC9BA186667C5008380B1 /* lightcollector.cpp in Sources */,
+				AFCCC9BB186667C5008380B1 /* lightcollector.h in Sources */,
+				AFCCC9BC186667C5008380B1 /* lightmap.cpp in Sources */,
+				AFCCC9BD186667C5008380B1 /* lightmap.h in Sources */,
+				AFCCC9BE186667C5008380B1 /* tri.cpp in Sources */,
+				AFCCC9BF186667C5008380B1 /* affine_image_generator.cpp in Sources */,
+				AFCCC9C0186667C5008380B1 /* affine_image_generator.h in Sources */,
+				AFCCC9C1186667C5008380B1 /* example_generator.h in Sources */,
+				AFCCC9C2186667C5008380B1 /* image_class_example.cpp in Sources */,
+				AFCCC9C3186667C5008380B1 /* image_class_example.h in Sources */,
+				AFCCC9C4186667C5008380B1 /* image_classification_forest.cpp in Sources */,
+				AFCCC9C5186667C5008380B1 /* image_classification_forest.h in Sources */,
+				AFCCC9C6186667C5008380B1 /* image_classification_node.cpp in Sources */,
+				AFCCC9C7186667C5008380B1 /* image_classification_node.h in Sources */,
+				AFCCC9C8186667C5008380B1 /* image_classification_tree.cpp in Sources */,
+				AFCCC9C9186667C5008380B1 /* image_classification_tree.h in Sources */,
+				AFCCC9CA186667C5008380B1 /* image_classifier.cpp in Sources */,
+				AFCCC9CB186667C5008380B1 /* image_classifier.h in Sources */,
+				AFCCC9CC186667C5008380B1 /* image_object_point_match.h in Sources */,
+				AFCCC9CD186667C5008380B1 /* object_keypoint.h in Sources */,
+				AFCCC9CE186667C5008380B1 /* object_view.cpp in Sources */,
+				AFCCC9CF186667C5008380B1 /* object_view.h in Sources */,
+				AFCCC9D0186667C5008380B1 /* planar_object_recognizer.cpp in Sources */,
+				AFCCC9D1186667C5008380B1 /* planar_object_recognizer.h in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin XCBuildConfiguration section */
+		AFCCC8F318666591008380B1 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				HEADER_SEARCH_PATHS = (
+					"$(inherited)",
+					/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include,
+					/opt/local/include/opencv,
+					/opt/local/include,
+					$PROJECT_DIR/../../starter,
+					$PROJECT_DIR/../../garfeild,
+				);
+				MACOSX_DEPLOYMENT_TARGET = 10.9;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = macosx;
+			};
+			name = Debug;
+		};
+		AFCCC8F418666591008380B1 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = YES;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				HEADER_SEARCH_PATHS = (
+					"$(inherited)",
+					/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include,
+					/opt/local/include/opencv,
+					/opt/local/include,
+					$PROJECT_DIR/../../starter,
+					$PROJECT_DIR/../../garfeild,
+				);
+				MACOSX_DEPLOYMENT_TARGET = 10.9;
+				SDKROOT = macosx;
+			};
+			name = Release;
+		};
+		AFCCC8F618666591008380B1 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				LIBRARY_SEARCH_PATHS = /opt/local/lib;
+				OTHER_LDFLAGS = (
+					"-lopencv_core",
+					"-lopencv_highgui",
+					"-lopencv_calib3d",
+					"-lopencv_imgproc",
+				);
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Debug;
+		};
+		AFCCC8F718666591008380B1 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				LIBRARY_SEARCH_PATHS = /opt/local/lib;
+				OTHER_LDFLAGS = (
+					"-lopencv_core",
+					"-lopencv_highgui",
+					"-lopencv_calib3d",
+					"-lopencv_imgproc",
+				);
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Release;
+		};
+		AFCCC93B18666623008380B1 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				EXECUTABLE_PREFIX = lib;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Debug;
+		};
+		AFCCC93C18666623008380B1 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				EXECUTABLE_PREFIX = lib;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Release;
+		};
+		AFCCC9A6186667AC008380B1 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				EXECUTABLE_PREFIX = lib;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Debug;
+		};
+		AFCCC9A7186667AC008380B1 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				EXECUTABLE_PREFIX = lib;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		AFCCC8E718666591008380B1 /* Build configuration list for PBXProject "singlecalib" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				AFCCC8F318666591008380B1 /* Debug */,
+				AFCCC8F418666591008380B1 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		AFCCC8F518666591008380B1 /* Build configuration list for PBXNativeTarget "singlecalib" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				AFCCC8F618666591008380B1 /* Debug */,
+				AFCCC8F718666591008380B1 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		AFCCC93A18666623008380B1 /* Build configuration list for PBXNativeTarget "starter" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				AFCCC93B18666623008380B1 /* Debug */,
+				AFCCC93C18666623008380B1 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		AFCCC9A5186667AC008380B1 /* Build configuration list for PBXNativeTarget "garfeild" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				AFCCC9A6186667AC008380B1 /* Debug */,
+				AFCCC9A7186667AC008380B1 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = AFCCC8E418666591008380B1 /* Project object */;
+}
