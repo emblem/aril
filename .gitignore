@@ -12,6 +12,11 @@
 *.la
 *.a
 
+# MacOS/Xcode crap
+.DS_Store
+xcuserdata
+*xccheckout
+
 *Makefile
 config.h
 config.log
@@ -28,3 +33,8 @@ samples/singlecalib/augment3d
 samples/singlecalib/singlecalib
 stamp-h1
 starter/starter.pc
+samples/*/normals.mat
+samples/*/*.bmp*
+samples/*/camera*.txt
+samples/*/lightParams.mat
+samples/*/view_r_t.txt
