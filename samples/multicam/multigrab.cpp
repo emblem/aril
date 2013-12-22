@@ -42,8 +42,8 @@ void MultiGrab::Cam::setCam(CvCapture *c) {
 	cam = c;
 	// avoid saturating the firewire bus
 	cvSetCaptureProperty(cam, CV_CAP_PROP_FPS, 15);
-	cvSetCaptureProperty(cam, CV_CAP_PROP_FRAME_WIDTH, 1024);
-	cvSetCaptureProperty(cam, CV_CAP_PROP_FRAME_HEIGHT, 768);
+	//cvSetCaptureProperty(cam, CV_CAP_PROP_FRAME_WIDTH, 1024);
+	//cvSetCaptureProperty(cam, CV_CAP_PROP_FRAME_HEIGHT, 768);
 	IplImage *f = myQueryFrame(cam);
 	assert(f != 0);
 
