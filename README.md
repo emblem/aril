@@ -1,4 +1,4 @@
 aril
 ====
 
-Augmented Reality library optimized for single camera video, based on Bazaar
+Augmented Reality library optimized for single camera video, based on Bazar

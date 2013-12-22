@@ -1,0 +1,1 @@
+SUBDIRS=filedetect interactive singlecalib fullcalib multicam
